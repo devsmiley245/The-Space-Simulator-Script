@@ -1084,9 +1084,11 @@ local Toggle6 = ESPTab:CreateToggle({
 				CoreGui.VoyagerESP:Destroy()
 			end
 
-			local screenGui = Instance.new("ScreenGui")
-			screenGui.Name = "VoyagerESP"
-			screenGui.Parent = CoreGui
+			local VoyagerEspScreenGui = Instance.new("ScreenGui")
+			VoyagerEspScreenGui.Name = "VoyagerESP"
+			VoyagerEspScreenGui.Parent = CoreGui
+			VoyagerEspScreenGui.ResetOnSpawn = false
+			VoyagerEspScreenGui.ScreenInsets = Enum.ScreenInsets.None
 
 			local voyager = Workspace:WaitForChild("Planetoids"):WaitForChild("Voyager")
 
@@ -1094,9 +1096,10 @@ local Toggle6 = ESPTab:CreateToggle({
 			local billboard = Instance.new("BillboardGui")
 			billboard.Name = "VoyagerBillboard"
 			billboard.Adornee = voyager.PrimaryPart or voyager:FindFirstChildWhichIsA("BasePart")
-			billboard.Size = UDim2.new(0, 50, 0, 60)
+			billboard.Size = UDim2.new(50, 60, 25, 30)
 			billboard.AlwaysOnTop = true
-			billboard.Parent = screenGui
+			billboard.Parent = voyager
+			billboard.MaxDistance = math.huge
 
 			local textLabel = Instance.new("TextLabel")
 			textLabel.Name = "Voyager"
@@ -1116,7 +1119,7 @@ local Toggle6 = ESPTab:CreateToggle({
 			line.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
 			line.BorderSizePixel = 0
 			line.Rotation = 0
-			line.Parent = screenGui
+			line.Parent = VoyagerEspScreenGui
 
 			toggleConnection6 = RunService.RenderStepped:Connect(function()
 				local camera = Workspace.CurrentCamera
