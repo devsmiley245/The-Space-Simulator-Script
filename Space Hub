@@ -1522,3 +1522,5 @@ local Button = PlanetTpTab:CreateButton({
 local TrollTab = Window:CreateTab("Troll", 4483362458) -- Title, Image
 
 local Label = TrollTab:CreateLabel("We are working on this D:", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+
+print("Enjoy My Script By Dev_Smiley :D")
