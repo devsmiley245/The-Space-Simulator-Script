@@ -1,3 +1,6 @@
+local Workspace = game:GetService("Workspace")
+local CoreGui = game.CoreGui
+
 local allowedPlaceIds = {
 	15027718878, -- Replace with the allowed PlaceId(s)
 }
@@ -12,10 +15,10 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-	LoadingTitle = "Space Hub v0.5",
+	LoadingTitle = "Space Hub v0.5 or v2226",
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐", -- for mobile users to unhide rayfield, change if you'd like
-	Theme = "Normal", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+	Theme = "Bloom", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
 	ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
 
@@ -1069,18 +1072,76 @@ local Toggle5 = ESPTab:CreateToggle({
 	end
 })
 
-
 local toggleConnection6
-
 local Toggle6 = ESPTab:CreateToggle({
 	Name = "Voyager ESP",
 	CurrentValue = false,
 	Flag = "Toggle6",
 	Callback = function(Value)
-		
+		if Value then
+			-- Enable Voyager ESP
+			if CoreGui:FindFirstChild("VoyagerESP") then
+				CoreGui.VoyagerESP:Destroy()
+			end
+
+			local screenGui = Instance.new("ScreenGui")
+			screenGui.Name = "VoyagerESP"
+			screenGui.Parent = CoreGui
+
+			local voyager = Workspace:WaitForChild("Planetoids"):WaitForChild("Voyager")
+
+			-- Billboard
+			local billboard = Instance.new("BillboardGui")
+			billboard.Name = "VoyagerBillboard"
+			billboard.Adornee = voyager.PrimaryPart or voyager:FindFirstChildWhichIsA("BasePart")
+			billboard.Size = UDim2.new(0, 50, 0, 60)
+			billboard.AlwaysOnTop = true
+			billboard.Parent = screenGui
+
+			local textLabel = Instance.new("TextLabel")
+			textLabel.Name = "Voyager"
+			textLabel.Size = UDim2.new(0, 25, 0, 30)
+			textLabel.BackgroundTransparency = 1
+			textLabel.Text = "Voyager"
+			textLabel.TextScaled = true
+			textLabel.Font = Enum.Font.Frozen
+			textLabel.TextColor3 = Color3.fromRGB(0, 170, 255)
+			textLabel.Parent = billboard
+
+			-- Line
+			local line = Instance.new("Frame")
+			line.Name = "VoyagerLine"
+			line.AnchorPoint = Vector2.new(0.5, 0.5)
+			line.Size = UDim2.new(0, 2, 0, 100)
+			line.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+			line.BorderSizePixel = 0
+			line.Rotation = 0
+			line.Parent = screenGui
+
+			toggleConnection6 = RunService.RenderStepped:Connect(function()
+				local camera = Workspace.CurrentCamera
+				if voyager.PrimaryPart then
+					local screenPos = camera:WorldToViewportPoint(voyager.PrimaryPart.Position)
+					line.Position = UDim2.new(0, camera.ViewportSize.X/2, 0, camera.ViewportSize.Y/2)
+					local dx = screenPos.X - camera.ViewportSize.X/2
+					local dy = screenPos.Y - camera.ViewportSize.Y/2
+					line.Size = UDim2.new(0, 2, 0, math.sqrt(dx*dx + dy*dy))
+					line.Rotation = math.deg(math.atan2(dy, dx))
+				end
+			end)
+
+		else
+			-- Disable Voyager ESP
+			if toggleConnection6 then
+				toggleConnection6:Disconnect()
+				toggleConnection6 = nil
+			end
+			if CoreGui:FindFirstChild("VoyagerESP") then
+				CoreGui.VoyagerESP:Destroy()
+			end
+		end
 	end
 })
-
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
