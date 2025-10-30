@@ -15,7 +15,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-	LoadingTitle = "Space Hub v0.10 or v2226",
+	LoadingTitle = "Space Hub v0.11 or v2226",
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐", -- for mobile users to unhide rayfield, change if you'd like
 	Theme = "Bloom", -- Check https://docs.sirius.menu/rayfield/configuration/themes
@@ -1073,6 +1073,7 @@ local Toggle5 = ESPTab:CreateToggle({
 })
 
 local toggleConnection6
+
 local Toggle6 = ESPTab:CreateToggle({
 	Name = "Voyager ESP",
 	CurrentValue = false,
@@ -1092,12 +1093,12 @@ local Toggle6 = ESPTab:CreateToggle({
 
 			local voyager = Workspace:WaitForChild("Planetoids"):WaitForChild("Voyager")
 			local targetPart = voyager:WaitForChild("Skin")
-			
+
 			-- Billboard
 			local billboard = Instance.new("BillboardGui")
 			billboard.Name = "VoyagerBillboard"
 			billboard.Adornee = voyager.PrimaryPart or voyager:FindFirstChildWhichIsA("BasePart")
-			billboard.Size = UDim2.new(50, 60, 25, 30)
+			billboard.Size = UDim2.new(0, 50, 0, 60)
 			billboard.AlwaysOnTop = true
 			billboard.Parent = voyager
 			billboard.MaxDistance = math.huge
@@ -1106,17 +1107,17 @@ local Toggle6 = ESPTab:CreateToggle({
 			textLabel.AnchorPoint = Vector2.new(0.5,0.5)
 			textLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
 			textLabel.Name = "Voyager"
-			textLabel.Size = UDim2.new(1, 0, 1, 0)
+			textLabel.Size = UDim2.new(0.7, 0, 0.7, 0)
 			textLabel.BackgroundTransparency = 1
 			textLabel.Text = "Voyager"
 			textLabel.TextScaled = true
-			textLabel.Font = Enum.Font.FredokaOne
-			textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+			textLabel.Font = Enum.Font.Frozen
+			textLabel.TextColor3 = Color3.fromRGB(170, 255, 255)
 			textLabel.Parent = billboard
-			
+
 			local OFFSET_Y = 40
 			local LINE_COLOR = Color3.fromRGB(170, 255, 255)
-			local LINE_THICKNESS = 1.5
+			local LINE_THICKNESS = 1.8
 
 			-- Create line Frame
 			local line = Instance.new("Frame")
@@ -1128,10 +1129,10 @@ local Toggle6 = ESPTab:CreateToggle({
 			line.Parent = VoyagerEspScreenGui
 
 			-- Update line every frame
-			RunService.RenderStepped:Connect(function()
+			toggleConnection6 = RunService.RenderStepped:Connect(function()
 				if targetPart and targetPart.Parent then
-					local screenPos, onScreen = workspace.Camera:WorldToViewportPoint(targetPart.Position)
-					local srcX = workspace.Camera.ViewportSize.X / 2
+					local screenPos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(targetPart.Position)
+					local srcX = workspace.CurrentCamera.ViewportSize.X / 2
 					local srcY = OFFSET_Y
 
 					if onScreen and screenPos.Z > 0 then
@@ -1144,11 +1145,14 @@ local Toggle6 = ESPTab:CreateToggle({
 						line.Size = UDim2.fromOffset(distance, LINE_THICKNESS)
 						line.Rotation = math.deg(math.atan2(dy, dx))
 						line.Visible = true
+						billboard.Enabled = true
 					else
 						line.Visible = false
+						billboard.Enabled = false
 					end
 				else
 					line.Visible = false
+					billboard.Enabled = false
 				end
 			end)
 
@@ -1159,6 +1163,12 @@ local Toggle6 = ESPTab:CreateToggle({
 				toggleConnection6 = nil
 			end
 			if CoreGui:FindFirstChild("VoyagerESP") then
+				-- Destroy the GUI and Billboard
+				for _, child in pairs(CoreGui.VoyagerESP:GetChildren()) do
+					if child:IsA("BillboardGui") then
+						child:Destroy()
+					end
+				end
 				CoreGui.VoyagerESP:Destroy()
 			end
 		end
