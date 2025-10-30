@@ -1069,95 +1069,18 @@ local Toggle5 = ESPTab:CreateToggle({
 	end
 })
 
-local Label = ESPTab:CreateLabel("Sun Orb Settings (This Is Added For Test)", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
 
 local toggleConnection6
 
 local Toggle6 = ESPTab:CreateToggle({
-	Name = "1 Hit Sun Orb",
+	Name = "Voyager ESP",
 	CurrentValue = false,
 	Flag = "Toggle6",
 	Callback = function(Value)
-		local sunOrbPath = workspace:FindFirstChild("Planets")
-		if not sunOrbPath then return end
-
-		sunOrbPath = sunOrbPath:FindFirstChild("Sun")
-		if not sunOrbPath then return end
-
-		local mineralsFolder = sunOrbPath:FindFirstChild("Minerals")
-		if not mineralsFolder then return end
-
-		if Value then
-			toggleConnection6 = RunService.Heartbeat:Connect(function()
-				local sunOrb = mineralsFolder:FindFirstChild("Sun Orb")
-				if sunOrb and sunOrb:IsA("BasePart") then
-					local hitpoints = sunOrb:GetAttribute("hitpoints")
-
-					if typeof(hitpoints) == "number" and hitpoints ~= 0 and hitpoints ~= 1 then
-						sunOrb:SetAttribute("hitpoints", 1)
-					end
-				end
-			end)
-		else
-			if toggleConnection6 then
-				toggleConnection6:Disconnect()
-				toggleConnection6 = nil
-			end
-		end
+		
 	end
 })
 
-local toggleConnection7
-
-local Toggle7 = ESPTab:CreateToggle({
-	Name = "Bring 1 Random Sun Flare In Front",
-	CurrentValue = false,
-	Flag = "Toggle7",
-	Callback = function(Value)
-		local player = game.Players.LocalPlayer
-		local character = player.Character or player.CharacterAdded:Wait()
-		local hrp = character:WaitForChild("HumanoidRootPart")
-
-		local planetsFolder = workspace:FindFirstChild("Planets")
-		if not planetsFolder then return end
-
-		local sun = planetsFolder:FindFirstChild("Sun")
-		if not sun then return end
-
-		local area = sun:FindFirstChild("Area")
-		if not area then return end
-
-		local flaresFolder = area:FindFirstChild("Flares")
-		if not flaresFolder then return end
-
-		if Value then
-			toggleConnection7 = RunService.Heartbeat:xConnect(function()
-				local meshParts = {}
-
-				for _, obj in pairs(flaresFolder:GetDescendants()) do
-					if obj:IsA("MeshPart") then
-						table.insert(meshParts, obj)
-					end
-				end
-
-				if #meshParts > 0 then
-					local chosen = meshParts[math.random(1, #meshParts)]
-					if chosen and chosen:IsDescendantOf(workspace) then
-						local targetPos = hrp.Position + hrp.CFrame.LookVector * 100
-						if (chosen.Position - targetPos).Magnitude > 5 then
-							chosen.CFrame = CFrame.new(targetPos)
-						end
-					end
-				end
-			end)
-		else
-			if toggleConnection7 then
-				toggleConnection7:Disconnect()
-				toggleConnection7 = nil
-			end
-		end
-	end
-})
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
