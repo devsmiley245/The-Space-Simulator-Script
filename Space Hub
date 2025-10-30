@@ -1107,7 +1107,7 @@ local Toggle6 = ESPTab:CreateToggle({
 			textLabel.BackgroundTransparency = 1
 			textLabel.Text = "Voyager"
 			textLabel.TextScaled = true
-			textLabel.Font = Enum.Font.Frozen
+			textLabel.Font = Enum.Font.FredokaOne
 			textLabel.TextColor3 = Color3.fromRGB(0, 170, 255)
 			textLabel.Parent = billboard
 
