@@ -15,7 +15,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-	LoadingTitle = "Space Hub v0.12 or v2226",
+	LoadingTitle = "Space Hub v0.12.5 or v2226",
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐", -- for mobile users to unhide rayfield, change if you'd like
 	Theme = "Bloom", -- Check https://docs.sirius.menu/rayfield/configuration/themes
@@ -1169,6 +1169,108 @@ local Toggle6 = ESPTab:CreateToggle({
 			
 			if CoreGui:FindFirstChild("VoyagerESP") then
 				CoreGui.VoyagerESP:Destroy()
+			end
+		end
+	end
+})
+
+local toggleConnection7
+
+local Toggle7 = ESPTab:CreateToggle({
+	Name = "Alien UFO ESP",
+	CurrentValue = false,
+	Flag = "Toggle7",
+	Callback = function(Value)
+		if Value then
+			-- Enable Alien ESP
+			if CoreGui:FindFirstChild("AlienESP") then
+				CoreGui.AlienESP:Destroy()
+			end
+
+			local AlienEspScreenGui = Instance.new("ScreenGui")
+			AlienEspScreenGui.Name = "AlienESP"
+			AlienEspScreenGui.Parent = CoreGui
+			AlienEspScreenGui.ResetOnSpawn = false
+			AlienEspScreenGui.ScreenInsets = Enum.ScreenInsets.None
+
+			local alienufo = Workspace:WaitForChild("SpecialRockets"):WaitForChild("Alien")
+			local targetPart = alienufo:WaitForChild("Main")
+
+			-- Billboard
+			local billboard = Instance.new("BillboardGui")
+			billboard.Name = "AlienBillboard"
+			billboard.Adornee = alienufo.PrimaryPart or alienufo:FindFirstChildWhichIsA("BasePart")
+			billboard.Size = UDim2.new(0, 50, 0, 60)
+			billboard.AlwaysOnTop = true
+			billboard.Parent = alienufo
+			billboard.MaxDistance = math.huge
+
+			local textLabel = Instance.new("TextLabel")
+			textLabel.AnchorPoint = Vector2.new(0.5,0.5)
+			textLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+			textLabel.Name = "AlienUFO"
+			textLabel.Size = UDim2.new(0.7, 0, 0.7, 0)
+			textLabel.BackgroundTransparency = 1
+			textLabel.Text = "Alien UFO"
+			textLabel.TextScaled = true
+			textLabel.Font = Enum.Font.FredokaOne
+			textLabel.TextColor3 = Color3.fromRGB(85, 170, 127)
+			textLabel.Parent = billboard
+
+			local OFFSET_Y = 40
+			local LINE_COLOR = Color3.fromRGB(85, 170, 127)
+			local LINE_THICKNESS = 1.8
+
+			-- Create line Frame
+			local line = Instance.new("Frame")
+			line.Size = UDim2.fromOffset(10, LINE_THICKNESS)
+			line.AnchorPoint = Vector2.new(0.5, 0.5)
+			line.BackgroundColor3 = LINE_COLOR
+			line.BorderSizePixel = 0
+			line.Visible = true
+			line.Parent = AlienEspScreenGui
+
+			-- Update line every frame
+			toggleConnection6 = RunService.RenderStepped:Connect(function()
+				if targetPart and targetPart.Parent then
+					local screenPos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(targetPart.Position)
+					local srcX = workspace.CurrentCamera.ViewportSize.X / 2
+					local srcY = OFFSET_Y
+
+					if onScreen and screenPos.Z > 0 then
+						local dx = screenPos.X - srcX
+						local dy = screenPos.Y - srcY
+						local distance = math.sqrt(dx*dx + dy*dy)
+						local midX = (screenPos.X + srcX) / 2
+						local midY = (screenPos.Y + srcY) / 2
+						line.Position = UDim2.fromOffset(midX, midY)
+						line.Size = UDim2.fromOffset(distance, LINE_THICKNESS)
+						line.Rotation = math.deg(math.atan2(dy, dx))
+						line.Visible = true
+						billboard.Enabled = true
+					else
+						line.Visible = false
+						billboard.Enabled = false
+					end
+				else
+					line.Visible = false
+					billboard.Enabled = false
+				end
+			end)
+
+		else
+			-- Disable Voyager ESP
+			if toggleConnection6 then
+				toggleConnection6:Disconnect()
+				toggleConnection6 = nil
+			end
+			local exists = game.Workspace.SpecialRockets.Alien:FindFirstChild("AlienBillboard")
+			if exists then
+				exists:remove()
+			end
+
+			if CoreGui:FindFirstChild("AlienESP") then
+				CoreGui.AlienESP:Destroy()
 			end
 		end
 	end
