@@ -15,7 +15,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-	LoadingTitle = "Space Hub v0.7 or v2226",
+	LoadingTitle = "Space Hub v0.8 or v2226",
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐", -- for mobile users to unhide rayfield, change if you'd like
 	Theme = "Bloom", -- Check https://docs.sirius.menu/rayfield/configuration/themes
@@ -1102,18 +1102,16 @@ local Toggle6 = ESPTab:CreateToggle({
 			billboard.MaxDistance = math.huge
 
 			local textLabel = Instance.new("TextLabel")
+			textLabel.AnchorPoint = Vector2.new(0.5,0.5)
+			textLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
 			textLabel.Name = "Voyager"
-			textLabel.Size = UDim2.new(0, 25, 0, 30)
+			textLabel.Size = UDim2.new(1, 0, 1, 0)
 			textLabel.BackgroundTransparency = 1
 			textLabel.Text = "Voyager"
 			textLabel.TextScaled = true
 			textLabel.Font = Enum.Font.FredokaOne
 			textLabel.TextColor3 = Color3.fromRGB(0, 170, 255)
 			textLabel.Parent = billboard
-
-		
-			-- CONFIG
-			local OFFSET_Y = 40 -- pixels down from top of screen
 
 			-- Line
 			local line = Instance.new("Frame")
@@ -1124,16 +1122,25 @@ local Toggle6 = ESPTab:CreateToggle({
 			line.BorderSizePixel = 0
 			line.Parent = VoyagerEspScreenGui
 
-			toggleConnection6 = RunService.RenderStepped:Connect(function()
-				local camera = Workspace.CurrentCamera
-				local targetPart = voyager:FindFirstChild("Skin") -- target Skin part
+			local OFFSET_Y = 40 -- fixed distance from top
+
+			RunService.RenderStepped:Connect(function()
+				local camera = workspace.CurrentCamera
+				local targetPart = voyager:FindFirstChild("Skin")
 				if targetPart then
 					local screenPos, onScreen = camera:WorldToViewportPoint(targetPart.Position)
-					if onScreen then
-						-- start X = center of screen
-						line.Position = UDim2.new(0, screenPos.X, 0, OFFSET_Y)
-						-- height = distance from OFFSET_Y down to Voyager Skin
-						line.Size = UDim2.new(0, 2, 0, screenPos.Y - OFFSET_Y)
+					if onScreen and screenPos.Z > 0 then
+						local startX = camera.ViewportSize.X / 2
+						local startY = OFFSET_Y
+
+						local dx = screenPos.X - startX
+						local dy = screenPos.Y - startY
+						local distance = math.sqrt(dx*dx + dy*dy)
+						local angle = math.deg(math.atan2(dy, dx))
+
+						line.Position = UDim2.new(0, startX, 0, startY)
+						line.Size = UDim2.new(0, 2, 0, distance)
+						line.Rotation = angle
 						line.Visible = true
 					else
 						line.Visible = false
