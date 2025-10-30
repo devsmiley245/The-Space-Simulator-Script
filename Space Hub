@@ -15,7 +15,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-	LoadingTitle = "Space Hub v0.11.5 or v2226",
+	LoadingTitle = "Space Hub v0.12 or v2226",
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐", -- for mobile users to unhide rayfield, change if you'd like
 	Theme = "Bloom", -- Check https://docs.sirius.menu/rayfield/configuration/themes
@@ -1162,18 +1162,18 @@ local Toggle6 = ESPTab:CreateToggle({
 				toggleConnection6:Disconnect()
 				toggleConnection6 = nil
 			end
+			local exists = game.Workspace.Planetoids.voyager:FindFirstChild("VoyagerBillboard")
+			if exists then
+				exists:remove()
+			end
+			
 			if CoreGui:FindFirstChild("VoyagerESP") then
-				-- Destroy the GUI and Billboard
-				for _, child in pairs(CoreGui.VoyagerESP:GetChildren()) do
-					if child:IsA("BillboardGui") then
-						child:Destroy()
-					end
-				end
 				CoreGui.VoyagerESP:Destroy()
 			end
 		end
 	end
 })
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1522,5 +1522,3 @@ local Button = PlanetTpTab:CreateButton({
 local TrollTab = Window:CreateTab("Troll", 4483362458) -- Title, Image
 
 local Label = TrollTab:CreateLabel("We are working on this D:", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
-
-print("Enjoy My Script By Dev_Smiley :D")
