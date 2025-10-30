@@ -1162,7 +1162,7 @@ local Toggle6 = ESPTab:CreateToggle({
 				toggleConnection6:Disconnect()
 				toggleConnection6 = nil
 			end
-			local exists = game.Workspace.Planetoids.voyager:FindFirstChild("VoyagerBillboard")
+			local exists = game.Workspace.Planetoids.Voyager:FindFirstChild("VoyagerBillboard")
 			if exists then
 				exists:remove()
 			end
