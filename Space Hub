@@ -15,7 +15,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-	LoadingTitle = "Space Hub v0.6 or v2226",
+	LoadingTitle = "Space Hub v0.7 or v2226",
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐", -- for mobile users to unhide rayfield, change if you'd like
 	Theme = "Bloom", -- Check https://docs.sirius.menu/rayfield/configuration/themes
@@ -1112,9 +1112,13 @@ local Toggle6 = ESPTab:CreateToggle({
 			textLabel.Parent = billboard
 
 		
+			-- CONFIG
+			local OFFSET_Y = 40 -- pixels down from top of screen
+
+			-- Line
 			local line = Instance.new("Frame")
 			line.Name = "VoyagerLine"
-			line.AnchorPoint = Vector2.new(0.5, 0) -- top of screen
+			line.AnchorPoint = Vector2.new(0.5, 0) -- start from top middle
 			line.Size = UDim2.new(0, 2, 0, 100)
 			line.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
 			line.BorderSizePixel = 0
@@ -1122,13 +1126,14 @@ local Toggle6 = ESPTab:CreateToggle({
 
 			toggleConnection6 = RunService.RenderStepped:Connect(function()
 				local camera = Workspace.CurrentCamera
-				if voyager.PrimaryPart then
-					local screenPos, onScreen = camera:WorldToViewportPoint(voyager.PrimaryPart.Position)
+				local targetPart = voyager:FindFirstChild("Skin") -- target Skin part
+				if targetPart then
+					local screenPos, onScreen = camera:WorldToViewportPoint(targetPart.Position)
 					if onScreen then
-						-- top of screen X = voyager X
-						line.Position = UDim2.new(0, screenPos.X, 0, 0)
-						-- height = distance from top
-						line.Size = UDim2.new(0, 2, 0, screenPos.Y)
+						-- start X = center of screen
+						line.Position = UDim2.new(0, screenPos.X, 0, OFFSET_Y)
+						-- height = distance from OFFSET_Y down to Voyager Skin
+						line.Size = UDim2.new(0, 2, 0, screenPos.Y - OFFSET_Y)
 						line.Visible = true
 					else
 						line.Visible = false
