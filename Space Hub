@@ -15,7 +15,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-	LoadingTitle = "Space Hub v0.8 or v2226",
+	LoadingTitle = "Space Hub v0.9 or v2226",
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐", -- for mobile users to unhide rayfield, change if you'd like
 	Theme = "Bloom", -- Check https://docs.sirius.menu/rayfield/configuration/themes
@@ -1112,22 +1112,24 @@ local Toggle6 = ESPTab:CreateToggle({
 			textLabel.Font = Enum.Font.FredokaOne
 			textLabel.TextColor3 = Color3.fromRGB(0, 170, 255)
 			textLabel.Parent = billboard
-
+			
 			-- Line
 			local line = Instance.new("Frame")
 			line.Name = "VoyagerLine"
-			line.AnchorPoint = Vector2.new(0.5, 0) -- start from top middle
+			line.AnchorPoint = Vector2.new(0.5, 0) -- top-center start
 			line.Size = UDim2.new(0, 2, 0, 100)
 			line.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
 			line.BorderSizePixel = 0
+			line.Visible = false
 			line.Parent = VoyagerEspScreenGui
 
-			local OFFSET_Y = 40 -- fixed distance from top
+			local OFFSET_Y = 40 -- pixels down from top
 
-			RunService.RenderStepped:Connect(function()
+			-- Connect and store connection
+			toggleConnection6 = RunService.RenderStepped:Connect(function()
 				local camera = workspace.CurrentCamera
 				local targetPart = voyager:FindFirstChild("Skin")
-				if targetPart then
+				if targetPart and targetPart.Parent then
 					local screenPos, onScreen = camera:WorldToViewportPoint(targetPart.Position)
 					if onScreen and screenPos.Z > 0 then
 						local startX = camera.ViewportSize.X / 2
@@ -1145,6 +1147,8 @@ local Toggle6 = ESPTab:CreateToggle({
 					else
 						line.Visible = false
 					end
+				else
+					line.Visible = false
 				end
 			end)
 
