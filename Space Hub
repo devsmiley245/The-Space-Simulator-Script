@@ -15,7 +15,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-	LoadingTitle = "Space Hub v0.9 or v2226",
+	LoadingTitle = "Space Hub v0.10 or v2226",
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐", -- for mobile users to unhide rayfield, change if you'd like
 	Theme = "Bloom", -- Check https://docs.sirius.menu/rayfield/configuration/themes
@@ -1091,7 +1091,8 @@ local Toggle6 = ESPTab:CreateToggle({
 			VoyagerEspScreenGui.ScreenInsets = Enum.ScreenInsets.None
 
 			local voyager = Workspace:WaitForChild("Planetoids"):WaitForChild("Voyager")
-
+			local targetPart = voyager:WaitForChild("Skin")
+			
 			-- Billboard
 			local billboard = Instance.new("BillboardGui")
 			billboard.Name = "VoyagerBillboard"
@@ -1110,39 +1111,38 @@ local Toggle6 = ESPTab:CreateToggle({
 			textLabel.Text = "Voyager"
 			textLabel.TextScaled = true
 			textLabel.Font = Enum.Font.FredokaOne
-			textLabel.TextColor3 = Color3.fromRGB(0, 170, 255)
+			textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 			textLabel.Parent = billboard
 			
-			-- Line
+			local OFFSET_Y = 40
+			local LINE_COLOR = Color3.fromRGB(170, 255, 255)
+			local LINE_THICKNESS = 1.5
+
+			-- Create line Frame
 			local line = Instance.new("Frame")
-			line.Name = "VoyagerLine"
-			line.AnchorPoint = Vector2.new(0.5, 0) -- top-center start
-			line.Size = UDim2.new(0, 2, 0, 100)
-			line.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+			line.Size = UDim2.fromOffset(10, LINE_THICKNESS)
+			line.AnchorPoint = Vector2.new(0.5, 0.5)
+			line.BackgroundColor3 = LINE_COLOR
 			line.BorderSizePixel = 0
-			line.Visible = false
+			line.Visible = true
 			line.Parent = VoyagerEspScreenGui
 
-			local OFFSET_Y = 40 -- pixels down from top
-
-			-- Connect and store connection
-			toggleConnection6 = RunService.RenderStepped:Connect(function()
-				local camera = workspace.CurrentCamera
-				local targetPart = voyager:FindFirstChild("Skin")
+			-- Update line every frame
+			RunService.RenderStepped:Connect(function()
 				if targetPart and targetPart.Parent then
-					local screenPos, onScreen = camera:WorldToViewportPoint(targetPart.Position)
+					local screenPos, onScreen = workspace.Camera:WorldToViewportPoint(targetPart.Position)
+					local srcX = workspace.Camera.ViewportSize.X / 2
+					local srcY = OFFSET_Y
+
 					if onScreen and screenPos.Z > 0 then
-						local startX = camera.ViewportSize.X / 2
-						local startY = OFFSET_Y
-
-						local dx = screenPos.X - startX
-						local dy = screenPos.Y - startY
+						local dx = screenPos.X - srcX
+						local dy = screenPos.Y - srcY
 						local distance = math.sqrt(dx*dx + dy*dy)
-						local angle = math.deg(math.atan2(dy, dx))
-
-						line.Position = UDim2.new(0, startX, 0, startY)
-						line.Size = UDim2.new(0, 2, 0, distance)
-						line.Rotation = angle
+						local midX = (screenPos.X + srcX) / 2
+						local midY = (screenPos.Y + srcY) / 2
+						line.Position = UDim2.fromOffset(midX, midY)
+						line.Size = UDim2.fromOffset(distance, LINE_THICKNESS)
+						line.Rotation = math.deg(math.atan2(dy, dx))
 						line.Visible = true
 					else
 						line.Visible = false
