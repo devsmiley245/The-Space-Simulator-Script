@@ -2,33 +2,33 @@ local Workspace = game:GetService("Workspace")
 local CoreGui = game.CoreGui
 
 local allowedPlaceIds = {
-	15027718878, -- Replace with the allowed PlaceId(s)
+	15027718878,
 }
 
 if not table.find(allowedPlaceIds, game.PlaceId) then
 	warn("This script is not allowed in this place.")
-	return -- stops the script from continuing
+	return
 end
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
-	Icon = 17104625041, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-	LoadingTitle = "Space Hub v0.12 or v" .. game.PlaceVersion,
+	Icon = 17104625041,
+	LoadingTitle = "Space Hub v0.13 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
-	ShowText = "Space Hub 🪐", -- for mobile users to unhide rayfield, change if you'd like
-	Theme = "Bloom", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+	ShowText = "Space Hub 🪐",
+	Theme = "Bloom",
 
-	ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
+	ToggleUIKeybind = "K",
 
 	DisableRayfieldPrompts = false,
-	DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+	DisableBuildWarnings = false,
 
 	ConfigurationSaving = {
 		Enabled = true,
 		FolderName = nil, -- Create a custom folder for your hub/game
-		FileName = "Big Hub"
+		FileName = "SpaceHub"
 	},
 
 	Discord = {
@@ -49,6 +49,7 @@ local Window = Rayfield:CreateWindow({
 	}
 })
 
+local HomeTab = Window:CreateTab("Home", 4483362458)
 local ShipTab = Window:CreateTab("Ship", 4483362458) -- Title, Image
 local MSettingsTab = Window:CreateTab("Mine Settings", 4483362458) -- Title, Image
 local PlayerTab = Window:CreateTab("LocalPlayer", 4483362458) -- Title, Image
@@ -60,6 +61,46 @@ local OtherTab = Window:CreateTab("Other", 4483362458) -- Title, Image
 
 local RunService = game:GetService("RunService")
 local TeleportService = game:GetService("TeleportService")
+
+-- Home Functons
+
+local Label = HomeTab:CreateLabel("Hello Player, Thanks For Using My Script :D", 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("User Informations", 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("Name: "..game.Players.LocalPlayer.DisplayName, 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("User: @"..game.Players.LocalPlayer.Username, 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("UserId: "..game.Players.LocalPlayer.UserId, 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("Account Age: "..game.Players.LocalPlayer.AccountAge.." days", 4483362458, Color3.fromRGB(255,205,220), false)
+local LabelTime = HomeTab:CreateLabel("Local Time: --:--:--", 4483362458, Color3.fromRGB(255,205,220), false)
+task.spawn(function()
+	while true do
+		LabelTime:Set("Local Time: "..os.date("%H:%M:%S"))
+		task.wait(1)
+	end
+end)
+local Label = HomeTab:CreateLabel("Server Informations", 4483362458, Color3.fromRGB(255,205,220), false)
+local LabelGameName = HomeTab:CreateLabel("Game Name: Loading...", 4483362458, Color3.fromRGB(255,205,220), false)
+task.spawn(function()
+	local MarketplaceService = game:GetService("MarketplaceService")
+	local info = MarketplaceService:GetProductInfoAsync(game.PlaceId)
+	LabelGameName:Set("Game Name: "..info.Name)
+end)
+local Label = HomeTab:CreateLabel("PlaceId: "..game.PlaceId, 4483362458, Color3.fromRGB(255,205,220), false)
+local LabelJoinedTime = HomeTab:CreateLabel("Joined Time: 0s", 4483362458, Color3.fromRGB(255,205,220), false)
+local startTime = tick()
+task.spawn(function()
+	while true do
+		local elapsed = math.floor(tick() - startTime)
+		LabelJoinedTime:Set("Joined Time: "..elapsed.."s")
+		task.wait(1)
+	end
+end)
+local LabelTotalPlayers = HomeTab:CreateLabel("Total Players: "..#game.Players:GetPlayers(), 4483362458, Color3.fromRGB(255,205,220), false)
+game.Players.PlayerAdded:Connect(function()
+	LabelTotalPlayers:Set("Total Players: "..#game.Players:GetPlayers())
+end)
+game.Players.PlayerRemoving:Connect(function()
+	LabelTotalPlayers:Set("Total Players: "..#game.Players:GetPlayers())
+end)
 
 --Local Player Functions
 
@@ -1055,7 +1096,7 @@ local Toggle5 = ESPTab:CreateToggle({
 									local distance = (hydrogen.Position - hrp.Position).Magnitude
 									if distance <= 150 then
 										hrp.CFrame = CFrame.new(hydrogen.Position + Vector3.new(0, 0, 0))
-										break -- optional: teleport to first one only
+										break
 									end
 								end
 							end
@@ -1166,7 +1207,7 @@ local Toggle6 = ESPTab:CreateToggle({
 			if exists then
 				exists:remove()
 			end
-			
+
 			if CoreGui:FindFirstChild("VoyagerESP") then
 				CoreGui.VoyagerESP:Destroy()
 			end
