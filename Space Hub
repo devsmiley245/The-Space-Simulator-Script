@@ -1,12 +1,90 @@
-local Workspace = game:GetService("Workspace")
-local CoreGui = game.CoreGui
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local Debris = game:GetService("Debris")
 
-local allowedPlaceIds = {
-	15027718878,
-}
+local LocalPlayer = Players.LocalPlayer
+local allowedPlaceIds = {15027718878}
 
 if not table.find(allowedPlaceIds, game.PlaceId) then
 	warn("This script is not allowed in this place.")
+end
+
+local SpaceHubGui = CoreGui:FindFirstChild("SpaceHubGui")
+if not SpaceHubGui then
+	SpaceHubGui = Instance.new("ScreenGui")
+	SpaceHubGui.Name = "SpaceHubGui"
+	SpaceHubGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	SpaceHubGui.Parent = CoreGui
+end
+
+local NotifyFolder = SpaceHubGui:FindFirstChild("NotifyFolder")
+if not NotifyFolder then
+	NotifyFolder = Instance.new("Folder")
+	NotifyFolder.Name = "NotifyFolder"
+	NotifyFolder.Parent = SpaceHubGui
+end
+
+local function ShowNotify(message)
+	
+	local Notify = Instance.new("Frame")
+	local NotiUICorner = Instance.new("UICorner")
+	local NotiText = Instance.new("TextLabel")
+	local NotiStroke = Instance.new("UIStroke")
+	local NotiSound = Instance.new("Sound")
+
+	Notify.Name = "NotifyClone"
+	Notify.AnchorPoint = Vector2.new(0.5, 0.8)
+	Notify.BackgroundColor3 = Color3.fromRGB(0,0,0)
+	Notify.BackgroundTransparency = 0.65
+	Notify.BorderSizePixel = 0
+	Notify.Position = UDim2.new(0.5,0,1.2,0)
+	Notify.Size = UDim2.new(0.8,0,0.15,0)
+	Notify.Parent = NotifyFolder
+
+	NotiUICorner.CornerRadius = UDim.new(0,10)
+	NotiUICorner.Parent = Notify
+
+	NotiStroke.Color = Color3.fromRGB(255,255,255)
+	NotiStroke.Thickness = 0.03
+	NotiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	NotiStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+	NotiStroke.Parent = Notify
+
+	NotiText.AnchorPoint = Vector2.new(0.5,0.5)
+	NotiText.BackgroundTransparency = 1
+	NotiText.Position = UDim2.new(0.5,0,0.5,0)
+	NotiText.Size = UDim2.new(0.95,0,0.8,0)
+	NotiText.Font = Enum.Font.Fantasy
+	NotiText.Text = message
+	NotiText.TextColor3 = Color3.fromRGB(255,255,255)
+	NotiText.TextScaled = true
+	NotiText.TextWrapped = true
+	NotiText.Parent = Notify
+
+	NotiSound.SoundId = "rbxassetid://122521410562449"
+	NotiSound.Volume = 1
+	NotiSound.Parent = Notify
+	NotiSound:Play()
+
+	local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+	local goal = {Position = UDim2.new(0.5,0,0.8,0)}
+	local tween = TweenService:Create(Notify, tweenInfo, goal)
+	tween:Play()
+
+	Debris:AddItem(Notify, 3)
+end
+
+if not table.find(allowedPlaceIds, game.PlaceId) then
+	ShowNotify("Script not allowed in this place!")
+elseif CoreGui:FindFirstChild("SpaceHubGui") then
+	ShowNotify("Script already ran!")
+else
+	ShowNotify("Script started successfully!")
+end
+
+local existedSpaceHubGui = CoreGui:FindFirstChild("SpaceHubGui")
+if existedSpaceHubGui then
 	return
 end
 
@@ -15,7 +93,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.13 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.14 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -67,7 +145,7 @@ local TeleportService = game:GetService("TeleportService")
 local Label = HomeTab:CreateLabel("Hello Player, Thanks For Using My Script :D", 4483362458, Color3.fromRGB(255,205,220), false)
 local Label = HomeTab:CreateLabel("User Informations", 4483362458, Color3.fromRGB(255,205,220), false)
 local Label = HomeTab:CreateLabel("Name: "..game.Players.LocalPlayer.DisplayName, 4483362458, Color3.fromRGB(255,205,220), false)
-local Label = HomeTab:CreateLabel("User: @"..game.Players.LocalPlayer.Username, 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("User: @"..game.Players.LocalPlayer.Name, 4483362458, Color3.fromRGB(255,205,220), false)
 local Label = HomeTab:CreateLabel("UserId: "..game.Players.LocalPlayer.UserId, 4483362458, Color3.fromRGB(255,205,220), false)
 local Label = HomeTab:CreateLabel("Account Age: "..game.Players.LocalPlayer.AccountAge.." days", 4483362458, Color3.fromRGB(255,205,220), false)
 local LabelTime = HomeTab:CreateLabel("Local Time: --:--:--", 4483362458, Color3.fromRGB(255,205,220), false)
@@ -77,6 +155,11 @@ task.spawn(function()
 		task.wait(1)
 	end
 end)
+local Label = HomeTab:CreateLabel("Character: "..game.Players.LocalPlayer.Character.."", 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("Character Appearance: "..game.Players.LocalPlayer.CharacterAppearance.."", 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("Character Appearance ID: "..game.Players.LocalPlayer.CharacterAppearanceId.."", 4483362458, Color3.fromRGB(255,205,220), false)
+
+
 local Label = HomeTab:CreateLabel("Server Informations", 4483362458, Color3.fromRGB(255,205,220), false)
 local LabelGameName = HomeTab:CreateLabel("Game Name: Loading...", 4483362458, Color3.fromRGB(255,205,220), false)
 task.spawn(function()
