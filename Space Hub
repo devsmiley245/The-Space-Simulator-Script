@@ -1,33 +1,23 @@
-local CoreGui = game:GetService("CoreGui")
-local Workspace = game.Workspace
-local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local CoreGui = game.CoreGui
 local TweenService = game:GetService("TweenService")
 local Debris = game:GetService("Debris")
 
-local LocalPlayer = Players.LocalPlayer
-local allowedPlaceIds = {15027718878}
-
-if not table.find(allowedPlaceIds, game.PlaceId) then
-	warn("This script is not allowed in this place.")
-end
-
-local SpaceHubGui = CoreGui:FindFirstChild("SpaceHubGui")
-if not SpaceHubGui then
-	SpaceHubGui = Instance.new("ScreenGui")
-	SpaceHubGui.Name = "SpaceHubGui"
-	SpaceHubGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-	SpaceHubGui.Parent = CoreGui
-end
-
-local NotifyFolder = SpaceHubGui:FindFirstChild("NotifyFolder")
-if not NotifyFolder then
-	NotifyFolder = Instance.new("Folder")
-	NotifyFolder.Name = "NotifyFolder"
-	NotifyFolder.Parent = SpaceHubGui
-end
-
 local function ShowNotify(message)
-	
+	local SpaceHubGui = CoreGui:FindFirstChild("SpaceHubGui")
+	if not SpaceHubGui then
+		local SpaceHubGui = Instance.new("ScreenGui")
+		SpaceHubGui.Parent = CoreGui
+		SpaceHubGui.Name = "SpaceHubGui"
+	end
+
+	local NotifyFolder = SpaceHubGui:FindFirstChild("NotifyFolder")
+	if not NotifyFolder then
+		local NotifyFolder = Instance.new("Folder")
+		NotifyFolder.Name = "NotifyFolder"
+		NotifyFolder.Parent = SpaceHubGui
+	end
+
 	local Notify = Instance.new("Frame")
 	local NotiUICorner = Instance.new("UICorner")
 	local NotiText = Instance.new("TextLabel")
@@ -35,7 +25,7 @@ local function ShowNotify(message)
 	local NotiSound = Instance.new("Sound")
 
 	Notify.Name = "NotifyClone"
-	Notify.AnchorPoint = Vector2.new(0.5, 0.8)
+	Notify.AnchorPoint = Vector2.new(0.5,0.8)
 	Notify.BackgroundColor3 = Color3.fromRGB(0,0,0)
 	Notify.BackgroundTransparency = 0.65
 	Notify.BorderSizePixel = 0
@@ -76,25 +66,34 @@ local function ShowNotify(message)
 	Debris:AddItem(Notify, 3)
 end
 
+local allowedPlaceIds = {
+	15027718878,
+}
 if not table.find(allowedPlaceIds, game.PlaceId) then
-	ShowNotify("Script not allowed in this place!")
-elseif CoreGui:FindFirstChild("SpaceHubGui") then
-	ShowNotify("Script already ran!")
-else
-	ShowNotify("Script started successfully!")
-end
-
-local existedSpaceHubGui = CoreGui:FindFirstChild("SpaceHubGui")
-if existedSpaceHubGui then
+	warn("This script is not allowed in this place.")
+	ShowNotify("This script is not allowed in this place!")
 	return
 end
+
+if CoreGui:FindFirstChild("SpaceHubGui") then
+	ShowNotify("The Script is already executed!")
+	return
+end
+
+local SpaceHubGui = Instance.new("ScreenGui")
+SpaceHubGui.Parent = CoreGui
+SpaceHubGui.Name = "SpaceHubGui"
+
+local NotifyFolder = Instance.new("Folder")
+NotifyFolder.Name = "NotifyFolder"
+NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.14 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.15 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
