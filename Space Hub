@@ -93,7 +93,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.17 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.18 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -142,17 +142,17 @@ local TeleportService = game:GetService("TeleportService")
 
 -- Home Functons
 
-local Label = HomeTab:CreateLabel("Hello Player, Thanks For Using My Script :D", 4483362458, Color3.fromRGB(255,205,220), false)
-local Label = HomeTab:CreateLabel("User Informations", 4483362458, Color3.fromRGB(255,205,220), false)
-local Label = HomeTab:CreateLabel("Name: "..game.Players.LocalPlayer.DisplayName, 4483362458, Color3.fromRGB(255,205,220), false)
-local Label = HomeTab:CreateLabel("User: @"..game.Players.LocalPlayer.Name, 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("⫷ Hello Player, Thanks For Using My Script :D ⫸", 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("() User Informations ()", 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("Display Name: "..game.Players.LocalPlayer.DisplayName, 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("Username: @"..game.Players.LocalPlayer.Name, 4483362458, Color3.fromRGB(255,205,220), false)
 local Label = HomeTab:CreateLabel("UserId: "..game.Players.LocalPlayer.UserId, 4483362458, Color3.fromRGB(255,205,220), false)
 local Label = HomeTab:CreateLabel("Account Age: "..game.Players.LocalPlayer.AccountAge.." days", 4483362458, Color3.fromRGB(255,205,220), false)
 local LabelTime = HomeTab:CreateLabel("Local Time: --:--:--", 4483362458, Color3.fromRGB(255,205,220), false)
-local Label = HomeTab:CreateLabel("Server Informations", 4483362458, Color3.fromRGB(255,205,220), false)
-local LabelGameName = HomeTab:CreateLabel("Game Name: Loading...", 4483362458, Color3.fromRGB(255,205,220), false)
+local Label = HomeTab:CreateLabel("() Server Informations ()", 4483362458, Color3.fromRGB(255,205,220), false)
+local LabelGameName = HomeTab:CreateLabel("Game Name: The Space Simulator", 4483362458, Color3.fromRGB(255,205,220), false)
 local Label = HomeTab:CreateLabel("PlaceId: "..game.PlaceId, 4483362458, Color3.fromRGB(255,205,220), false)
-local LabelJoinedTime = HomeTab:CreateLabel("Joined Time: 0s", 4483362458, Color3.fromRGB(255,205,220), false)
+local LabelJoinedTime = HomeTab:CreateLabel("Played Time: 0s", 4483362458, Color3.fromRGB(255,205,220), false)
 local LabelTotalPlayers = HomeTab:CreateLabel("Total Players: "..#game.Players:GetPlayers(), 4483362458, Color3.fromRGB(255,205,220), false)
 
 game.Players.PlayerAdded:Connect(function()
@@ -168,12 +168,6 @@ task.spawn(function()
 		LabelTime:Set("Local Time: "..os.date("%H:%M:%S"))
 		task.wait(1)
 	end
-end)
-
-task.spawn(function()
-	local MarketplaceService = game:GetService("MarketplaceService")
-	local info = MarketplaceService:GetProductInfoAsync(game.PlaceId)
-	LabelGameName:Set("Game Name: "..info.Name)
 end)
 
 local startTime = tick()
