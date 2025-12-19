@@ -1261,29 +1261,29 @@ end
 
 ShowNotify("ESP Container Loaded!")
 
-local RocketLineGui = SpaceHubESPFolder:WaitForChild("RocketLineGui")
-local RocketBoxGui = SpaceHubESPFolder:WaitForChild("RocketBoxGui")
-local RocketNameGui = SpaceHubESPFolder:WaitForChild("RocketNamesGui")
+local RocketLineGui = SpaceHubESPFolder:WaitForChild("RocketLines")
+local RocketBoxGui = SpaceHubESPFolder:WaitForChild("RocketBoxes")
+local RocketNameGui = SpaceHubESPFolder:WaitForChild("RocketNames")
 
-local UFOBoxGui = SpaceHubESPFolder:WaitForChild("UFOBoxGui")
-local UFOLineGui = SpaceHubESPFolder:WaitForChild("UFOLineGui")
-local UFONameGui = SpaceHubESPFolder:WaitForChild("UFONameGui")
+local UFOBoxGui = SpaceHubESPFolder:WaitForChild("UFOBoxes")
+local UFOLineGui = SpaceHubESPFolder:WaitForChild("UFOLines")
+local UFONameGui = SpaceHubESPFolder:WaitForChild("UFONames")
 
-local CentaurLineGui = SpaceHubESPFolder:WaitForChild("CentaurLineGui")
-local CentaurBoxGui = SpaceHubESPFolder:WaitForChild("CentaurBoxGui")
-local CentaurNameGui = SpaceHubESPFolder:WaitForChild("CentaurNameGui")
+local CentaurLineGui = SpaceHubESPFolder:WaitForChild("CentaurLines")
+local CentaurBoxGui = SpaceHubESPFolder:WaitForChild("CentaurBoxes")
+local CentaurNameGui = SpaceHubESPFolder:WaitForChild("CentaurNames")
 
-local OrbLineGui = SpaceHubESPFolder:WaitForChild("OrbLineGui")
-local OrbBoxGui = SpaceHubESPFolder:WaitForChild("OrbBoxGui")
-local OrbNameGui = SpaceHubESPFolder:WaitForChild("OrbNameGui")
+local OrbLineGui = SpaceHubESPFolder:WaitForChild("OrbLines")
+local OrbBoxGui = SpaceHubESPFolder:WaitForChild("OrbBoxes")
+local OrbNameGui = SpaceHubESPFolder:WaitForChild("OrbNames")
 
-local ArtifactLineGui = SpaceHubESPFolder:WaitForChild("ArtifactLineGui")
-local ArtifactBoxGui = SpaceHubESPFolder:WaitForChild("ArtifactBoxGui")
-local ArtifactNameGui = SpaceHubESPFolder:WaitForChild("ArtifactNameGui")
+local ArtifactLineGui = SpaceHubESPFolder:WaitForChild("ArtifactLines")
+local ArtifactBoxGui = SpaceHubESPFolder:WaitForChild("ArtifactBoxes")
+local ArtifactNameGui = SpaceHubESPFolder:WaitForChild("ArtifactNames")
 
-local ResourceLineGui = SpaceHubESPFolder:WaitForChild("ResourceLineGui")
-local ResourceBoxGui = SpaceHubESPFolder:WaitForChild("ResourceBoxGui")
-local ResourceNameGui = SpaceHubESPFolder:WaitForChild("ResourceNameGui")
+local ResourceLineGui = SpaceHubESPFolder:WaitForChild("ResourceLines")
+local ResourceBoxGui = SpaceHubESPFolder:WaitForChild("ResourceBoxes")
+local ResourceNameGui = SpaceHubESPFolder:WaitForChild("ResourceNames")
 
 --------------------
 
