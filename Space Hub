@@ -90,10 +90,12 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
+ShowNotify("Thanks For Using My Script, v0.23")
+
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.22 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.23 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -131,16 +133,11 @@ local HomeTab = Window:CreateTab("Home", 4483362458)
 local ShipTab = Window:CreateTab("Ship", 4483362458) -- Title, Image
 local MSettingsTab = Window:CreateTab("Pickaxe", 4483362458) -- Title, Image
 local PlayerTab = Window:CreateTab("LocalPlayer", 4483362458) -- Title, Image
-local ESPTab = Window:CreateTab("ESP", 4483362458) -- Title, Image
-local OtherTpTab = Window:CreateTab("Teleport", 4483362458) -- Title, Image
-local CSettingsTab = Window:CreateTab("Virtual", 4483362458) -- Title, Image
-local PlanetTpTab = Window:CreateTab("Bring Ships", 4483362458)
-local OtherTab = Window:CreateTab("Others", 4483362458) -- Title, Image
 
 local RunService = game:GetService("RunService")
 local TeleportService = game:GetService("TeleportService")
 
-ShowNotify("Thanks For Using My Script, v0.22")
+
 
 -- Home Functons
 
@@ -1165,6 +1162,8 @@ local Toggle = ShipTab:CreateToggle({
 	end
 })
 
+local CSettingsTab = Window:CreateTab("Virtual", 4483362458) -- Title, Image
+
 --Client Settings Functions
 
 local Button = CSettingsTab:CreateButton({
@@ -1252,6 +1251,8 @@ local Button = CSettingsTab:CreateButton({
 })
 
 --Other Functions
+
+local OtherTab = Window:CreateTab("Others", 4483362458) -- Title, Image
 
 local function firePrompt(prompt)
 	if typeof(prompt) == "Instance" and prompt:IsA("ProximityPrompt") then
@@ -1369,6 +1370,8 @@ local ResourceBoxGui = SpaceHubESPFolder:WaitForChild("ResourceBoxGui")
 local ResourceNameGui = SpaceHubESPFolder:WaitForChild("ResourceNameGui")
 
 --------------------
+
+local ESPTab = Window:CreateTab("ESP", 4483362458) -- Title, Image
 
 local Toggle1 = ESPTab:CreateToggle({
 	Name = "Rockets ESP Lines",
@@ -1549,8 +1552,7 @@ local Toggle18 = ESPTab:CreateToggle({
 
 --Other Teleports
 
-
-
+local OtherTpTab = Window:CreateTab("Teleport", 4483362458) -- Title, Image
 
 local Label = OtherTpTab:CreateLabel("Earth Teleport ( Require Shuttle )", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
 
@@ -1791,6 +1793,8 @@ local Button = OtherTpTab:CreateButton({
 })
 
 ------------------------------------------------------------------------------------------------------------------------------------
+
+local PlanetTpTab = Window:CreateTab("Bring Ships", 4483362458)
 
 local Label = PlanetTpTab:CreateLabel("Bring Ships ( You Must Own The Ship )", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
 
