@@ -88,7 +88,7 @@ local NotifyFolder = Instance.new("Folder")
 NotifyFolder.Name = "NotifyFolder"
 NotifyFolder.Parent = SpaceHubGui
 
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))();
 
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
