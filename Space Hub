@@ -93,7 +93,7 @@ local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.21 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.22 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -129,16 +129,18 @@ local Window = Rayfield:CreateWindow({
 
 local HomeTab = Window:CreateTab("Home", 4483362458)
 local ShipTab = Window:CreateTab("Ship", 4483362458) -- Title, Image
-local MSettingsTab = Window:CreateTab("Mine Settings", 4483362458) -- Title, Image
+local MSettingsTab = Window:CreateTab("Pickaxe", 4483362458) -- Title, Image
 local PlayerTab = Window:CreateTab("LocalPlayer", 4483362458) -- Title, Image
 local ESPTab = Window:CreateTab("ESP", 4483362458) -- Title, Image
 local OtherTpTab = Window:CreateTab("Teleport", 4483362458) -- Title, Image
-local CSettingsTab = Window:CreateTab("Client Settings", 4483362458) -- Title, Image
+local CSettingsTab = Window:CreateTab("Virtual", 4483362458) -- Title, Image
 local PlanetTpTab = Window:CreateTab("Bring Ships", 4483362458)
-local OtherTab = Window:CreateTab("Other", 4483362458) -- Title, Image
+local OtherTab = Window:CreateTab("Others", 4483362458) -- Title, Image
 
 local RunService = game:GetService("RunService")
 local TeleportService = game:GetService("TeleportService")
+
+ShowNotify("Thanks For Using My Script, v0.22")
 
 -- Home Functons
 
@@ -588,6 +590,7 @@ local Toggle4 = MSettingsTab:CreateToggle({
 local Button = PlayerTab:CreateButton({
 	Name = "Rejoin",
 	Callback = function()
+		ShowNotify("Rejoining The Current Server . . .")
 		local player = game.Players.LocalPlayer
 		local placeId = game.PlaceId
 		TeleportService:Teleport(placeId, player)
@@ -984,7 +987,8 @@ applyBtn.MouseButton1Click:Connect(function()
 
 	local attrName = buttonNameToAttr[selectedButton.Name]
 	if not attrName then return end
-
+	
+	ShowNotify("Successfully Changed Value!")
 	mainPart:SetAttribute(attrName, value)
 end)
 
@@ -1338,6 +1342,8 @@ local SpaceHubESPContainer = loadstring(game:HttpGet("https://raw.githubusercont
 local SpaceHubESPFolder = CoreGui:FindFirstChild("SpaceHubESPFolder")
 if not SpaceHubESPFolder then return end
 
+ShowNotify("ESP Container Loaded!")
+
 local RocketLineGui = SpaceHubESPFolder:WaitForChild("RocketLineGui")
 local RocketBoxGui = SpaceHubESPFolder:WaitForChild("RocketBoxGui")
 local RocketNameGui = SpaceHubESPFolder:WaitForChild("RocketNamesGui")
@@ -1510,7 +1516,7 @@ local Toggle15 = ESPTab:CreateToggle({
 -----------------------------------------------------------------------------------
 
 local Toggle16 = ESPTab:CreateToggle({
-	Name = "Resouces ESP Lines",
+	Name = "Resources ESP Lines",
 	CurrentValue = false,
 	Flag = "Toggle16",
 	Callback = function(Value)
@@ -1519,22 +1525,23 @@ local Toggle16 = ESPTab:CreateToggle({
 })
 
 local Toggle17 = ESPTab:CreateToggle({
-	Name = "Resouces ESP Boxes",
+	Name = "Resources ESP Boxes",
 	CurrentValue = false,
 	Flag = "Toggle17",
 	Callback = function(Value)
-		RocketBoxGui.Enabled = Value
+		ResourceBoxGui.Enabled = Value  -- ✔ Correct GUI
 	end
 })
 
 local Toggle18 = ESPTab:CreateToggle({
-	Name = "Resouces ESP Informations",
+	Name = "Resources ESP Informations",
 	CurrentValue = false,
 	Flag = "Toggle18",
 	Callback = function(Value)
 		ResourceNameGui.Enabled = Value
 	end
 })
+
 
 -------------------------------------------------------------------------
 
@@ -1884,4 +1891,4 @@ local Button = PlanetTpTab:CreateButton({
 
 local TrollTab = Window:CreateTab("Troll", 4483362458) -- Title, Image
 
-local Label = TrollTab:CreateLabel("We are working on this D:", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+local Label = TrollTab:CreateLabel("Coming Soon . . . D:", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
