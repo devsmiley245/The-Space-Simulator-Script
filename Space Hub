@@ -2644,7 +2644,7 @@ end)
 
 -------------------------------------------------------------------------- end --------------------------------------
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle1 = ESPTab:CreateToggle({
 	Name = "Rockets ESP Lines",
 	CurrentValue = false,
 	Flag = "Toggle1",
@@ -2653,7 +2653,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle2 = ESPTab:CreateToggle({
 	Name = "Rockets ESP Boxes",
 	CurrentValue = false,
 	Flag = "Toggle2",
@@ -2662,7 +2662,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle3 = ESPTab:CreateToggle({
 	Name = "Rockets ESP Informations",
 	CurrentValue = false,
 	Flag = "Toggle3",
@@ -2673,7 +2673,7 @@ local Toggle = ESPTab:CreateToggle({
 
 ------------------------------------------------------
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle4 = ESPTab:CreateToggle({
 	Name = "UFO ESP Lines",
 	CurrentValue = false,
 	Flag = "Toggle4",
@@ -2682,7 +2682,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle5 = ESPTab:CreateToggle({
 	Name = "UFO ESP Boxes",
 	CurrentValue = false,
 	Flag = "Toggle5",
@@ -2691,7 +2691,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle6 = ESPTab:CreateToggle({
 	Name = "UFO ESP Infomations",
 	CurrentValue = false,
 	Flag = "Toggle6",
@@ -2702,7 +2702,7 @@ local Toggle = ESPTab:CreateToggle({
 
 -----------------------------------------------------
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle7 = ESPTab:CreateToggle({
 	Name = "Centaurs ESP Lines",
 	CurrentValue = false,
 	Flag = "Toggle7",
@@ -2711,7 +2711,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle8 = ESPTab:CreateToggle({
 	Name = "Centaurs ESP Boxes",
 	CurrentValue = false,
 	Flag = "Toggle8",
@@ -2720,7 +2720,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle9 = ESPTab:CreateToggle({
 	Name = "Centaurs ESP Informations",
 	CurrentValue = false,
 	Flag = "Toggle9",
@@ -2731,7 +2731,7 @@ local Toggle = ESPTab:CreateToggle({
 
 -----------------------------------------------------
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle10 = ESPTab:CreateToggle({
 	Name = "Orb ESP Lines",
 	CurrentValue = false,
 	Flag = "Toggle10",
@@ -2740,7 +2740,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle11 = ESPTab:CreateToggle({
 	Name = "Orb ESP Boxes",
 	CurrentValue = false,
 	Flag = "Toggle11",
@@ -2749,7 +2749,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle12 = ESPTab:CreateToggle({
 	Name = "Orb ESP Informations",
 	CurrentValue = false,
 	Flag = "Toggle12",
@@ -2760,7 +2760,7 @@ local Toggle = ESPTab:CreateToggle({
 
 -------------------------------------------------------------------
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle13 = ESPTab:CreateToggle({
 	Name = "Artifacts ESP Lines",
 	CurrentValue = false,
 	Flag = "Toggle13",
@@ -2769,7 +2769,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle14 = ESPTab:CreateToggle({
 	Name = "Artifacts ESP Boxes",
 	CurrentValue = false,
 	Flag = "Toggle14",
@@ -2778,7 +2778,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle15 = ESPTab:CreateToggle({
 	Name = "Artifacts ESP Informations",
 	CurrentValue = false,
 	Flag = "Toggle15",
@@ -2789,7 +2789,7 @@ local Toggle = ESPTab:CreateToggle({
 
 -----------------------------------------------------------------------------------
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle16 = ESPTab:CreateToggle({
 	Name = "Resouces ESP Lines",
 	CurrentValue = false,
 	Flag = "Toggle16",
@@ -2798,7 +2798,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle17 = ESPTab:CreateToggle({
 	Name = "Resouces ESP Boxes",
 	CurrentValue = false,
 	Flag = "Toggle17",
@@ -2807,7 +2807,7 @@ local Toggle = ESPTab:CreateToggle({
 	end
 })
 
-local Toggle = ESPTab:CreateToggle({
+local Toggle18 = ESPTab:CreateToggle({
 	Name = "Resouces ESP Informations",
 	CurrentValue = false,
 	Flag = "Toggle18",
@@ -2820,10 +2820,10 @@ local Toggle = ESPTab:CreateToggle({
 
 local toggleConnection4
 
-local Toggle4 = ESPTab:CreateToggle({
+local Toggle20 = ESPTab:CreateToggle({
 	Name = "Metallic Hydrogen ESP",
 	CurrentValue = false,
-	Flag = "Toggle4",
+	Flag = "Toggle20",
 	Callback = function(Value)
 		local player = game.Players.LocalPlayer
 		local character = player.Character or player.CharacterAdded:Wait()
@@ -2900,10 +2900,10 @@ local Toggle4 = ESPTab:CreateToggle({
 
 local toggleConnection5
 
-local Toggle5 = ESPTab:CreateToggle({
+local Toggle21 = ESPTab:CreateToggle({
 	Name = "Teleport to Hydrogen",
 	CurrentValue = false,
-	Flag = "Toggle5",
+	Flag = "Toggle21",
 	Callback = function(Value)
 		local player = game.Players.LocalPlayer
 		local character = player.Character or player.CharacterAdded:Wait()
@@ -2947,10 +2947,10 @@ local Toggle5 = ESPTab:CreateToggle({
 
 local toggleConnection6
 
-local Toggle6 = ESPTab:CreateToggle({
+local Toggle22 = ESPTab:CreateToggle({
 	Name = "Voyager ESP",
 	CurrentValue = false,
-	Flag = "Toggle6",
+	Flag = "Toggle22",
 	Callback = function(Value)
 		if Value then
 			-- Enable Voyager ESP
@@ -3046,19 +3046,6 @@ local Toggle6 = ESPTab:CreateToggle({
 		end
 	end
 })
-
-local toggleConnection7
-
-local Toggle7 = ESPTab:CreateToggle({
-	Name = "Alien UFO ESP",
-	CurrentValue = false,
-	Flag = "Toggle7",
-	Callback = function(Value)
-		if Value then
-		end
-		end
-})
-
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
