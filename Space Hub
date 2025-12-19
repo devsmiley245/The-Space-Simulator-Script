@@ -1251,7 +1251,7 @@ Button = OtherTab:CreateButton({
 
 local SpaceHubESPContainer = loadstring(game:HttpGet("https://raw.githubusercontent.com/devsmiley245/The-Space-Simulator-Script/refs/heads/main/SpaceHubESPContainer"))();
 
-local SpaceHubESPFolder = CoreGui:WaitForChild("SpaceHubESPFolder", 2)
+local SpaceHubESPFolder = CoreGui:WaitForChild("SpaceHubESPFolder")
 if not SpaceHubESPFolder then
 	ShowNotify("SpaceHubESPFolder not found!")
 else
