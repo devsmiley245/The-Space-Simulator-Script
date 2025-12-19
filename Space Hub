@@ -1255,11 +1255,8 @@ local SpaceHubESPFolder = CoreGui:WaitForChild("SpaceHubESPFolder")
 if not SpaceHubESPFolder then
 	ShowNotify("SpaceHubESPFolder not found!")
 else
-	ShowNotify("Folder found, script continues")
+	ShowNotify("Folder found, ESP Container Loaded!")
 end
-
-
-ShowNotify("ESP Container Loaded!")
 
 local RocketLineGui = SpaceHubESPFolder:WaitForChild("RocketLines")
 local RocketBoxGui = SpaceHubESPFolder:WaitForChild("RocketBoxes")
