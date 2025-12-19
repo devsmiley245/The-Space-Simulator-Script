@@ -1,3 +1,5 @@
+print("Script Ranned")
+
 local Workspace = game:GetService("Workspace")
 local CoreGui = game.CoreGui
 local TweenService = game:GetService("TweenService")
