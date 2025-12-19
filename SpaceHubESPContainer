@@ -12,6 +12,8 @@ local SpaceHubESPFolder = Instance.new("Folder")
 SpaceHubESPFolder.Name = "SpaceHubESPFolder"
 SpaceHubESPFolder.Parent = CoreGui
 
+print("Created Folder")
+
 -- Rocket
 
 local ROCKET_LINE_THICKNESS = 1
