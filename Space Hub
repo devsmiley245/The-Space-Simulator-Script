@@ -1335,17 +1335,16 @@ Button = OtherTab:CreateButton({
 
 -- ESP
 
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local Camera = workspace.CurrentCamera
+
 local SpaceHubESPFolder = Instance.new("Folder")
 SpaceHubESPFolder.Name = "SpaceHubESP"
 SpaceHubESPFolder.Parent = CoreGui
 
 -- Rocket
-
-local RunService = game:GetService("RunService")
-local Camera = workspace.CurrentCamera
-local CoreGui = game:GetService("CoreGui")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
 
 local ROCKET_LINE_THICKNESS = 1
 local ROCKET_OFFSET_Y = 40
@@ -1566,11 +1565,6 @@ end)
 
 
 -- UFO
-
-local RunService = game:GetService("RunService")
-local Camera = workspace.CurrentCamera
-local CoreGui = game:GetService("CoreGui")
-local Players = game:GetService("Players")
 
 local UFO_LINE_THICKNESS = 1
 local UFO_OFFSET_Y = 40
@@ -1968,12 +1962,6 @@ end)
 
 -- Resources 
 
-local RunService = game:GetService("RunService")
-local Camera = workspace.CurrentCamera
-local CoreGui = game:GetService("CoreGui")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-
 local RESOURCE_LINE_THICKNESS = 1
 local RESOURCE_OFFSET_Y = 40
 
@@ -2188,12 +2176,6 @@ RunService.RenderStepped:Connect(function()
 end)
 
 -- Artifacts
-
-local RunService = game:GetService("RunService")
-local Camera = workspace.CurrentCamera
-local CoreGui = game:GetService("CoreGui")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
 
 local ARTIFACT_LINE_THICKNESS = 1
 local ARTIFACT_OFFSET_Y = 40
@@ -2413,10 +2395,6 @@ RunService.RenderStepped:Connect(function()
 end)
 
 -- Centaur
-
-local RunService = game:GetService("RunService")
-local Camera = workspace.CurrentCamera
-local CoreGui = game:GetService("CoreGui")
 
 local CENTAUR_LINE_THICKNESS = 1
 local CENTAUR_OFFSET_Y = 40
