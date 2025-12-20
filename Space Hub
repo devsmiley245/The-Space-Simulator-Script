@@ -90,12 +90,12 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-ShowNotify("Thanks For Using My Script, v0.24")
+ShowNotify("Thanks For Using My Script, v0.24.5")
 
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.24 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.24.5 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -866,7 +866,7 @@ local ColorNames = {
 	[2] = "Blue",
 	[3] = "Green",
 	[4] = "Coral",
-	[5] = "Dark Red"
+	[5] = "Red"
 }
 
 local Slider = ShipTab:CreateSlider({
@@ -877,7 +877,6 @@ local Slider = ShipTab:CreateSlider({
 	CurrentValue = 0,
 	Flag = "Slider3",
 	Callback = function(Value)
-		if not ShipHighLightValue.Value then return end
 
 		local char = game.Players.LocalPlayer.Character
 		if not char then return end
