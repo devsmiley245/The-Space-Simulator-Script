@@ -39,6 +39,14 @@ if not AlwaysEquipParachute_Value then
 	AlwaysEquipParachute_Value.Parent = SpaceHubValuesFolder
 end
 
+local ShipHighLight_Value = SpaceHubValuesFolder:FindFirstChild("ShipHighLight")
+if not ShipHighLight_Value then
+	ShipHighLight_Value = Instance.new("BoolValue")
+	ShipHighLight_Value.Name = "ShipHighLight"
+	ShipHighLight_Value.Value = false
+	ShipHighLight_Value.Parent = SpaceHubValuesFolder
+end
+
 -- OneHitAllResources --------------------------------------------------------------------
 
 local Players = game:GetService("Players")
