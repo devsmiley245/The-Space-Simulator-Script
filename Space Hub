@@ -90,12 +90,12 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-ShowNotify("Thanks For Using My Script, v0.23")
+ShowNotify("Thanks For Using My Script, v0.24")
 
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.23 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.24 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -131,7 +131,7 @@ local Window = Rayfield:CreateWindow({
 
 local HomeTab = Window:CreateTab("Home", 4483362458)
 local ShipTab = Window:CreateTab("Ship", 4483362458) -- Title, Image
-local MSettingsTab = Window:CreateTab("Pickaxe", 4483362458) -- Title, Image
+local MSettingsTab = Window:CreateTab("Mine & Inventory", 4483362458) -- Title, Image
 local PlayerTab = Window:CreateTab("LocalPlayer", 4483362458) -- Title, Image
 
 local RunService = game:GetService("RunService")
@@ -245,340 +245,52 @@ local Button = PlayerTab:CreateButton({
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local Label = MSettingsTab:CreateLabel("Please Turn Off When You Leave Planet Or Died", 4483362458, Color3.fromRGB(255, 205, 220), false)
+local SpaceHubValuesContainer = loadstring(game:HttpGet("https://raw.githubusercontent.com/devsmiley245/The-Space-Simulator-Script/refs/heads/main/SpaceHub%20Values%20Container"))();
+
+local SpaceHubValuesFolder = game.CoreGui:WaitForChild("SpaceHub Values Container")
+
+local OneHitMineValue = SpaceHubValuesFolder:WaitForChild("OneHitResources")
+local AlwaysEquipPickaxeValue = SpaceHubValuesFolder:WaitForChild("AlwaysEquipPickaxe")
+local AlwaysEquipParachuteValue = SpaceHubValuesFolder:WaitForChild("AlwaysEquipParachute")
+local OldInventoryValue = SpaceHubValuesFolder:WaitForChild("OldInventory")
+
+---------------------------------------------------------------------------------------
+
+local Label = MSettingsTab:CreateLabel("Updated in v0.24", 4483362458, Color3.fromRGB(255, 205, 220), false)
 
 local Toggle = MSettingsTab:CreateToggle({
-	Name = "1 Hit Mine Resources And Orbs",
+	Name = "1 Hit Mine All Resources And Orbs",
 	CurrentValue = false,
 	Flag = "Toggle1",
 	Callback = function(Value)
-		local Players = game:GetService("Players")
-		local player = Players.LocalPlayer
-		local character = player.Character or player.CharacterAdded:Wait()
-		local hrp = character:WaitForChild("HumanoidRootPart")
-
-		local allowedClasses = {
-			["BasePart"] = true,
-			["MeshPart"] = true,
-			["UnionOperation"] = true,
-			["Part"] = true,
-		}
-
-		local planetsFolder = workspace:FindFirstChild("Planets")
-		if not planetsFolder then
-			warn("Planets folder not found in Workspace.")
-			return
-		end
-
-		-- Find closest planet model
-		local nearestPlanet, minDistance = nil, math.huge
-		for _, model in pairs(planetsFolder:GetChildren()) do
-			if model:IsA("Model") then
-				local referencePart = nil
-				if model:FindFirstChild("Center") then
-					referencePart = model.Center
-				elseif model.Name == "Sun" then
-					local core = model:FindFirstChildWhichIsA("MeshPart")
-					if core and core.Name == "Core" then
-						referencePart = core
-					end
-				end
-
-				if referencePart then
-					local dist = (referencePart.Position - hrp.Position).Magnitude
-					if dist < minDistance and dist <= 200 then
-						nearestPlanet = model
-						minDistance = dist
-					end
-				end
-			end
-		end
-
-
-		if not nearestPlanet then
-			warn("No nearby planet found within 200 studs.")
-			return
-		end
-
-		local mineralsFolder = nearestPlanet:FindFirstChild("Minerals")
-		if not mineralsFolder then
-			warn("No Minerals folder in:", nearestPlanet.Name)
-			return
-		end
-
-		for _, part in ipairs(mineralsFolder:GetDescendants()) do
-			if allowedClasses[part.ClassName] and part:GetAttribute("hitpoints") ~= nil then
-				local dist = (part.Position - hrp.Position).Magnitude
-				if dist <= 200 then
-					if Value then
-						-- Toggle ON: Set hitpoints to 1
-						if part:GetAttribute("hitpoints") ~= 1 then
-							part:SetAttribute("hitpoints", 1)
-						end
-					else
-						-- Toggle OFF: Reset hitpoints to 100
-						part:SetAttribute("hitpoints", 100)
-					end
-				end
-			end
-		end
-	end,
+		OneHitMineValue.Value = Value
+	end
 })
 
-local Toggle = MSettingsTab:CreateToggle({
-	Name = "No Pickaxe Level Require Client Side",
+local Toggle2 = MSettingsTab:CreateToggle({
+	Name = "Always Equip Pickaxe",
 	CurrentValue = false,
 	Flag = "Toggle2",
-	Callback = (function()
-		local modifiedParts = {}  -- Store original minPickaxeLevel values
-
-		return function(Value)
-			local Players = game:GetService("Players")
-			local player = Players.LocalPlayer
-			local character = player.Character or player.CharacterAdded:Wait()
-			local hrp = character:WaitForChild("HumanoidRootPart")
-
-			local allowedClasses = {
-				["BasePart"] = true,
-				["MeshPart"] = true,
-				["UnionOperation"] = true,
-				["Part"] = true,
-			}
-
-			local planetsFolder = workspace:FindFirstChild("Planets")
-			if not planetsFolder then
-				warn("Planets folder not found in Workspace.")
-				return
-			end
-
-			-- Find closest planet within 200 studs
-			local nearestPlanet, minDistance = nil, math.huge
-			for _, model in pairs(planetsFolder:GetChildren()) do
-				if model:IsA("Model") then
-					local referencePart = nil
-					if model:FindFirstChild("Center") then
-						referencePart = model.Center
-					elseif model.Name == "Sun" then
-						local core = model:FindFirstChildWhichIsA("MeshPart")
-						if core and core.Name == "Core" then
-							referencePart = core
-						end
-					end
-
-					if referencePart then
-						local dist = (referencePart.Position - hrp.Position).Magnitude
-						if dist < minDistance and dist <= 200 then
-							nearestPlanet = model
-							minDistance = dist
-						end
-					end
-				end
-			end
-
-			if not nearestPlanet then
-				warn("No nearby planet found within 200 studs.")
-				return
-			end
-
-			local mineralsFolder = nearestPlanet:FindFirstChild("Minerals")
-			if not mineralsFolder then
-				warn("No Minerals folder in:", nearestPlanet.Name)
-				return
-			end
-
-			if Value then
-				-- Toggle ON: Set minPickaxeLevel to 1
-				for _, part in ipairs(mineralsFolder:GetDescendants()) do
-					if allowedClasses[part.ClassName] then
-						local level = part:GetAttribute("minPickaxeLevel")
-						if level ~= nil and level ~= 1 then
-							local dist = (part.Position - hrp.Position).Magnitude
-							if dist <= 200 then
-								modifiedParts[part] = level
-								part:SetAttribute("minPickaxeLevel", 1)
-							end
-						end
-					end
-				end
-			else
-				-- Toggle OFF: Restore all previously modified parts
-				for part, originalLevel in pairs(modifiedParts) do
-					if part and part:IsDescendantOf(game) then
-						part:SetAttribute("minPickaxeLevel", originalLevel)
-					end
-				end
-				table.clear(modifiedParts)
-			end
-		end
-	end)()
+	Callback = function(Value)
+		AlwaysEquipPickaxeValue.Value = Value
+	end
 })
 
-local teleporting = false
-local teleportCoroutine
-local equipCoroutine
-
-local function AstartTeleportLoop()
-	if teleporting then return end
-	teleporting = true
-
-	teleportCoroutine = coroutine.create(function()
-		local Players = game:GetService("Players")
-		local player = Players.LocalPlayer
-		local character = player.Character or player.CharacterAdded:Wait()
-		local hrp = character:WaitForChild("HumanoidRootPart")
-
-		local planetsFolder = workspace:FindFirstChild("Planets")
-		if not planetsFolder then
-			warn("Planets folder not found in Workspace.")
-			teleporting = false
-			return
-		end
-
-		-- Find closest planet within 200 studs
-		local nearestPlanet, minDistance = nil, math.huge
-		for _, model in pairs(planetsFolder:GetChildren()) do
-			if model:IsA("Model") then
-				local referencePart = nil
-				if model:FindFirstChild("Center") then
-					referencePart = model.Center
-				elseif model.Name == "Sun" then
-					local core = model:FindFirstChildWhichIsA("MeshPart")
-					if core and core.Name == "Core" then
-						referencePart = core
-					end
-				end
-
-				if referencePart then
-					local dist = (referencePart.Position - hrp.Position).Magnitude
-					if dist < minDistance and dist <= 200 then
-						nearestPlanet = model
-						minDistance = dist
-					end
-				end
-			end
-		end
-
-		if not nearestPlanet then
-			warn("No nearby planet found within 200 studs.")
-			teleporting = false
-			return
-		end
-
-		local mineralsFolder = nearestPlanet:FindFirstChild("Minerals")
-		if not mineralsFolder then
-			warn("No Minerals folder in:", nearestPlanet.Name)
-			teleporting = false
-			return
-		end
-
-		local parts = {}
-		for _, part in ipairs(mineralsFolder:GetDescendants()) do
-			if part:IsA("BasePart") then
-				table.insert(parts, part)
-			end
-		end
-
-		if #parts == 0 then
-			warn("No parts found inside Minerals folder.")
-			teleporting = false
-			return
-		end
-
-		local startCFrame = hrp.CFrame
-		local lastIndex = nil
-
-		while teleporting do
-			for i, part in ipairs(parts) do
-				if not teleporting then break end
-
-				-- Avoid teleporting to the same part twice in a row
-				if i == lastIndex then
-					i = (i % #parts) + 1  -- move to next index safely
-				end
-
-				lastIndex = i
-
-				-- Teleport player slowly (instant here, you can tween if you want smooth)
-				hrp.CFrame = part.CFrame + Vector3.new(0, 3, 0) -- teleport a bit above the part
-
-				task.wait(1) -- wait 1 second before next teleport
-			end
-
-			if not teleporting then break end
-
-			-- After finishing all parts, teleport back to start slowly
-			hrp.CFrame = startCFrame + Vector3.new(0, 3, 0)
-			task.wait(1)
-		end
-
-		print("Teleport loop stopped.")
-	end)
-
-	coroutine.resume(teleportCoroutine)
-end
-
-local function AstopTeleportLoop()
-	if teleporting then
-		teleporting = false
-		print("Teleport loop stopped manually.")
-	end
-end
-
 local Toggle3 = MSettingsTab:CreateToggle({
-	Name = "Teleport To Resources ( You Must Inside Planets )",
+	Name = "Always Equip Parachute",
 	CurrentValue = false,
 	Flag = "Toggle3",
 	Callback = function(Value)
-		if Value then
-			AstartTeleportLoop()
-		else
-			AstopTeleportLoop()
-		end
+		AlwaysEquipParachuteValue.Value = Value
 	end
 })
 
-local function startEquipLoop()
-	if teleporting then return end
-	teleporting = true
-
-	equipCoroutine = coroutine.create(function()
-		local player = game.Players.LocalPlayer
-		local backpack = player:WaitForChild("Backpack")
-
-		while teleporting do
-			local pickaxes = {}
-			for _, item in ipairs(backpack:GetChildren()) do
-				if item:IsA("Tool") and item:GetAttribute("pickaxe") == true then
-					table.insert(pickaxes, item)
-				end
-			end
-
-			local toolToEquip = pickaxes[2]
-			if toolToEquip then
-				toolToEquip.Parent = player.Character
-			end
-
-			task.wait(0.5)
-		end
-	end)
-
-	coroutine.resume(equipCoroutine)
-end
-
-local function stopEquipLoop()
-	teleporting = false
-end
-
 local Toggle4 = MSettingsTab:CreateToggle({
-	Name = "Auto Equip Pickaxe",
+	Name = "Old Inventory",
 	CurrentValue = false,
 	Flag = "Toggle4",
 	Callback = function(Value)
-		if Value then
-			startEquipLoop()
-		else
-			stopEquipLoop()
-		end
+		OldInventoryValue.Value = Value
 	end
 })
 
@@ -984,7 +696,7 @@ applyBtn.MouseButton1Click:Connect(function()
 
 	local attrName = buttonNameToAttr[selectedButton.Name]
 	if not attrName then return end
-	
+
 	ShowNotify("Successfully Changed Value!")
 	mainPart:SetAttribute(attrName, value)
 end)
@@ -1074,7 +786,7 @@ local Toggle = ShipTab:CreateToggle({
 	end
 })
 
-local CSettingsTab = Window:CreateTab("Virtual", 4483362458) -- Title, Image
+local CSettingsTab = Window:CreateTab("Client", 4483362458) -- Title, Image
 
 --Client Settings Functions
 
@@ -1349,7 +1061,7 @@ local Toggle7 = ESPTab:CreateToggle({
 	CurrentValue = false,
 	Flag = "Toggle7",
 	Callback = function(Value)
-	CentaurLineGui.Enabled = Value
+		CentaurLineGui.Enabled = Value
 	end
 })
 
@@ -1611,64 +1323,6 @@ local Button = OtherTpTab:CreateButton({
 		-- Teleport player right next to the artifact
 		local targetPos = chosen.Position + Vector3.new(0, 3, 0) -- Slightly above
 		hrp.CFrame = CFrame.new(targetPos)
-	end,
-})
-
-local Label = OtherTpTab:CreateLabel("Caves ( You Must Inside That Planet To Teleport )", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
-
-local isInsideMakeMake = false  -- Track toggle state
-local Button2  -- declare it first
-
-Button2 = OtherTpTab:CreateButton({
-	Name = "Teleport Inside MakeMake Cave",
-	Callback = function()
-		local player = game.Players.LocalPlayer
-		local char = player.Character
-		local hrp = char and char:FindFirstChild("HumanoidRootPart")
-		if not hrp then return end
-
-		local center = workspace:WaitForChild("Planets"):WaitForChild("Makemake"):WaitForChild("Center")
-		if not center or not center:IsA("BasePart") then return end
-
-		if not isInsideMakeMake then
-			-- Teleport under Center
-			hrp.CFrame = center.CFrame * CFrame.new(0, -10, 0)
-			isInsideMakeMake = true
-			Button2:Set("Teleport Outside MakeMake Cave")
-		else
-			-- Teleport above Center
-			hrp.CFrame = center.CFrame * CFrame.new(0, 35, 0)
-			isInsideMakeMake = false
-			Button2:Set("Teleport Inside MakeMake Cave")
-		end
-	end,
-})
-
-local isInsideSedna = false  -- Toggle state
-local Button3  -- Declare first
-
-Button3 = OtherTpTab:CreateButton({
-	Name = "Teleport Inside Sedna Cave",
-	Callback = function()
-		local player = game.Players.LocalPlayer
-		local char = player.Character
-		local hrp = char and char:FindFirstChild("HumanoidRootPart")
-		if not hrp then return end
-
-		local center = workspace:WaitForChild("Planets"):WaitForChild("Sedna"):WaitForChild("Center")
-		if not center or not center:IsA("BasePart") then return end
-
-		if not isInsideSedna then
-			-- Teleport under cave
-			hrp.CFrame = center.CFrame * CFrame.new(0, -10, 0)
-			isInsideSedna = true
-			Button3:Set("Teleport Outside Sedna Cave")
-		else
-			-- Teleport above cave
-			hrp.CFrame = center.CFrame * CFrame.new(0, 35, 0)
-			isInsideSedna = false
-			Button3:Set("Teleport Inside Sedna Cave")
-		end
 	end,
 })
 
