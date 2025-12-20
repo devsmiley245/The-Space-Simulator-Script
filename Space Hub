@@ -865,7 +865,7 @@ local ColorPicker = ShipTab:CreateColorPicker({
 		if not humanoid or not humanoid.SeatPart then return end
 
 		local ship = humanoid.SeatPart.Parent
-		local highlight = ship:FindFirstChild("Ship Highlight")
+		local highlight = ship:FindFirstChild("SpaceHub Ship Highlight")
 		if not highlight then return end
 
 		highlight.FillColor = Value
