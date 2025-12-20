@@ -1,0 +1,325 @@
+
+--------- Mine & Inventory Container -----------+--
+
+local SpaceHubValuesFolder = Instance.new("Folder")
+SpaceHubValuesFolder.Name = "SpaceHub Values Container"
+SpaceHubValuesFolder.Parent = game.CoreGui
+
+----------- Values --------------------------------------------------------
+
+local OldInventory_Value = SpaceHubValuesFolder:FindFirstChild("OldInventory")
+if not OldInventory_Value then
+	OldInventory_Value = Instance.new("BoolValue")
+	OldInventory_Value.Name = "OldInventory"
+	OldInventory_Value.Value = false
+	OldInventory_Value.Parent = SpaceHubValuesFolder
+end
+
+local OneHitMineValue = SpaceHubValuesFolder:FindFirstChild("OneHitResources")
+if not OneHitMineValue then
+	OneHitMineValue = Instance.new("BoolValue")
+	OneHitMineValue.Name = "OneHitResources"
+	OneHitMineValue.Value = false
+	OneHitMineValue.Parent = SpaceHubValuesFolder
+end
+
+local alwaysEquip = SpaceHubValuesFolder:FindFirstChild("AlwaysEquipPickaxe")
+if not alwaysEquip then
+	alwaysEquip = Instance.new("BoolValue")
+	alwaysEquip.Name = "AlwaysEquipPickaxe"
+	alwaysEquip.Value = false
+	alwaysEquip.Parent = SpaceHubValuesFolder
+end
+
+local AlwaysEquipParachute_Value = SpaceHubValuesFolder:FindFirstChild("AlwaysEquipParachute")
+if not AlwaysEquipParachute_Value then
+	AlwaysEquipParachute_Value = Instance.new("BoolValue")
+	AlwaysEquipParachute_Value.Name = "AlwaysEquipParachute"
+	AlwaysEquipParachute_Value.Value = false
+	AlwaysEquipParachute_Value.Parent = SpaceHubValuesFolder
+end
+
+-- OneHitAllResources --------------------------------------------------------------------
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local CENTAUR_RANGE = 500
+local PLANETOID_RANGE = 500
+
+local processed = {}
+
+local function getFolder(name)
+	return workspace:FindFirstChild(name) or ReplicatedStorage:FindFirstChild(name)
+end
+
+local function applyOneHit(mineralsFolder)
+	for _, obj in ipairs(mineralsFolder:GetDescendants()) do
+		if obj:GetAttribute("hitpoints") then
+			if not processed[obj] then
+				local hp = obj:GetAttribute("hitpoints")
+				if hp > 1 then
+					obj:SetAttribute("hitpoints", 1)
+					processed[obj] = true
+				end
+			end
+		end
+	end
+end
+
+OneHitMineValue.Changed:Connect(function(v)
+	if not v then
+		table.clear(processed)
+	end
+end)
+
+local function isInsideSkin(hrp, skin)
+	if not skin:IsA("BasePart") then return false end
+	local size = skin.Size / 2
+	local localPos = skin.CFrame:PointToObjectSpace(hrp.Position)
+	return math.abs(localPos.X) <= size.X
+		and math.abs(localPos.Y) <= size.Y
+		and math.abs(localPos.Z) <= size.Z
+end
+
+RunService.RenderStepped:Connect(function()
+	if not OneHitMineValue.Value then return end
+
+	local character = Players.LocalPlayer.Character
+	local hrp = character and character:FindFirstChild("HumanoidRootPart")
+	if not hrp then return end
+
+	local planetsFolder = getFolder("Planets")
+	if planetsFolder then
+		for _, planet in ipairs(planetsFolder:GetChildren()) do
+			local skin = planet:FindFirstChild("Skin", true)
+			local minerals = planet:FindFirstChild("Minerals", true)
+			if skin and minerals then
+				if isInsideSkin(hrp, skin) then
+					applyOneHit(minerals)
+				end
+			end
+		end
+	end
+
+	local centaursFolder = getFolder("Centaurs")
+	if centaursFolder then
+		for _, centaur in ipairs(centaursFolder:GetChildren()) do
+			local minerals = centaur:FindFirstChild("Minerals", true)
+			if minerals then
+				local refPart = centaur.PrimaryPart or centaur:FindFirstChild("Skin", true)
+				if refPart and refPart:IsA("BasePart") then
+					if (hrp.Position - refPart.Position).Magnitude <= CENTAUR_RANGE then
+						applyOneHit(minerals)
+					end
+				end
+			end
+		end
+	end
+
+	local planetoidsFolder = workspace:FindFirstChild("Planetoids")
+	if planetoidsFolder then
+		for _, planetoid in ipairs(planetoidsFolder:GetChildren()) do
+			local minerals = planetoid:FindFirstChild("Minerals", true)
+			if minerals then
+				local refPart = planetoid.PrimaryPart or planetoid:FindFirstChild("Skin", true)
+				if refPart and refPart:IsA("BasePart") then
+					if (hrp.Position - refPart.Position).Magnitude <= PLANETOID_RANGE then
+						applyOneHit(minerals)
+					end
+				end
+			end
+		end
+	end
+end)
+
+
+--- Always Equip Pickaxe ---------------------------------------------------------------------
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local TOOL_NAME = "Pickaxe"
+
+local running = false
+
+local function equipLoop()
+	if running then return end
+	running = true
+
+	while alwaysEquip.Value do
+		local character = player.Character
+		if character then
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			local backpack = player:FindFirstChild("Backpack")
+
+			if humanoid and backpack then
+				local toolInChar = character:FindFirstChild(TOOL_NAME)
+				local toolInBackpack = backpack:FindFirstChild(TOOL_NAME)
+
+				if not toolInChar and toolInBackpack then
+					humanoid:EquipTool(toolInBackpack)
+				end
+			end
+		end
+		task.wait(0.2)
+	end
+
+	running = false
+end
+
+local function unequipPickaxe()
+	local character = player.Character
+	if not character then return end
+
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	if humanoid then
+		humanoid:UnequipTools()
+	end
+end
+
+alwaysEquip.Changed:Connect(function(value)
+	if value == true then
+		equipLoop()
+	else
+		unequipPickaxe()
+	end
+end)
+
+-- Always Equip Parachute -----------------------------------------------------------------
+
+local Players_Parachute = game:GetService("Players")
+local LocalPlayer_Parachute = Players_Parachute.LocalPlayer
+
+local PARACHUTE_TOOL_NAME = "Parachute"
+
+local Parachute_LoopRunning = false
+
+local function StartParachuteEquipLoop()
+	if Parachute_LoopRunning then return end
+	Parachute_LoopRunning = true
+
+	while AlwaysEquipParachute_Value.Value do
+		local Character_Parachute = LocalPlayer_Parachute.Character
+		if Character_Parachute then
+			local Humanoid_Parachute = Character_Parachute:FindFirstChildOfClass("Humanoid")
+			local Backpack_Parachute = LocalPlayer_Parachute:FindFirstChild("Backpack")
+
+			if Humanoid_Parachute and Backpack_Parachute then
+				local ToolInCharacter_Parachute = Character_Parachute:FindFirstChild(PARACHUTE_TOOL_NAME)
+				local ToolInBackpack_Parachute = Backpack_Parachute:FindFirstChild(PARACHUTE_TOOL_NAME)
+
+				if not ToolInCharacter_Parachute and ToolInBackpack_Parachute then
+					Humanoid_Parachute:EquipTool(ToolInBackpack_Parachute)
+				end
+			end
+		end
+		task.wait(0.2)
+	end
+
+	Parachute_LoopRunning = false
+end
+
+local function UnequipParachuteTool()
+	local Character_Parachute = LocalPlayer_Parachute.Character
+	if not Character_Parachute then return end
+
+	local Humanoid_Parachute = Character_Parachute:FindFirstChildOfClass("Humanoid")
+	if Humanoid_Parachute then
+		Humanoid_Parachute:UnequipTools()
+	end
+end
+
+AlwaysEquipParachute_Value.Changed:Connect(function(newValue)
+	if newValue == true then
+		StartParachuteEquipLoop()
+	else
+		UnequipParachuteTool()
+	end
+end)
+
+-- Old Inventory ----------------------------------------------------------------------
+
+local Players_OldInv = game:GetService("Players")
+local StarterGui_OldInv = game:GetService("StarterGui")
+local RunService_OldInv = game:GetService("RunService")
+
+local LocalPlayer_OldInv = Players_OldInv.LocalPlayer
+local PlayerGui_OldInv = LocalPlayer_OldInv:WaitForChild("PlayerGui")
+
+local OldInv_LoopConnection = nil
+
+local ButtonF_OldPos = UDim2.new(0.5, 0, 1, -70)
+local BottomF_NewPos = UDim2.new(0.5, 0, 1, -20)
+
+local function GetOldInvUI()
+	local ScreenGui = PlayerGui_OldInv:FindFirstChild("ScreenGui")
+	if not ScreenGui then return end
+
+	local ButtonF = ScreenGui:FindFirstChild("ButtonF", true)
+	local BottomF = ScreenGui:FindFirstChild("BottomF", true)
+	local ToolbarsF = ScreenGui:FindFirstChild("ToolbarsF", true)
+
+	return ButtonF, BottomF, ToolbarsF
+end
+
+local function EnableOldInventory()
+	local ButtonF, BottomF, ToolbarsF = GetOldInvUI()
+
+	if ButtonF then
+		ButtonF.Position = ButtonF_OldPos
+	end
+
+	if BottomF then
+		BottomF.Position = ButtonF_OldPos
+	end
+
+	StarterGui_OldInv:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, true)
+
+	if OldInv_LoopConnection then
+		OldInv_LoopConnection:Disconnect()
+	end
+
+	OldInv_LoopConnection = RunService_OldInv.RenderStepped:Connect(function()
+		if not OldInventory_Value.Value then return end
+		local _, _, ToolbarLoop = GetOldInvUI()
+		if ToolbarLoop then
+			ToolbarLoop.Visible = false
+		end
+	end)
+end
+
+local function DisableOldInventory()
+	local ButtonF, BottomF, ToolbarsF = GetOldInvUI()
+
+	if ToolbarsF then
+		ToolbarsF.Visible = true
+	end
+
+	if BottomF then
+		BottomF.Position = BottomF_NewPos
+	end
+
+	if OldInv_LoopConnection then
+		OldInv_LoopConnection:Disconnect()
+		OldInv_LoopConnection = nil
+	end
+
+	StarterGui_OldInv:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
+end
+
+-- React to value change
+OldInventory_Value.Changed:Connect(function(isEnabled)
+	if isEnabled == true then
+		EnableOldInventory()
+	else
+		DisableOldInventory()
+	end
+end)
+
+print("SpaceHub Values Container Loaded!")
+
+----- end ---------------------------------------------------------------------------------------
+
+
