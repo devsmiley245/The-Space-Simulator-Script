@@ -879,9 +879,9 @@ local Dropdown = ShipTab:CreateDropdown({
 		elseif choice == "B" then
 			ShowNotify("B")
 		elseif choice == "C" then
-			ShowNotify("B")
+			ShowNotify("C")
 		elseif choice == "D" then
-			ShowNotify("B")
+			ShowNotify("D")
 		end
 	end,
 })
