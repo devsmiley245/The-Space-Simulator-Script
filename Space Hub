@@ -851,32 +851,12 @@ local Toggle = ShipTab:CreateToggle({
 	end
 })
 
-local Colors = {
-	[0] = Color3.fromRGB(255,255,255),
-	[1] = Color3.fromRGB(255, 255, 127),
-	[2] = Color3.fromRGB(0,170,255),
-	[3] = Color3.fromRGB(0,255,127),
-	[4] = Color3.fromRGB(255,85,85),
-	[5] = Color3.fromRGB(170, 0, 0)
-}
-
-local ColorNames = {
-	[0] = "White",
-	[1] = "Yellow",
-	[2] = "Blue",
-	[3] = "Green",
-	[4] = "Coral",
-	[5] = "Red"
-}
-
-local Slider = ShipTab:CreateSlider({
-	Name = "Highlight Colour",
-	Range = {0, 5},
-	Increment = 1,
-	Suffix = "White",
-	CurrentValue = 0,
-	Flag = "Slider3",
+local ColorPicker = ShipTab:CreateColorPicker({
+	Name = "Highlight Color",
+	Color = Color3.fromRGB(255,255,255),
+	Flag = "ColorPicker1",
 	Callback = function(Value)
+		if not ShipHighLightValue.Value then return end
 
 		local char = game.Players.LocalPlayer.Character
 		if not char then return end
@@ -888,19 +868,10 @@ local Slider = ShipTab:CreateSlider({
 		local highlight = ship:FindFirstChild("Ship Highlight")
 		if not highlight then return end
 
-		local color = Colors[Value]
-		if color then
-			highlight.FillColor = color
-			highlight.OutlineColor = color
-		end
-
-		local name = ColorNames[Value]
-		if name and Slider.SetSuffix then
-			Slider:SetSuffix(name)
-		end
-	end,
+		highlight.FillColor = Value
+		highlight.OutlineColor = Value
+	end
 })
-
 
 
 -------------------------------------------------------------
@@ -1582,3 +1553,10 @@ local Button = PlanetTpTab:CreateButton({
 local TrollTab = Window:CreateTab("Troll", 4483362458) -- Title, Image
 
 local Label = TrollTab:CreateLabel("Coming Soon . . . D:", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+
+Rayfield:Notify({
+	Title = "Space Hub",
+	Content = "The Script Has Fully Loaded!",
+	Duration = 5,
+	Image = 4483362458,
+})
