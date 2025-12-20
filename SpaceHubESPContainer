@@ -439,19 +439,13 @@ end)
 
 -- Orb
 
-local RunService = game:GetService("RunService")
-local Camera = workspace.CurrentCamera
-local CoreGui = game:GetService("CoreGui")
-
 local ORB_LINE_THICKNESS = 1
 local ORB_OFFSET_Y = 40
 local ORB_DEFAULT_COLOR = Color3.fromRGB(170,170,255)
 
 for _, OrbGuiName in ipairs({ "OrbLines", "OrbBoxes", "OrbNames" }) do
-	local OrbOldGui = CoreGui:FindFirstChild(OrbGuiName)
-	if OrbOldGui then
-		OrbOldGui:Destroy()
-	end
+	local Old = CoreGui:FindFirstChild(OrbGuiName)
+	if Old then Old:Destroy() end
 end
 
 local OrbLineGui = Instance.new("ScreenGui")
@@ -459,181 +453,182 @@ OrbLineGui.Name = "OrbLines"
 OrbLineGui.IgnoreGuiInset = true
 OrbLineGui.DisplayOrder = 1000
 OrbLineGui.ResetOnSpawn = false
-OrbLineGui.Parent = SpaceHubESPFolder
 OrbLineGui.Enabled = false
+OrbLineGui.Parent = SpaceHubESPFolder
 
 local OrbBoxGui = Instance.new("ScreenGui")
 OrbBoxGui.Name = "OrbBoxes"
-OrbBoxGui.IgnoreGuiInset = true
+OrbBoxGui.IgnoreGuiInset =true
 OrbBoxGui.DisplayOrder = 1001
 OrbBoxGui.ResetOnSpawn = false
-OrbBoxGui.Parent = SpaceHubESPFolder
 OrbBoxGui.Enabled = false
+OrbBoxGui.Parent = SpaceHubESPFolder
 
 local OrbNameGui = Instance.new("ScreenGui")
 OrbNameGui.Name = "OrbNames"
 OrbNameGui.IgnoreGuiInset = true
 OrbNameGui.DisplayOrder = 1002
 OrbNameGui.ResetOnSpawn = false
-OrbNameGui.Parent = SpaceHubESPFolder
 OrbNameGui.Enabled = false
+OrbNameGui.Parent = SpaceHubESPFolder
 
 local OrbTrackedParts = {}
 
-local function makeOrbLineFrame()
-	local OrbLineFrame = Instance.new("Frame")
-	OrbLineFrame.Size = UDim2.fromOffset(10, ORB_LINE_THICKNESS)
-	OrbLineFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	OrbLineFrame.BorderSizePixel = 0
-	OrbLineFrame.BackgroundColor3 = ORB_DEFAULT_COLOR
-	OrbLineFrame.Visible = false
-	OrbLineFrame.Parent = OrbLineGui
-	return OrbLineFrame
+local function hideOrb(data)
+	data.Line.Visible = false
+	data.Box.Visible = false
+	data.Name.Visible = false
 end
 
-local function makeOrbBoxFrame()
-	local OrbBoxFrame = Instance.new("Frame")
-	OrbBoxFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	OrbBoxFrame.BackgroundTransparency = 1
-	OrbBoxFrame.Visible = false
-	OrbBoxFrame.Parent = OrbBoxGui
-
-	local OrbBoxAspect = Instance.new("UIAspectRatioConstraint")
-	OrbBoxAspect.AspectRatio = 1
-	OrbBoxAspect.Parent = OrbBoxFrame
-
-	local OrbBoxStroke = Instance.new("UIStroke")
-	OrbBoxStroke.Thickness = 1.5
-	OrbBoxStroke.Color = ORB_DEFAULT_COLOR
-	OrbBoxStroke.Parent = OrbBoxFrame
-
-	return OrbBoxFrame
+local function makeLine()
+	local f = Instance.new("Frame")
+	f.Size = UDim2.fromOffset(10, ORB_LINE_THICKNESS)
+	f.AnchorPoint = Vector2.new(0.5, 0.5)
+	f.BorderSizePixel = 0
+	f.BackgroundColor3 = ORB_DEFAULT_COLOR
+	f.Visible = false
+	f.Parent = OrbLineGui
+	return of
 end
 
-local function makeOrbNameTextLabel()
-	local OrbNameTextLabel = Instance.new("TextLabel")
-	OrbNameTextLabel.AnchorPoint = Vector2.new(0.5, 1)
-	OrbNameTextLabel.BackgroundTransparency = 1
-	OrbNameTextLabel.TextColor3 = ORB_DEFAULT_COLOR
-	OrbNameTextLabel.TextScaled = true
-	OrbNameTextLabel.Font = Enum.Font.Gotham
-	OrbNameTextLabel.Visible = false
-	OrbNameTextLabel.Parent = OrbNameGui
+local function makeBox()
+	local f = Instance.new("Frame")
+	f.AnchorPoint = Vector2.new(0.5, 0.5)
+	f.BackgroundTransparency = 1
+	f.Visible = false
+	f.Parent = OrbBoxGui
 
-	local OrbNameAspect = Instance.new("UIAspectRatioConstraint")
-	OrbNameAspect.AspectRatio = 5
-	OrbNameAspect.Parent = OrbNameTextLabel
+	local a = Instance.new("UIAspectRatioConstraint")
+	a.AspectRatio = 1
+	a.Parent = f
 
-	return OrbNameTextLabel
+	local s = Instance.new("UIStroke")
+	s.Thickness = 1.5
+	s.Color = ORB_DEFAULT_COLOR
+	s.Parent = f
+
+	return f
 end
 
-local function addOrbPart(OrbPart)
-	if OrbPart:IsA("BasePart")
-		and OrbPart.Name:match("Orb$")
-		and not OrbTrackedParts[OrbPart] then
+local function makeName()
+	local t = Instance.new("TextLabel")
+	t.AnchorPoint = Vector2.new(0.5, 1)
+	t.BackgroundTransparency = 1
+	t.TextColor3 = ORB_DEFAULT_COLOR
+	t.TextScaled = true
+	t.Font = Enum.Font.Gotham
+	t.Visible = false
+	t.Parent = OrbNameGui
 
-		local OrbHitpoints = OrbPart:GetAttribute("hitpoints") or 0
-		if OrbHitpoints > 0 then
-			OrbTrackedParts[OrbPart] = {
-				OrbLineFrame = makeOrbLineFrame(),
-				OrbBoxFrame = makeOrbBoxFrame(),
-				OrbNameLabel = makeOrbNameTextLabel()
-			}
+	local a = Instance.new("UIAspectRatioConstraint")
+	a.AspectRatio = 5
+	a.Parent = t
+
+	return t
+end
+
+local function addOrbPart(part)
+	if not part:IsA("BasePart") then return end
+	if not part.Name:match("Orb$") then return end
+	if OrbTrackedParts[part] then return end
+
+	local hp = part:GetAttribute("hitpoints")
+	if not hp or hp <= 0 then return end
+
+	OrbTrackedParts[part] = {
+		Line = makeLine(),
+		Box = makeBox(),
+		Name = makeName()
+	}
+
+	part:GetAttributeChangedSignal("hitpoints"):Connect(function()
+		local newHp = part:GetAttribute("hitpoints")
+		if not newHp or newHp <= 0 then
+			hideOrb(OrbTrackedParts[part])
+			OrbTrackedParts[part] = nil
 		end
-	end
+	end)
+
+	part.AncestryChanged:Connect(function(_, parent)
+		if not parent and OrbTrackedParts[part] then
+			hideOrb(OrbTrackedParts[part])
+			OrbTrackedParts[part] = nil
+		end
+	end)
 end
 
-local function bindOrbPlanets(OrbPlanetsFolder)
-	for _, OrbPlanet in ipairs(OrbPlanetsFolder:GetChildren()) do
-		local OrbMinerals = OrbPlanet:FindFirstChild("Minerals")
-		if OrbMinerals then
-			for _, OrbPart in ipairs(OrbMinerals:GetChildren()) do
-				addOrbPart(OrbPart)
+local function bindOrbRoot(root)
+	for _, model in ipairs(root:GetChildren()) do
+		local minerals = model:FindFirstChild("Minerals", true)
+		if minerals then
+			for _, p in ipairs(minerals:GetChildren()) do
+				addOrbPart(p)
 			end
-			OrbMinerals.ChildAdded:Connect(addOrbPart)
+			minerals.ChildAdded:Connect(addOrbPart)
 		end
 	end
 end
 
-local OrbPlanetsRoot = workspace:FindFirstChild("Planets")
-if OrbPlanetsRoot then
-	bindOrbPlanets(OrbPlanetsRoot)
+for _, name in ipairs({ "Planets", "Planetoids" }) do
+	local folder = workspace:FindFirstChild(name)
+	if folder then
+		bindOrbRoot(folder)
+	end
 end
 
-workspace.ChildAdded:Connect(function(OrbChild)
-	if OrbChild.Name == "Planets" then
-		bindOrbPlanets(OrbChild)
+workspace.ChildAdded:Connect(function(c)
+	if c.Name == "Planets" or c.Name == "Planetoids" then
+		bindOrbRoot(c)
 	end
 end)
 
 RunService.RenderStepped:Connect(function()
-	local OrbViewport = Camera.ViewportSize
-	local OrbSourceX = OrbViewport.X / 2
-	local OrbSourceY = ORB_OFFSET_Y
+	local vp = Camera.ViewportSize
+	local sx = vp.X / 2
+	local sy = ORB_OFFSET_Y
 
-	for OrbPart, OrbData in pairs(OrbTrackedParts) do
-		local OrbLineFrame = OrbData.OrbLineFrame
-		local OrbBoxFrame = OrbData.OrbBoxFrame
-		local OrbNameLabel = OrbData.OrbNameLabel
-
-		if OrbPart.Parent then
-			local OrbWorldPos = OrbPart.Position
-			local OrbScreenPos, OrbVisible =
-				Camera:WorldToViewportPoint(OrbWorldPos)
-
-			if OrbVisible then
-				local OrbDX = OrbScreenPos.X - OrbSourceX
-				local OrbDY = OrbScreenPos.Y - OrbSourceY
-				local OrbDistance = math.sqrt(OrbDX^2 + OrbDY^2)
-
-				OrbLineFrame.Visible = true
-				OrbLineFrame.Size =
-					UDim2.fromOffset(OrbDistance, ORB_LINE_THICKNESS)
-				OrbLineFrame.Position = UDim2.fromOffset(
-					(OrbScreenPos.X + OrbSourceX) / 2,
-					(OrbScreenPos.Y + OrbSourceY) / 2
-				)
-				OrbLineFrame.Rotation =
-					math.deg(math.atan2(OrbDY, OrbDX))
-
-				local OrbScale =
-					math.clamp(OrbScreenPos.Z / 400, 0.01, 0.03)
-				OrbBoxFrame.Visible = true
-				OrbBoxFrame.Position =
-					UDim2.fromOffset(OrbScreenPos.X, OrbScreenPos.Y)
-				OrbBoxFrame.Size =
-					UDim2.fromScale(OrbScale, OrbScale)
-
-				local OrbDistanceText =
-					math.floor((Camera.CFrame.Position - OrbWorldPos).Magnitude)
-
-				OrbNameLabel.Text =
-					OrbPart.Name .. " | " .. OrbDistanceText .. " studs"
-				OrbNameLabel.Position =
-					UDim2.fromOffset(OrbScreenPos.X, OrbScreenPos.Y - 10)
-
-				local OrbLabelScale =
-					math.clamp(OrbScreenPos.Z / 400, 0.1, 0.125)
-				OrbNameLabel.Size =
-					UDim2.fromScale(OrbLabelScale, OrbLabelScale)
-				OrbNameLabel.Visible = true
-			else
-				OrbLineFrame.Visible = false
-				OrbBoxFrame.Visible = false
-				OrbNameLabel.Visible = false
-			end
-		else
-			OrbLineFrame.Visible = false
-			OrbBoxFrame.Visible = false
-			OrbNameLabel.Visible = false
+	for part, data in pairs(OrbTrackedParts) do
+		local hp = part:GetAttribute("hitpoints")
+		if not part.Parent or not hp or hp <= 0 then
+			hideOrb(data)
+			OrbTrackedParts[part] = nil
+			continue
 		end
+
+		local pos, vis = Camera:WorldToViewportPoint(part.Position)
+		if not vis then
+			hideOrb(data)
+			continue
+		end
+
+		local dx = pos.X - sx
+		local dy = pos.Y - sy
+		local dist = math.sqrt(dx*dx + dy*dy)
+
+		data.Line.Size = UDim2.fromOffset(dist, ORB_LINE_THICKNESS)
+		data.Line.Position = UDim2.fromOffset((pos.X + sx)/2, (pos.Y + sy)/2)
+		data.Line.Rotation = math.deg(math.atan2(dy, dx))
+		data.Line.Visible = true
+
+		local scale = math.clamp(pos.Z / 400, 0.01, 0.03)
+		data.Box.Size = UDim2.fromScale(scale, scale)
+		data.Box.Position = UDim2.fromOffset(pos.X, pos.Y)
+		data.Box.Visible = true
+
+		data.Name.Text =
+			part.Name .. " | " ..
+			math.floor((Camera.CFrame.Position - part.Position).Magnitude) ..
+			" studs"
+		data.Name.Position = UDim2.fromOffset(pos.X, pos.Y - 10)
+		data.Name.Size = UDim2.fromScale(0.12, 0.12)
+		data.Name.Visible = true
 	end
 end)
 
 -- Resources 
-
 local RESOURCE_LINE_THICKNESS = 1
 local RESOURCE_OFFSET_Y = 40
+local RESOURCE_RANGE = 500
 
 local RESOURCE_COLOR_GRAY = Color3.fromRGB(170,170,170)
 local RESOURCE_COLOR_YELLOW = Color3.fromRGB(255,255,0)
@@ -672,175 +667,175 @@ ResourceNameGui.Enabled = false
 
 local ResourceTrackedParts = {}
 
-local function getResourceHpColor(ResourceHP)
-	if not ResourceHP then
+local function getResourceHpColor(hp)
+	if not hp then
 		return RESOURCE_COLOR_GRAY
-	elseif ResourceHP < 40 then
+	elseif hp < 40 then
 		return RESOURCE_COLOR_RED
-	elseif ResourceHP < 60 then
+	elseif hp < 60 then
 		return RESOURCE_COLOR_YELLOW
 	else
 		return RESOURCE_COLOR_GRAY
 	end
 end
 
+-- LINE
 local function makeResourceLineFrame()
-	local ResourceLineFrame = Instance.new("Frame")
-	ResourceLineFrame.Size = UDim2.fromOffset(10, RESOURCE_LINE_THICKNESS)
-	ResourceLineFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	ResourceLineFrame.BorderSizePixel = 0
-	ResourceLineFrame.Visible = false
-	ResourceLineFrame.Parent = ResourceLineGui
-	return ResourceLineFrame
+	local resourceLineFrame = Instance.new("Frame")
+	resourceLineFrame.Size = UDim2.fromOffset(10, RESOURCE_LINE_THICKNESS)
+	resourceLineFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+	resourceLineFrame.BorderSizePixel = 0
+	resourceLineFrame.Visible = false
+	resourceLineFrame.Parent = ResourceLineGui
+	return resourceLineFrame
 end
 
+-- BOX
 local function makeResourceBoxFrame()
-	local ResourceBoxFrame = Instance.new("Frame")
-	ResourceBoxFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	ResourceBoxFrame.BackgroundTransparency = 1
-	ResourceBoxFrame.Visible = false
-	ResourceBoxFrame.Parent = ResourceBoxGui
+	local resourceBoxFrame = Instance.new("Frame")
+	resourceBoxFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+	resourceBoxFrame.BackgroundTransparency = 1
+	resourceBoxFrame.Visible = false
+	resourceBoxFrame.Parent = ResourceBoxGui
 
-	local ResourceBoxAspect = Instance.new("UIAspectRatioConstraint")
-	ResourceBoxAspect.AspectRatio = 1
-	ResourceBoxAspect.Parent = ResourceBoxFrame
+	local aspectConstraint = Instance.new("UIAspectRatioConstraint")
+	aspectConstraint.AspectRatio = 1
+	aspectConstraint.Parent = resourceBoxFrame
 
-	local ResourceBoxStroke = Instance.new("UIStroke")
-	ResourceBoxStroke.Thickness = 1.5
-	ResourceBoxStroke.Parent = ResourceBoxFrame
+	local boxStroke = Instance.new("UIStroke")
+	boxStroke.Thickness = 1.5
+	boxStroke.Parent = resourceBoxFrame
 
-	return ResourceBoxFrame
+	return resourceBoxFrame
 end
 
+-- NAME
 local function makeResourceNameTextLabel()
-	local ResourceNameTextLabel = Instance.new("TextLabel")
-	ResourceNameTextLabel.AnchorPoint = Vector2.new(0.5, 1)
-	ResourceNameTextLabel.BackgroundTransparency = 1
-	ResourceNameTextLabel.TextScaled = true
-	ResourceNameTextLabel.Font = Enum.Font.Gotham
-	ResourceNameTextLabel.Visible = false
-	ResourceNameTextLabel.Parent = ResourceNameGui
+	local resourceNameLabel = Instance.new("TextLabel")
+	resourceNameLabel.AnchorPoint = Vector2.new(0.5, 1)
+	resourceNameLabel.BackgroundTransparency = 1
+	resourceNameLabel.TextScaled = true
+	resourceNameLabel.Font = Enum.Font.Gotham
+	resourceNameLabel.Visible = false
+	resourceNameLabel.Parent = ResourceNameGui
 
-	local ResourceNameAspect = Instance.new("UIAspectRatioConstraint")
-	ResourceNameAspect.AspectRatio = 5
-	ResourceNameAspect.Parent = ResourceNameTextLabel
+	local aspectConstraint = Instance.new("UIAspectRatioConstraint")
+	aspectConstraint.AspectRatio = 5
+	aspectConstraint.Parent = resourceNameLabel
 
-	return ResourceNameTextLabel
+	return resourceNameLabel
 end
 
-local function addResourcePart(ResourcePart)
-	if not ResourcePart:IsA("BasePart") then return end
-	if ResourcePart.Name:match("Orb$") then return end
-	if ResourceTrackedParts[ResourcePart] then return end
+local function addResourcePart(part, model)
+	if not part:IsA("BasePart") then return end
+	if part.Name:match("Orb$") then return end
+	if ResourceTrackedParts[part] then return end
 
-	ResourceTrackedParts[ResourcePart] = {
-		ResourceLineFrame = makeResourceLineFrame(),
-		ResourceBoxFrame = makeResourceBoxFrame(),
-		ResourceNameLabel = makeResourceNameTextLabel(),
-		ResourceParentPlanet = ResourcePart.Parent and ResourcePart.Parent.Parent
+	ResourceTrackedParts[part] = {
+		Line = makeResourceLineFrame(),
+		Box = makeResourceBoxFrame(),
+		Name = makeResourceNameTextLabel(),
+		Model = model
 	}
 end
 
-local function bindResourcePlanets(ResourcePlanetsFolder)
-	for _, ResourcePlanet in ipairs(ResourcePlanetsFolder:GetChildren()) do
-		local ResourceMinerals = ResourcePlanet:FindFirstChild("Minerals")
-		if ResourceMinerals then
-			for _, ResourcePart in ipairs(ResourceMinerals:GetChildren()) do
-				addResourcePart(ResourcePart)
+local function bindResourceModels(root)
+	for _, model in ipairs(root:GetChildren()) do
+		local mineralsFolder = model:FindFirstChild("Minerals", true)
+		if mineralsFolder then
+			for _, mineralPart in ipairs(mineralsFolder:GetChildren()) do
+				addResourcePart(mineralPart, model)
 			end
-			ResourceMinerals.ChildAdded:Connect(addResourcePart)
+			mineralsFolder.ChildAdded:Connect(function(newPart)
+				addResourcePart(newPart, model)
+			end)
 		end
 	end
 end
 
-local ResourcePlanetsRoot = workspace:FindFirstChild("Planets")
-if ResourcePlanetsRoot then
-	bindResourcePlanets(ResourcePlanetsRoot)
+for _, folderName in ipairs({ "Planets", "Planetoids", "Centaurs" }) do
+	local resourceFolder = workspace:FindFirstChild(folderName)
+	if resourceFolder then
+		bindResourceModels(resourceFolder)
+	end
 end
 
-workspace.ChildAdded:Connect(function(ResourceChild)
-	if ResourceChild.Name == "Planets" then
-		bindResourcePlanets(ResourceChild)
+workspace.ChildAdded:Connect(function(child)
+	if child.Name == "Planets" or child.Name == "Planetoids" or child.Name == "Centaurs" then
+		bindResourceModels(child)
 	end
 end)
 
 RunService.RenderStepped:Connect(function()
-	local ResourceViewport = Camera.ViewportSize
-	local ResourceSourceX = ResourceViewport.X / 2
-	local ResourceSourceY = RESOURCE_OFFSET_Y
+	local viewport = Camera.ViewportSize
+	local screenCenterX = viewport.X / 2
+	local screenOffsetY = RESOURCE_OFFSET_Y
 
-	local ResourceCharacter = LocalPlayer.Character
-	local ResourceHRP = ResourceCharacter and ResourceCharacter:FindFirstChild("HumanoidRootPart")
-	if not ResourceHRP then return end
+	local character = Players.LocalPlayer.Character
+	local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+	if not humanoidRootPart then return end
 
-	for ResourcePart, ResourceData in pairs(ResourceTrackedParts) do
-		local ResourceLineFrame = ResourceData.ResourceLineFrame
-		local ResourceBoxFrame = ResourceData.ResourceBoxFrame
-		local ResourceNameLabel = ResourceData.ResourceNameLabel
-		local ResourcePlanet = ResourceData.ResourceParentPlanet
-		local ResourceSkin = ResourcePlanet and ResourcePlanet:FindFirstChild("Skin")
-		local ResourceHP = ResourcePart:GetAttribute("hitpoints")
+	for part, resourceData in pairs(ResourceTrackedParts) do
+		local model = resourceData.Model
+		local hp = part:GetAttribute("hitpoints")
+		local shouldShow = false
 
-		local ResourceInsideSkin = false
-		if ResourceSkin and ResourceSkin:IsA("BasePart") then
-			local ResourceRadius = ResourceSkin.Size.X / 2
-			ResourceInsideSkin =
-				(ResourceHRP.Position - ResourceSkin.Position).Magnitude <= ResourceRadius
+		if model and hp and hp > 0 then
+			if model.Parent and model.Parent.Name == "Planets" then
+				local skinPart = model:FindFirstChild("Skin", true)
+				if skinPart and skinPart:IsA("BasePart") then
+					shouldShow = (humanoidRootPart.Position - skinPart.Position).Magnitude <= (skinPart.Size.X / 2)
+				end
+			else
+				local boundingCFrame = model:GetBoundingBox()
+				shouldShow = (humanoidRootPart.Position - boundingCFrame.Position).Magnitude <= RESOURCE_RANGE
+			end
 		end
 
-		if ResourcePart.Parent and ResourceSkin and ResourceHP and ResourceHP > 0 and ResourceInsideSkin then
-			local ResourceScreenPos, ResourceVisible =
-				Camera:WorldToViewportPoint(ResourcePart.Position)
+		if shouldShow then
+			local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
+			if onScreen then
+				local color = getResourceHpColor(hp)
 
-			if ResourceVisible then
-				local ResourceColor = getResourceHpColor(ResourceHP)
+				resourceData.Line.BackgroundColor3 = color
+				resourceData.Box.UIStroke.Color = color
+				resourceData.Name.TextColor3 = color
 
-				ResourceLineFrame.BackgroundColor3 = ResourceColor
-				ResourceBoxFrame.UIStroke.Color = ResourceColor
-				ResourceNameLabel.TextColor3 = ResourceColor
+				local dx = screenPos.X - screenCenterX
+				local dy = screenPos.Y - screenOffsetY
+				local distance = math.sqrt(dx * dx + dy * dy)
 
-				local ResourceDX = ResourceScreenPos.X - ResourceSourceX
-				local ResourceDY = ResourceScreenPos.Y - ResourceSourceY
-				local ResourceDistance = math.sqrt(ResourceDX^2 + ResourceDY^2)
-
-				ResourceLineFrame.Visible = true
-				ResourceLineFrame.Size =
-					UDim2.fromOffset(ResourceDistance, RESOURCE_LINE_THICKNESS)
-				ResourceLineFrame.Position = UDim2.fromOffset(
-					(ResourceScreenPos.X + ResourceSourceX) / 2,
-					(ResourceScreenPos.Y + ResourceSourceY) / 2
+				resourceData.Line.Size = UDim2.fromOffset(distance, RESOURCE_LINE_THICKNESS)
+				resourceData.Line.Position = UDim2.fromOffset(
+					(screenPos.X + screenCenterX) / 2,
+					(screenPos.Y + screenOffsetY) / 2
 				)
-				ResourceLineFrame.Rotation =
-					math.deg(math.atan2(ResourceDY, ResourceDX))
+				resourceData.Line.Rotation = math.deg(math.atan2(dy, dx))
+				resourceData.Line.Visible = true
 
-				local ResourceScale =
-					math.clamp(ResourceScreenPos.Z / 400, 0.01, 0.045)
-				ResourceBoxFrame.Visible = true
-				ResourceBoxFrame.Position =
-					UDim2.fromOffset(ResourceScreenPos.X, ResourceScreenPos.Y)
-				ResourceBoxFrame.Size =
-					UDim2.fromScale(ResourceScale, ResourceScale)
+				local scale = math.clamp(screenPos.Z / 400, 0.01, 0.045)
+				resourceData.Box.Size = UDim2.fromScale(scale, scale)
+				resourceData.Box.Position = UDim2.fromOffset(screenPos.X, screenPos.Y)
+				resourceData.Box.Visible = true
 
-				local ResourceIdName =
-					ResourcePart:GetAttribute("idName") or ResourcePart.Name
-				local ResourceDistText =
-					math.floor((ResourceHRP.Position - ResourcePart.Position).Magnitude)
+				resourceData.Name.Text =
+					(part:GetAttribute("idName") or part.Name) ..
+					" | " ..
+					math.floor((humanoidRootPart.Position - part.Position).Magnitude) ..
+					" studs"
 
-				ResourceNameLabel.Text =
-					ResourceIdName .. " | " .. ResourceDistText .. " studs"
-				ResourceNameLabel.Position =
-					UDim2.fromOffset(ResourceScreenPos.X, ResourceScreenPos.Y - 12.5)
-				ResourceNameLabel.Size = UDim2.fromScale(0.1, 0.1)
-				ResourceNameLabel.Visible = true
+				resourceData.Name.Position = UDim2.fromOffset(screenPos.X, screenPos.Y - 12.5)
+				resourceData.Name.Size = UDim2.fromScale(0.1, 0.1)
+				resourceData.Name.Visible = true
 			else
-				ResourceLineFrame.Visible = false
-				ResourceBoxFrame.Visible = false
-				ResourceNameLabel.Visible = false
+				resourceData.Line.Visible = false
+				resourceData.Box.Visible = false
+				resourceData.Name.Visible = false
 			end
 		else
-			ResourceLineFrame.Visible = false
-			ResourceBoxFrame.Visible = false
-			ResourceNameLabel.Visible = false
+			resourceData.Line.Visible = false
+			resourceData.Box.Visible = false
+			resourceData.Name.Visible = false
 		end
 	end
 end)
