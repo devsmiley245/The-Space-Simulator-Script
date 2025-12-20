@@ -856,20 +856,12 @@ local ColorPicker = ShipTab:CreateColorPicker({
 	Color = Color3.fromRGB(255,255,255),
 	Flag = "ColorPicker1",
 	Callback = function(Value)
-		if not ShipHighLightValue.Value then return end
-
-		local char = game.Players.LocalPlayer.Character
-		if not char then return end
-
-		local humanoid = char:FindFirstChildOfClass("Humanoid")
-		if not humanoid or not humanoid.SeatPart then return end
-
-		local ship = humanoid.SeatPart.Parent
-		local highlight = ship:FindFirstChild("SpaceHub Ship Highlight")
-		if not highlight then return end
-
-		highlight.FillColor = Value
-		highlight.OutlineColor = Value
+		local hl = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").SeatPart.Parent:FindFirstChildOfClass("Highlight")
+		if not hl then
+			ShowNotify("No Highlight Found")
+		else
+			hl.OutlineColor = Value
+		end
 	end
 })
 
