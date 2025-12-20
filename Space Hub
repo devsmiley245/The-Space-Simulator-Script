@@ -776,6 +776,7 @@ spawn(function()
 	end
 end)
 
+local ShipHighLightValue = SpaceHubValuesFolder:WaitForChild("ShipHighLight")
 
 local Toggle = ShipTab:CreateToggle({
 	Name = "Ship Function Modifier Menu",
@@ -785,6 +786,125 @@ local Toggle = ShipTab:CreateToggle({
 		ShipMovements.Enabled = Value
 	end
 })
+
+local Label = ShipTab:CreateLabel("Ship Apperances", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+
+local HIGHLIGHT_NAME = "Ship Highlight"
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local HIGHLIGHT_NAME = "SpaceHub Ship Highlight"
+
+local function getShipModel()
+	local char = LocalPlayer.Character
+	if not char then return nil end
+
+	local humanoid = char:FindFirstChildOfClass("Humanoid")
+	if not humanoid then return nil end
+
+	local seat = humanoid.SeatPart
+	if not seat then return nil end
+	if seat:GetAttribute("rocket") ~= true then return nil end
+
+	return seat.Parent
+end
+
+local function addHighlight(ship)
+	if not ship then return end
+	if ship:FindFirstChild(HIGHLIGHT_NAME) then return end
+
+	local highlight = Instance.new("Highlight")
+	highlight.Name = HIGHLIGHT_NAME
+	highlight.FillTransparency = 0.6
+	highlight.OutlineTransparency = 0
+	highlight.Adornee = ship
+	highlight.Parent = ship
+	highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+end
+
+local function removeAllHighlights()
+	local char = LocalPlayer.Character
+	if not char then return end
+
+	for _, v in ipairs(workspace:GetDescendants()) do
+		if v:IsA("Highlight") and v.Name == HIGHLIGHT_NAME then
+			v:Destroy()
+		end
+	end
+end
+
+local Toggle = ShipTab:CreateToggle({
+	Name = "Ship Highlight",
+	CurrentValue = false,
+	Flag = "Toggle2",
+	Callback = function(Value)
+		local ship = getShipModel()
+
+		if Value and ship then
+			addHighlight(ship)
+			ShipHighLightValue.Value = true
+		else
+			removeAllHighlights()
+			ShipHighLightValue.Value = false
+		end
+	end
+})
+
+local Colors = {
+	[0] = Color3.fromRGB(255,255,255),
+	[1] = Color3.fromRGB(255, 255, 127),
+	[2] = Color3.fromRGB(0,170,255),
+	[3] = Color3.fromRGB(0,255,127),
+	[4] = Color3.fromRGB(255,85,85),
+	[5] = Color3.fromRGB(170, 0, 0)
+}
+
+local ColorNames = {
+	[0] = "White",
+	[1] = "Yellow",
+	[2] = "Blue",
+	[3] = "Green",
+	[4] = "Coral",
+	[5] = "Dark Red"
+}
+
+local Slider = ShipTab:CreateSlider({
+	Name = "Highlight Colour",
+	Range = {0, 5},
+	Increment = 1,
+	Suffix = "White",
+	CurrentValue = 0,
+	Flag = "Slider3",
+	Callback = function(Value)
+		if not ShipHighLightValue.Value then return end
+
+		local char = game.Players.LocalPlayer.Character
+		if not char then return end
+
+		local humanoid = char:FindFirstChildOfClass("Humanoid")
+		if not humanoid or not humanoid.SeatPart then return end
+
+		local ship = humanoid.SeatPart.Parent
+		local highlight = ship:FindFirstChild("Ship Highlight")
+		if not highlight then return end
+
+		local color = Colors[Value]
+		if color then
+			highlight.FillColor = color
+			highlight.OutlineColor = color
+		end
+
+		local name = ColorNames[Value]
+		if name and Slider.SetSuffix then
+			Slider:SetSuffix(name)
+		end
+	end,
+})
+
+
+
+-------------------------------------------------------------
 
 local CSettingsTab = Window:CreateTab("Client", 4483362458) -- Title, Image
 
