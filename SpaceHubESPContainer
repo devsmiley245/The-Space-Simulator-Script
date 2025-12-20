@@ -488,7 +488,7 @@ local function makeLine()
 	f.BackgroundColor3 = ORB_DEFAULT_COLOR
 	f.Visible = false
 	f.Parent = OrbLineGui
-	return of
+	return f
 end
 
 local function makeBox()
