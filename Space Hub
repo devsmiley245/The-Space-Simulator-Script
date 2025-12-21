@@ -1417,7 +1417,10 @@ local Toggle19 = ESPTab:CreateToggle({
 	Flag = "Toggle19",
 	Callback = function(Value)
 		if Value then
-		ShowNotify("Coming Soon...")
+			ShowNotify("Coming Soon...")
+		end
+			if not Value then
+			ShowNotify("Coming Soon...")
 		end
 	end
 })
@@ -1428,7 +1431,10 @@ local Toggle20 = ESPTab:CreateToggle({
 	Flag = "Toggle20",
 	Callback = function(Value)
 		if Value then
-		ShowNotify("Coming Soon...")
+			ShowNotify("Coming Soon...")
+		end
+		if not Value then
+			ShowNotify("Coming Soon...")
 		end
 	end
 })
@@ -1439,8 +1445,12 @@ local Toggle21 = ESPTab:CreateToggle({
 	Flag = "Toggle21",
 	Callback = function(Value)
 		if Value then
-		ShowNotify("Coming Soon...")
+			ShowNotify("Coming Soon...")
 		end
+		if not Value then
+			ShowNotify("Coming Soon...")
+		end
+	end
 	end
 })
 
