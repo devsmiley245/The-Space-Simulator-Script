@@ -944,6 +944,14 @@ local Button = ShipTab:CreateButton({
 	end,
 })
 
+local Button = ShipTab:CreateButton({
+	Name = "Close Fire Mode",
+	Callback = function()
+		game.Players.LocalPlayer:SetAttribute("fireMode", false) -- The function that takes place when the button is pressed
+		ShowNotify("Fire Mode Off")
+	end,
+})
+
 local Toggle = ShipTab:CreateToggle({
 	Name = "Infinite Energy Balls",
 	CurrentValue = false,
@@ -964,7 +972,7 @@ local Slider = ShipTab:CreateSlider({
 	Name = "Energy Ball Speed",
 	Range = {50, 500},
 	Increment = 1,
-	Suffix = "Max Energy Ball Speed",
+	Suffix = "Max Shoot Speed",
 	CurrentValue = 150,
 	Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(Value)
@@ -1027,8 +1035,8 @@ local Toggle = ShipTab:CreateToggle({
 
 				else
 					if rock:GetAttribute("BreakableAddedByToggle") == true then
-						rock:RemoveAttribute("breakable")
-						rock:RemoveAttribute("BreakableAddedByToggle")
+						rock:SetAttribute("breakable", nil)
+						rock:SetAttribute("BreakableAddedByToggle", nil)
 					end
 				end
 
