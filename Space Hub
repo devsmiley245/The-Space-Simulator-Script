@@ -1451,7 +1451,6 @@ local Toggle21 = ESPTab:CreateToggle({
 			ShowNotify("Coming Soon...")
 		end
 	end
-	end
 })
 
 -------------------------------------------------------------------------
