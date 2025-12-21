@@ -940,6 +940,7 @@ local Button = ShipTab:CreateButton({
 	Name = "Open Fire Mode",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("fireMode", true) -- The function that takes place when the button is pressed
+		ShowNotify("Fire Mode On")
 	end,
 })
 
