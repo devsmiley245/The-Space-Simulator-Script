@@ -889,9 +889,11 @@ local Toggle = ShipTab:CreateToggle({
 
 		if Value and ship then
 			addHighlight(ship)
+			ShowNotify("Added Ship Highlight")
 			ShipHighLightValue.Value = true
 		else
 			removeAllHighlights()
+			ShowNotify("Removed Ship Highlight")
 			ShipHighLightValue.Value = false
 		end
 	end
@@ -934,6 +936,13 @@ local Dropdown = ShipTab:CreateDropdown({
 
 local Label = ShipTab:CreateLabel("Energy Balls", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
 
+local Button = ShipTab:CreateButton({
+	Name = "Open Fire Mode",
+	Callback = function()
+		game.Players.LocalPlayer:SetAttribute("fireMode", true) -- The function that takes place when the button is pressed
+	end,
+})
+
 local Toggle = ShipTab:CreateToggle({
 	Name = "Infinite Energy Balls",
 	CurrentValue = false,
@@ -958,7 +967,7 @@ local Slider = ShipTab:CreateSlider({
 	CurrentValue = 150,
 	Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(Value)
-		game.ReplicatedStorage.ShellModels.EnergyBall.Config:SetAttribute("energy", Value)
+		game.ReplicatedStorage.ShellModels.EnergyBall.Config:SetAttribute("speed", Value)
 
 	end,
 })
@@ -986,9 +995,12 @@ local ColorPicker = ShipTab:CreateColorPicker({
 			return
 		end
 
-		seatModel:SetAttribute("fireColor", Value)
+		local brickColor = BrickColor.new(Value)
+
+		seatModel:SetAttribute("fireColor", brickColor)
 	end
 })
+
 
 local Label = ShipTab:CreateLabel("Asteroids & Rocks", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
 
@@ -998,7 +1010,10 @@ local Toggle = ShipTab:CreateToggle({
 	Flag = "Toggle6",
 	Callback = function(Value)
 		local rocksFolder = workspace:FindFirstChild("Rocks")
-		if not rocksFolder then return end
+		if not rocksFolder then 
+			ShowNotify("You need to go space first before applying this setting!")
+			return
+		end
 
 		for _, rock in ipairs(rocksFolder:GetChildren()) do
 			if rock:IsA("Model") or rock:IsA("BasePart") then
