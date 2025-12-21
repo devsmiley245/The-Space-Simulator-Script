@@ -90,12 +90,12 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-ShowNotify("Thanks For Using My Script, v0.25")
+ShowNotify("Thanks For Using My Script, v0.26")
 
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.25 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.26 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -130,7 +130,7 @@ local Window = Rayfield:CreateWindow({
 })
 
 local HomeTab = Window:CreateTab("Home", 4483362458)
-local ShipTab = Window:CreateTab("Ship", 4483362458) -- Title, Image
+local ShipTab = Window:CreateTab("Ship & Asteroids", 4483362458) -- Title, Image
 local MSettingsTab = Window:CreateTab("Mine & Inventory", 4483362458) -- Title, Image
 local PlayerTab = Window:CreateTab("LocalPlayer", 4483362458) -- Title, Image
 
@@ -192,6 +192,7 @@ local Slider = PlayerTab:CreateSlider({
 		game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Value
 	end,
 })
+
 local Slider = PlayerTab:CreateSlider({
 	Name = "JetPack Speed",
 	Range = {5, 100},
@@ -777,6 +778,7 @@ spawn(function()
 end)
 
 local ShipHighLightValue = SpaceHubValuesFolder:WaitForChild("ShipHighLight")
+local ShipNoClip_Value2 = SpaceHubValuesFolder:WaitForChild("ShipNoClip")
 
 local Toggle = ShipTab:CreateToggle({
 	Name = "Ship Function Modifier Menu",
@@ -784,6 +786,50 @@ local Toggle = ShipTab:CreateToggle({
 	Flag = "Toggle1",
 	Callback = function(Value)
 		ShipMovements.Enabled = Value
+	end
+})
+
+local Toggle = ShipTab:CreateToggle({
+	Name = "Ship No Clip",
+	CurrentValue = false,
+	Flag = "Toggle2",
+	Callback = function(Value)
+		ShipNoClip_Value2.Value = Value
+	end
+})
+
+local Toggle = ShipTab:CreateToggle({
+	Name = "No Hit & Alien Durability Damage",
+	CurrentValue = false,
+	Flag = "Toggle3",
+	Callback = function(Value)
+		local player = game.Players.LocalPlayer
+		local character = player.Character
+		if not character then
+			ShowNotify("Character not loaded!")
+			return
+		end
+
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if not humanoid or not humanoid.SeatPart then
+			ShowNotify("You need to sit on a ship to apply setting!")
+			return
+		end
+
+		local shipModel = humanoid.SeatPart:FindFirstAncestorOfClass("Model")
+		if not shipModel then
+			ShowNotify("Ship model not found!")
+			return
+		end
+
+		local boundingBox = shipModel:FindFirstChild("BoundingBox")
+		if not boundingBox or not boundingBox:IsA("BasePart") then
+			ShowNotify("BoundingBox not found!")
+			return
+		end
+
+		boundingBox.CanQuery = not Value
+		boundingBox.CanTouch = not Value
 	end
 })
 
@@ -837,7 +883,7 @@ end
 local Toggle = ShipTab:CreateToggle({
 	Name = "Ship Highlight",
 	CurrentValue = false,
-	Flag = "Toggle2",
+	Flag = "Toggle4",
 	Callback = function(Value)
 		local ship = getShipModel()
 
@@ -886,6 +932,94 @@ local Dropdown = ShipTab:CreateDropdown({
 	end,
 })
 
+local Label = ShipTab:CreateLabel("Energy Balls", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+
+local Toggle = ShipTab:CreateToggle({
+	Name = "Infinite Energy Balls",
+	CurrentValue = false,
+	Flag = "Toggle5",
+	Callback = function(Value)
+
+		if Value then
+			game.ReplicatedStorage.ShellModels.EnergyBall.Config:SetAttribute("energy", 1)
+			ShowNotify("Infinite Energy Balls On")
+		else
+			game.ReplicatedStorage.ShellModels.EnergyBall.Config:SetAttribute("energy", 25)
+			ShowNotify("Infinite Energy Balls Off")
+		end
+	end
+})
+
+local Slider = ShipTab:CreateSlider({
+	Name = "Energy Ball Speed",
+	Range = {50, 500},
+	Increment = 1,
+	Suffix = "Max Energy Ball Speed",
+	CurrentValue = 150,
+	Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Value)
+		game.ReplicatedStorage.ShellModels.EnergyBall.Config:SetAttribute("energy", Value)
+
+	end,
+})
+
+local ColorPicker = ShipTab:CreateColorPicker({
+	Name = "Energy Ball Color",
+	Color = Color3.fromRGB(255, 255, 255),
+	Flag = "ColorPicker2",
+	Callback = function(Value)
+		local character = game.Players.LocalPlayer.Character
+		if not character then
+			ShowNotify("Character not loaded!")
+			return
+		end
+
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if not humanoid or not humanoid.SeatPart then
+			ShowNotify("You need to sit on a ship to change the energy ball color!")
+			return
+		end
+
+		local seatModel = humanoid.SeatPart:FindFirstAncestorOfClass("Model")
+		if not seatModel then
+			ShowNotify("Ship model not found!")
+			return
+		end
+
+		seatModel:SetAttribute("fireColor", Value)
+	end
+})
+
+local Label = ShipTab:CreateLabel("Asteroids & Rocks", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+
+local Toggle = ShipTab:CreateToggle({
+	Name = "Breakable All Floating Rocks",
+	CurrentValue = false,
+	Flag = "Toggle6",
+	Callback = function(Value)
+		local rocksFolder = workspace:FindFirstChild("Rocks")
+		if not rocksFolder then return end
+
+		for _, rock in ipairs(rocksFolder:GetChildren()) do
+			if rock:IsA("Model") or rock:IsA("BasePart") then
+
+				if Value then
+					if rock:GetAttribute("breakable") == nil then
+						rock:SetAttribute("breakable", true)
+						rock:SetAttribute("BreakableAddedByToggle", true)
+					end
+
+				else
+					if rock:GetAttribute("BreakableAddedByToggle") == true then
+						rock:RemoveAttribute("breakable")
+						rock:RemoveAttribute("BreakableAddedByToggle")
+					end
+				end
+
+			end
+		end
+	end
+})
 
 -------------------------------------------------------------
 
