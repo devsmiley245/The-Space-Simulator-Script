@@ -1225,8 +1225,6 @@ local ResourceNameGui = SpaceHubESPFolder:WaitForChild("ResourceNames")
 
 local ESPTab = Window:CreateTab("ESP", 4483362458) -- Title, Image
 
-local Label = ESPTab:CreateLabel("Rocket ESP", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
-
 local Toggle1 = ESPTab:CreateToggle({
 	Name = "Rockets ESP Lines",
 	CurrentValue = false,
@@ -1255,8 +1253,6 @@ local Toggle3 = ESPTab:CreateToggle({
 })
 
 ------------------------------------------------------
-
-local Label = ESPTab:CreateLabel("UFO ESP", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
 
 local Toggle4 = ESPTab:CreateToggle({
 	Name = "UFO ESP Lines",
@@ -1287,8 +1283,6 @@ local Toggle6 = ESPTab:CreateToggle({
 
 -----------------------------------------------------
 
-local Label = ESPTab:CreateLabel("Centaurs + Crate ESP", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
-
 local Toggle7 = ESPTab:CreateToggle({
 	Name = "Centaurs ESP Lines",
 	CurrentValue = false,
@@ -1317,8 +1311,6 @@ local Toggle9 = ESPTab:CreateToggle({
 })
 
 -----------------------------------------------------
-
-local Label = ESPTab:CreateLabel("Orb ESP", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
 
 local Toggle10 = ESPTab:CreateToggle({
 	Name = "Orb ESP Lines",
@@ -1349,8 +1341,6 @@ local Toggle12 = ESPTab:CreateToggle({
 
 -------------------------------------------------------------------
 
-local Label = ESPTab:CreateLabel("Artifacts ESP", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
-
 local Toggle13 = ESPTab:CreateToggle({
 	Name = "Artifacts ESP Lines",
 	CurrentValue = false,
@@ -1380,8 +1370,6 @@ local Toggle15 = ESPTab:CreateToggle({
 
 -----------------------------------------------------------------------------------
 
-local Label = ESPTab:CreateLabel("Resources ESP", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
-
 local Toggle16 = ESPTab:CreateToggle({
 	Name = "Resources ESP Lines",
 	CurrentValue = false,
@@ -1406,6 +1394,50 @@ local Toggle18 = ESPTab:CreateToggle({
 	Flag = "Toggle18",
 	Callback = function(Value)
 		ResourceNameGui.Enabled = Value
+	end
+})
+
+---------------------------------------------------------------------------------------------
+
+local Toggle19 = ESPTab:CreateToggle({
+	Name = "Voyager ESP Lines",
+	CurrentValue = false,
+	Flag = "Toggle19",
+	Callback = function(Value)
+		if Value then
+			ShowNotify("Coming Soon...")
+		end
+			if not Value then
+			ShowNotify("Coming Soon...")
+		end
+	end
+})
+
+local Toggle20 = ESPTab:CreateToggle({
+	Name = "Voyager ESP Boxes",
+	CurrentValue = false,
+	Flag = "Toggle20",
+	Callback = function(Value)
+		if Value then
+			ShowNotify("Coming Soon...")
+		end
+		if not Value then
+			ShowNotify("Coming Soon...")
+		end
+	end
+})
+
+local Toggle21 = ESPTab:CreateToggle({
+	Name = "Voyager ESP Informations",
+	CurrentValue = false,
+	Flag = "Toggle21",
+	Callback = function(Value)
+		if Value then
+			ShowNotify("Coming Soon...")
+		end
+		if not Value then
+			ShowNotify("Coming Soon...")
+		end
 	end
 })
 
