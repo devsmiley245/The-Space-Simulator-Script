@@ -47,6 +47,14 @@ if not ShipHighLight_Value then
 	ShipHighLight_Value.Parent = SpaceHubValuesFolder
 end
 
+local ShipNoClip_Value2 = SpaceHubValuesFolder:FindFirstChild("ShipNoClip")
+if not ShipNoClip_Value2 then
+	ShipNoClip_Value2 = Instance.new("BoolValue")
+	ShipNoClip_Value2.Name = "ShipNoClip"
+	ShipNoClip_Value2.Value = false
+	ShipNoClip_Value2.Parent = SpaceHubValuesFolder
+end
+
 -- OneHitAllResources --------------------------------------------------------------------
 
 local Players = game:GetService("Players")
@@ -323,6 +331,120 @@ OldInventory_Value.Changed:Connect(function(isEnabled)
 		EnableOldInventory()
 	else
 		DisableOldInventory()
+	end
+end)
+
+-- Ship NoClip
+
+local Players_ShipNC2 = game:GetService("Players")
+local LocalPlayer_ShipNC2 = Players_ShipNC2.LocalPlayer
+
+local ShipNC2_LoopRunning = false
+
+local MIN_TRANSPARENCY = 0
+local MAX_TRANSPARENCY = 0.4
+
+local SPECIAL_PART_NAMES = {
+	FakeDownPart = true,
+	FakeBasePart = true,
+	Cabin = true
+}
+
+local CHARACTER_ALWAYS_NOCLIP = {
+	FakeLeftFoot = true,
+	FakeRightFoot = true,
+	BeamPart  = true
+}
+
+local function SetCharacterNoClip_ShipNC2(enabled)
+	local character = LocalPlayer_ShipNC2.Character
+	if not character then return end
+
+	for _, obj in ipairs(character:GetChildren()) do
+		if obj:IsA("BasePart") then
+			if CHARACTER_ALWAYS_NOCLIP[obj.Name] then
+				obj.CanCollide = false
+			else
+				obj.CanCollide = not enabled
+			end
+		end
+	end
+end
+
+local function EnableShipNoClip_Transparency()
+	if ShipNC2_LoopRunning then return end
+	ShipNC2_LoopRunning = true
+
+	while ShipNoClip_Value2.Value do
+		local character = LocalPlayer_ShipNC2.Character
+		if character then
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			if humanoid then
+				local seat = humanoid.SeatPart
+				if seat and seat:GetAttribute("rocket") == true then
+					local shipModel = seat.Parent
+					if shipModel and shipModel:IsA("Model") then
+						for _, obj in ipairs(shipModel:GetDescendants()) do
+							if obj:IsA("BasePart") then
+								local transparencyValid =
+									obj.Transparency >= MIN_TRANSPARENCY
+									and obj.Transparency <= MAX_TRANSPARENCY
+
+								local specialName = SPECIAL_PART_NAMES[obj.Name] == true
+
+								if transparencyValid or specialName then
+									obj.CanCollide = false
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+
+		SetCharacterNoClip_ShipNC2(true)
+
+		task.wait(0.2)
+	end
+
+	ShipNC2_LoopRunning = false
+end
+
+local function DisableShipNoClip_Transparency()
+	SetCharacterNoClip_ShipNC2(false)
+
+	local character = LocalPlayer_ShipNC2.Character
+	if not character then return end
+
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	if not humanoid then return end
+
+	local seat = humanoid.SeatPart
+	if not seat or seat:GetAttribute("rocket") ~= true then return end
+
+	local shipModel = seat.Parent
+	if not shipModel or not shipModel:IsA("Model") then return end
+
+	for _, obj in ipairs(shipModel:GetDescendants()) do
+		if obj:IsA("BasePart") then
+			local transparencyValid =
+				obj.Transparency >= MIN_TRANSPARENCY
+				and obj.Transparency <= MAX_TRANSPARENCY
+
+			local specialName = SPECIAL_PART_NAMES[obj.Name] == true
+
+			if transparencyValid or specialName then
+				obj.CanCollide = true
+			end
+		end
+	end
+end
+
+ShipNoClip_Value2.Changed:Connect(function(isEnabled)
+	if isEnabled then
+		EnableShipNoClip_Transparency()
+	else
+		DisableShipNoClip_Transparency()
 	end
 end)
 
