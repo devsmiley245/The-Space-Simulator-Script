@@ -26,7 +26,7 @@ local function ShowNotify(message)
 
 	Notify.Name = "NotifyClone"
 	Notify.AnchorPoint = Vector2.new(0.5,0.8)
-	Notify.BackgroundColor3 = Color3.fromRGB(0,0,0)
+	Notify.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Notify.BackgroundTransparency = 0.65
 	Notify.BorderSizePixel = 0
 	Notify.Position = UDim2.new(0.5,0,1.2,0)
@@ -36,7 +36,7 @@ local function ShowNotify(message)
 	NotiUICorner.CornerRadius = UDim.new(0,10)
 	NotiUICorner.Parent = Notify
 
-	NotiStroke.Color = Color3.fromRGB(255,255,255)
+	NotiStroke.Color = Color3.fromRGB(198, 0, 0)
 	NotiStroke.Thickness = 0.03
 	NotiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 	NotiStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
@@ -48,7 +48,7 @@ local function ShowNotify(message)
 	NotiText.Size = UDim2.new(0.95,0,0.8,0)
 	NotiText.Font = Enum.Font.Fantasy
 	NotiText.Text = message
-	NotiText.TextColor3 = Color3.fromRGB(255,255,255)
+	NotiText.TextColor3 = Color3.fromRGB(229, 0, 0)
 	NotiText.TextScaled = true
 	NotiText.TextWrapped = true
 	NotiText.Parent = Notify
@@ -93,7 +93,7 @@ local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 ShowNotify("Thanks For Using My Script, v0.27")
 
 local Window = Rayfield:CreateWindow({
-	Name = "The Space Simulator - Space Hub 🪐",
+	Name = "🚀[Winter] The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
 	LoadingTitle = "Space Hub v0.27 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
@@ -1698,7 +1698,7 @@ local OneHitGifts = SpaceHubValuesFolder:WaitForChild("OneHitGifts")
 
 local EventTab = Window:CreateTab("Winter Event", 4483362458) -- Title, Image
 
-local Label = EventTab:CreateLabel("[Winter] The Space Simulator", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+local Label = EventTab:CreateLabel("🚀[Winter] The Space Simulator", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
 
 local ToggleLGifts = EventTab:CreateToggle({
 	Name = "Gifts ESP Lines",
