@@ -90,12 +90,12 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-ShowNotify("Thanks For Using My Script, v0.26")
+ShowNotify("Thanks For Using My Script, v0.26.5")
 
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.26 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.26.5 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -1035,8 +1035,8 @@ local Toggle = ShipTab:CreateToggle({
 
 				else
 					if rock:GetAttribute("BreakableAddedByToggle") == true then
-						rock:SetAttribute("breakable", nil)
-						rock:SetAttribute("BreakableAddedByToggle", nil)
+						rock:SetAttribute("breakable", false)
+						rock:SetAttribute("BreakableAddedByToggle", false)
 					end
 				end
 
@@ -1118,6 +1118,27 @@ local Button = CSettingsTab:CreateButton({
 	Name = "Unlock Double Xp Gamepass (Client Side)",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("DoubleXpGP", true)-- The function that takes place when the button is pressed
+	end,
+})
+
+local Button = CSettingsTab:CreateButton({
+	Name = "Unlock Large Backpack Gamepass",
+	Callback = function()
+	game.Players.LocalPlayer:SetAttribute("LargeBackpackGP", true)
+	end,
+})
+
+local Button = CSettingsTab:CreateButton({
+	Name = "Unlock Meteor Pickaxe Gamepass",
+	Callback = function()
+		game.Players.LocalPlayer:SetAttribute("MeteorPickaxeGP", true)
+	end,
+})
+
+local Button = CSettingsTab:CreateButton({
+	Name = "Unlock Restore Position Gamepass",
+	Callback = function()
+		game.Players.LocalPlayer:SetAttribute("RestorePositionGP", true)
 	end,
 })
 
@@ -1709,9 +1730,16 @@ local Button = PlanetTpTab:CreateButton({
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local TrollTab = Window:CreateTab("Troll", 4483362458) -- Title, Image
+if game.PlaceVersion < 2343 then
+	return
+end
 
-local Label = TrollTab:CreateLabel("Coming Soon . . . D:", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+
+local EventTab = Window:CreateTab("Event", 4483362458) -- Title, Image
+
+local Label = EventTab:CreateLabel("Winter The Space Simulator", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+
+
 
 Rayfield:Notify({
 	Title = "Space Hub",
