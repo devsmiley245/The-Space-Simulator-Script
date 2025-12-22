@@ -1306,5 +1306,235 @@ RunService.RenderStepped:Connect(function()
 		end
 	end
 end)
+
+--------------------- Event ESP -------------------------------------------------------
+
+local GIFTS_LINE_THICKNESS = 1
+local GIFTS_OFFSET_Y = 40
+
+for _, name in ipairs({ "GiftsLines", "GiftsBoxes", "GiftsNames" }) do
+	local old = CoreGui:FindFirstChild(name)
+	if old then old:Destroy() end
+end
+
+local GiftsLinesGui = Instance.new("ScreenGui")
+GiftsLinesGui.Name = "GiftsLines"
+GiftsLinesGui.IgnoreGuiInset = true
+GiftsLinesGui.DisplayOrder = 1100
+GiftsLinesGui.ResetOnSpawn = false
+GiftsLinesGui.Parent = SpaceHubESPFolder
+
+local GiftsBoxesGui = Instance.new("ScreenGui")
+GiftsBoxesGui.Name = "GiftsBoxes"
+GiftsBoxesGui.IgnoreGuiInset = true
+GiftsBoxesGui.DisplayOrder = 1101
+GiftsBoxesGui.ResetOnSpawn = false
+GiftsBoxesGui.Parent = SpaceHubESPFolder
+
+local GiftsNamesGui = Instance.new("ScreenGui")
+GiftsNamesGui.Name = "GiftsNames"
+GiftsNamesGui.IgnoreGuiInset = true
+GiftsNamesGui.DisplayOrder = 1102
+GiftsNamesGui.ResetOnSpawn = false
+GiftsNamesGui.Parent = SpaceHubESPFolder
+
+local GiftsInfos = Instance.new("Frame")
+GiftsInfos.Name = "GiftsInfos"
+GiftsInfos.Parent = GiftsBoxesGui
+GiftsInfos.BackgroundTransparency = 0.2
+GiftsInfos.BackgroundColor3 = Color3.fromRGB(137,255,255)
+GiftsInfos.Position = UDim2.fromScale(0.93,0.15)
+GiftsInfos.Size = UDim2.fromScale(0.2,0.2)
+GiftsInfos.AnchorPoint = Vector2.new(0.95,0.13)
+
+local GiftsInfos_aspect = Instance.new("UIAspectRatioConstraint")
+GiftsInfos_aspect.AspectRatio = 5
+GiftsInfos_aspect.Parent = GiftsInfos
+
+local GiftsInfos_stroke = Instance.new("UIStroke")
+GiftsInfos_stroke.Color = Color3.fromRGB(255,255,255)
+GiftsInfos_stroke.Thickness = 1
+GiftsInfos_stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+GiftsInfos_stroke.Parent = GiftsInfos
+
+local GiftsInfos_label = Instance.new("TextLabel")
+GiftsInfos_label.Parent = GiftsInfos
+GiftsInfos_label.BackgroundTransparency = 1
+GiftsInfos_label.TextScaled = true
+GiftsInfos_label.TextColor3 = Color3.fromRGB(255,255,255)
+GiftsInfos_label.AnchorPoint = Vector2.new(0.5,0.5)
+GiftsInfos_label.Position = UDim2.fromScale(0.5,0.5)
+GiftsInfos_label.Size = UDim2.fromScale(0.9,0.9)
+GiftsInfos_label.Font = Enum.Font.Arimo
+GiftsInfos_label.Text = "Total Gifts: 0 🎁 | Remaining Gifts: 0 🎁"
+
+local GiftsTracked = {}
+local Gifts_TotalCount = 0
+
+local function Gifts_updateInfo()
+	local remaining = 0
+	for _ in pairs(GiftsTracked) do
+		remaining += 1
+	end
+	GiftsInfos_label.Text =
+		"Total Gifts: "..Gifts_TotalCount.." 🎁 | Remaining Gifts: "..remaining.." 🎁"
+end
+
+local function Gifts_getColor(objName)
+	if objName == "Green Gift" then
+		return Color3.fromRGB(0,255,0)
+	elseif objName == "Red Gift" then
+		return Color3.fromRGB(255,0,0)
+	elseif objName == "Blue Gift" then
+		return Color3.fromRGB(0,170,255)
+	elseif objName == "Golden Gift" then
+		return Color3.fromRGB(255,215,0)
+	end
+	return Color3.fromRGB(255,255,255)
+end
+
+local function Gifts_makeLine()
+	local Gifts_F = Instance.new("Frame")
+	Gifts_F.Size = UDim2.fromOffset(10, GIFTS_LINE_THICKNESS)
+	Gifts_F.AnchorPoint = Vector2.new(0.5,0.5)
+	Gifts_F.BorderSizePixel = 0
+	Gifts_F.Visible = false
+	Gifts_F.Parent = GiftsLinesGui
+	return Gifts_F
+end
+
+local function Gifts_makeBox()
+	local Gifts_box = Instance.new("Frame")
+	Gifts_box.AnchorPoint = Vector2.new(0.5,0.5)
+	Gifts_box.BackgroundTransparency = 1
+	Gifts_box.Visible = false
+	Gifts_box.Parent = GiftsBoxesGui
+
+	local Gift_aspect = Instance.new("UIAspectRatioConstraint")
+	Gift_aspect.AspectRatio = 1
+	Gift_aspect.Parent = Gifts_box
+	local Gifts_stroke = Instance.new("UIStroke")
+	Gifts_stroke.Thickness = 1.5
+	Gifts_stroke.Parent = Gifts_box
+
+	return Gifts_box
+end
+
+local function Gifts_makeName()
+	local Gifts_label = Instance.new("TextLabel")
+	Gifts_label.AnchorPoint = Vector2.new(0.5,1)
+	Gifts_label.BackgroundTransparency = 1
+	Gifts_label.TextScaled = true
+	Gifts_label.Font = Enum.Font.Gotham
+	Gifts_label.Visible = false
+	Gifts_label.Parent = GiftsNamesGui
+
+	local Gift_aspect = Instance.new("UIAspectRatioConstraint")
+	Gift_aspect.AspectRatio = 5
+	Gift_aspect.Parent = Gifts_label
+
+	return Gifts_label
+end
+
+local function Gifts_addObject(obj)
+	if not obj:IsA("BasePart") then return end
+	if GiftsTracked[obj] then return end
+
+	if obj:GetAttribute("gift") ~= true then return end
+	local hp = obj:GetAttribute("hitpoints")
+	if type(hp) ~= "number" or hp <= 0 then return end
+
+	Gifts_TotalCount += 1
+
+	GiftsTracked[obj] = {
+		line = Gifts_makeLine(),
+		box = Gifts_makeBox(),
+		nameLabel = Gifts_makeName()
+	}
+
+	Gifts_updateInfo()
+
+	obj:GetAttributeChangedSignal("hitpoints"):Connect(function()
+		local newHp = obj:GetAttribute("hitpoints")
+		if type(newHp) ~= "number" or newHp <= 0 then
+			local data = GiftsTracked[obj]
+			if data then
+				data.line:Destroy()
+				data.box:Destroy()
+				data.nameLabel:Destroy()
+				GiftsTracked[obj] = nil
+				Gifts_updateInfo()
+			end
+		end
+	end)
+end
+
+local function Gifts_bindMinerals(folder)
+	for _, obj in ipairs(folder:GetChildren()) do
+		Gifts_addObject(obj)
+	end
+	folder.ChildAdded:Connect(Gifts_addObject)
+end
+
+local OtherFolder = workspace:FindFirstChild("Other")
+if OtherFolder then
+	local MineralsFolder = OtherFolder:FindFirstChild("LocalMinerals")
+	if MineralsFolder then
+		Gifts_bindMinerals(MineralsFolder)
+	end
+end
+
+workspace.ChildAdded:Connect(function(obj)
+	if obj.Name == "Other" then
+		local MineralsFolder = obj:WaitForChild("LocalMinerals",5)
+		if MineralsFolder then
+			Gifts_bindMinerals(MineralsFolder)
+		end
+	end
+end)
+
+RunService.RenderStepped:Connect(function()
+	local vp = Camera.ViewportSize
+	local srcX = vp.X/2
+	local srcY = GIFTS_OFFSET_Y
+
+	for obj, data in pairs(GiftsTracked) do
+		if obj.Parent then
+			local pos, visible = Camera:WorldToViewportPoint(obj.Position)
+			if visible then
+				local dx = pos.X - srcX
+				local dy = pos.Y - srcY
+				local dist = math.sqrt(dx*dx + dy*dy)
+
+				local color = Gifts_getColor(obj.Name)
+
+				data.line.BackgroundColor3 = color
+				data.line.Visible = true
+				data.line.Size = UDim2.fromOffset(dist, GIFTS_LINE_THICKNESS)
+				data.line.Position = UDim2.fromOffset((pos.X+srcX)/2,(pos.Y+srcY)/2)
+				data.line.Rotation = math.deg(math.atan2(dy,dx))
+
+				data.box.Visible = true
+				data.box.Position = UDim2.fromOffset(pos.X,pos.Y)
+				local scale = math.clamp(pos.Z/400,0.01,0.045)
+				data.box.Size = UDim2.fromScale(scale,scale)
+				data.box.UIStroke.Color = color
+
+				local distText = math.floor((Camera.CFrame.Position - obj.Position).Magnitude)
+				data.nameLabel.TextColor3 = color
+				data.nameLabel.Text = obj.Name.." | "..distText.." studs"
+				data.nameLabel.Position = UDim2.fromOffset(pos.X,pos.Y-12.5)
+				data.nameLabel.Size = UDim2.fromScale(0.1,0.1)
+				data.nameLabel.Visible = true
+			else
+				data.line.Visible = false
+				data.box.Visible = false
+				data.nameLabel.Visible = false
+			end
+		end
+	end
+end)
+
+
 print("Successfully Executed Space Hub ESP Container ")
 -------------------------------------------------------------------------- end ------------------
