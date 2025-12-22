@@ -448,6 +448,35 @@ ShipNoClip_Value2.Changed:Connect(function(isEnabled)
 	end
 end)
 
+-------------------- Event ---------------------------------------- 
+
+local LocalMinerals = game.Workspace:WaitForChild("Other"):WaitForChild("LocalMinerals")
+
+-- Create / Get BoolValue
+local OneHitGifts = SpaceHubValuesFolder:FindFirstChild("OneHitGifts")
+if not OneHitGifts then
+	OneHitGifts = Instance.new("BoolValue")
+	OneHitGifts.Name = "OneHitGifts"
+	OneHitGifts.Value = false
+	OneHitGifts.Parent = SpaceHubValuesFolder
+end
+
+local function ApplyOneHit()
+	if not OneHitGifts.Value then
+		return
+	end
+
+	for _, obj in ipairs(LocalMinerals:GetDescendants()) do
+		if obj:GetAttribute("gift") == true then
+			if obj:GetAttribute("hitpoints") ~= nil then
+				obj:SetAttribute("hitpoints", 1)
+			end
+		end
+	end
+end
+
+OneHitGifts.Changed:Connect(ApplyOneHit)
+
 print("SpaceHub Values Container Loaded!")
 
 ----- end ---------------------------------------------------------------------------------------
