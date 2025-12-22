@@ -1346,9 +1346,12 @@ GiftsInfos.Name = "GiftsInfos"
 GiftsInfos.Parent = GiftsNamesGui
 GiftsInfos.BackgroundTransparency = 0.2
 GiftsInfos.BackgroundColor3 = Color3.fromRGB(99, 184, 184)
-GiftsInfos.Position = UDim2.fromScale(0.93,0.15)
+GiftsInfos.Position = UDim2.fromScale(0.93,0.14)
 GiftsInfos.Size = UDim2.fromScale(0.2,0.2)
 GiftsInfos.AnchorPoint = Vector2.new(0.95,0.13)
+
+local GiftsInfos_Dragger = Instance.new("UIDragDetector")
+GiftsInfos_Dragger.Parent = GiftsInfos
 
 local GiftsInfos_aspect = Instance.new("UIAspectRatioConstraint")
 GiftsInfos_aspect.AspectRatio = 5
