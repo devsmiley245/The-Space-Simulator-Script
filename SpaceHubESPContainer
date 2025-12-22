@@ -1323,6 +1323,7 @@ GiftsLinesGui.IgnoreGuiInset = true
 GiftsLinesGui.DisplayOrder = 1100
 GiftsLinesGui.ResetOnSpawn = false
 GiftsLinesGui.Parent = SpaceHubESPFolder
+GiftsLinesGui.Enabled = false
 
 local GiftsBoxesGui = Instance.new("ScreenGui")
 GiftsBoxesGui.Name = "GiftsBoxes"
@@ -1330,6 +1331,7 @@ GiftsBoxesGui.IgnoreGuiInset = true
 GiftsBoxesGui.DisplayOrder = 1101
 GiftsBoxesGui.ResetOnSpawn = false
 GiftsBoxesGui.Parent = SpaceHubESPFolder
+GiftsBoxesGui.Enabled = false
 
 local GiftsNamesGui = Instance.new("ScreenGui")
 GiftsNamesGui.Name = "GiftsNames"
@@ -1337,6 +1339,7 @@ GiftsNamesGui.IgnoreGuiInset = true
 GiftsNamesGui.DisplayOrder = 1102
 GiftsNamesGui.ResetOnSpawn = false
 GiftsNamesGui.Parent = SpaceHubESPFolder
+GiftsNamesGui.Enabled = false
 
 local GiftsInfos = Instance.new("Frame")
 GiftsInfos.Name = "GiftsInfos"
