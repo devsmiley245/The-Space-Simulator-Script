@@ -1340,9 +1340,9 @@ GiftsNamesGui.Parent = SpaceHubESPFolder
 
 local GiftsInfos = Instance.new("Frame")
 GiftsInfos.Name = "GiftsInfos"
-GiftsInfos.Parent = GiftsBoxesGui
+GiftsInfos.Parent = GiftsNamesGui
 GiftsInfos.BackgroundTransparency = 0.2
-GiftsInfos.BackgroundColor3 = Color3.fromRGB(137,255,255)
+GiftsInfos.BackgroundColor3 = Color3.fromRGB(99, 184, 184)
 GiftsInfos.Position = UDim2.fromScale(0.93,0.15)
 GiftsInfos.Size = UDim2.fromScale(0.2,0.2)
 GiftsInfos.AnchorPoint = Vector2.new(0.95,0.13)
@@ -1366,6 +1366,7 @@ GiftsInfos_label.AnchorPoint = Vector2.new(0.5,0.5)
 GiftsInfos_label.Position = UDim2.fromScale(0.5,0.5)
 GiftsInfos_label.Size = UDim2.fromScale(0.9,0.9)
 GiftsInfos_label.Font = Enum.Font.Arimo
+GiftsInfos_label.TextXAlignment = Enum.TextXAlignment.Left
 GiftsInfos_label.Text = "Total Gifts: 0 🎁 | Remaining Gifts: 0 🎁"
 
 local GiftsTracked = {}
@@ -1523,7 +1524,7 @@ RunService.RenderStepped:Connect(function()
 				local distText = math.floor((Camera.CFrame.Position - obj.Position).Magnitude)
 				data.nameLabel.TextColor3 = color
 				data.nameLabel.Text = obj.Name.." | "..distText.." studs"
-				data.nameLabel.Position = UDim2.fromOffset(pos.X,pos.Y-12.5)
+				data.nameLabel.Position = UDim2.fromOffset(pos.X,pos.Y-12)
 				data.nameLabel.Size = UDim2.fromScale(0.1,0.1)
 				data.nameLabel.Visible = true
 			else
