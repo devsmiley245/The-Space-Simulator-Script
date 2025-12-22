@@ -1008,105 +1008,105 @@ local CSettingsTab = Window:CreateTab("Client", 4483362458) -- Title, Image
 
 --Client Settings Functions
 
-local Button = CSettingsTab:CreateButton({
+local SButton = CSettingsTab:CreateButton({
 	Name = "Unlock Instant Speed Gamepass",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("InstantSpeedGP", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local BButton = CSettingsTab:CreateButton({
 	Name = "Unlock Instant Brake Gamepass",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("InstantBrakeGP", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local MButton = CSettingsTab:CreateButton({
 	Name = "Unlock Music Player Gamepass",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("MusicPlayerGP", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local SHButton = CSettingsTab:CreateButton({
 	Name = "Unlock Ship Lock Gamepass (Client Side)",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("ShipLockGP", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local INGPButton = CSettingsTab:CreateButton({
 	Name = "Enable InGroup (Client Side)",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("inGroup", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local VButton = CSettingsTab:CreateButton({
 	Name = "Unlock Vortex Gamepass (Client Side)",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("VortexGP", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local QButton = CSettingsTab:CreateButton({
 	Name = "Unlock Quantum Drill Gamepass (Client Side)",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("QuantumDrillGP", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local VIPButton = CSettingsTab:CreateButton({
 	Name = "Unlock VIP Chat Icon (Client Side)",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("vip", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local HButton = CSettingsTab:CreateButton({
 	Name = "Unlock Horn Gamepass (Client Side)",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("HornGP", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local DButton = CSettingsTab:CreateButton({
 	Name = "Unlock Double Xp Gamepass (Client Side)",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("DoubleXpGP", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local LButton = CSettingsTab:CreateButton({
 	Name = "Unlock Large Backpack Gamepass",
 	Callback = function()
 	game.Players.LocalPlayer:SetAttribute("LargeBackpackGP", true)
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local METButton = CSettingsTab:CreateButton({
 	Name = "Unlock Meteor Pickaxe Gamepass",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("MeteorPickaxeGP", true)
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local REButton = CSettingsTab:CreateButton({
 	Name = "Unlock Restore Position Gamepass",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("RestorePositionGP", true)
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local ANTIPButton = CSettingsTab:CreateButton({
 	Name = "Anti-Planet Entry On",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("station", true)-- The function that takes place when the button is pressed
 	end,
 })
 
-local Button = CSettingsTab:CreateButton({
+local ANTIPLButton = CSettingsTab:CreateButton({
 	Name = "Anti-Planet Entry Off",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("station", false)-- The function that takes place when the button is pressed
@@ -1691,11 +1691,9 @@ if game.PlaceVersion < 2343 then
 	return
 end
 
-
 local EventTab = Window:CreateTab("Event", 4483362458) -- Title, Image
 
 local Label = EventTab:CreateLabel("Winter The Space Simulator", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
-
 
 
 Rayfield:Notify({
