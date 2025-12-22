@@ -90,12 +90,12 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-ShowNotify("Thanks For Using My Script, v0.26.5")
+ShowNotify("Thanks For Using My Script, v0.27")
 
 local Window = Rayfield:CreateWindow({
 	Name = "The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.26.5 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.27 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -1093,21 +1093,21 @@ local METButton = CSettingsTab:CreateButton({
 })
 
 local REButton = CSettingsTab:CreateButton({
-	Name = "Unlock Restore Position Gamepass",
+	Name = "Unlock Restore Position Gamepass ( Client Side )",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("RestorePositionGP", true)
 	end,
 })
 
 local ANTIPButton = CSettingsTab:CreateButton({
-	Name = "Anti-Planet Entry On",
+	Name = "ISS Station Status On",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("station", true)-- The function that takes place when the button is pressed
 	end,
 })
 
 local ANTIPLButton = CSettingsTab:CreateButton({
-	Name = "Anti-Planet Entry Off",
+	Name = "ISS Station Status Off",
 	Callback = function()
 		game.Players.LocalPlayer:SetAttribute("station", false)-- The function that takes place when the button is pressed
 	end,
@@ -1691,10 +1691,50 @@ if game.PlaceVersion < 2343 then
 	return
 end
 
-local EventTab = Window:CreateTab("Event", 4483362458) -- Title, Image
+local GiftsLineGui = SpaceHubESPFolder:WaitForChild("GiftsLines")
+local GiftsBoxGui = SpaceHubESPFolder:WaitForChild("GiftsBoxes")
+local GiftsNameGui = SpaceHubESPFolder:WaitForChild("GiftsNames")
+local OneHitGifts = SpaceHubValuesFolder:WaitForChild("OneHitGifts")
 
-local Label = EventTab:CreateLabel("Winter The Space Simulator", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+local EventTab = Window:CreateTab("Winter Event", 4483362458) -- Title, Image
 
+local Label = EventTab:CreateLabel("[Winter] The Space Simulator", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
+
+local ToggleLGifts = EventTab:CreateToggle({
+	Name = "Gifts ESP Lines",
+	CurrentValue = false,
+	Flag = "ToggleLGift",
+	Callback = function(Value)
+		GiftsLineGui.Enabled = Value
+	end
+})
+
+local ToggleBGifts = EventTab:CreateToggle({
+	Name = "Gifts ESP Boxes",
+	CurrentValue = false,
+	Flag = "ToggleBGift",
+	Callback = function(Value)
+		GiftsBoxGui.Enabled = Value
+	end
+})
+
+local ToggleIGifts = EventTab:CreateToggle({
+	Name = "Gifts ESP Informations",
+	CurrentValue = false,
+	Flag = "ToggleIGift",
+	Callback = function(Value)
+		GiftsNameGui.Enabled = Value
+	end
+})
+
+local OneHitToggleGifts = EventTab:CreateToggle({
+	Name = "One Hit Mine All Gifts",
+	CurrentValue = false,
+	Flag = "OneHitToggleGifts",
+	Callback = function(Value)
+		OneHitGifts.Value = Value
+	end
+})
 
 Rayfield:Notify({
 	Title = "Space Hub",
