@@ -55,12 +55,12 @@ if not ShipNoClip_Value2 then
 	ShipNoClip_Value2.Parent = SpaceHubValuesFolder
 end
 
-local BypassAntiCheatValue = SpaceHubValuesFolder:FindFirstChild("ShipNoClip")
-if not BypassAntiCheatValue then
-	BypassAntiCheatValue = Instance.new("BoolValue")
-	BypassAntiCheatValue.Name = "Bypass Anti-Cheat"
-	BypassAntiCheatValue.Value = false
-	BypassAntiCheatValue.Parent = SpaceHubValuesFolder
+local BypassACValue = SpaceHubValuesFolder:FindFirstChild("BypassAC")
+if not BypassACValue then
+	BypassACValue = Instance.new("BoolValue")
+	BypassACValue.Name = "BypassAC"
+	BypassACValue.Value = false
+	BypassACValue.Parent = SpaceHubValuesFolder
 end
 
 -- OneHitAllResources --------------------------------------------------------------------
