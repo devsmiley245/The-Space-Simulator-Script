@@ -301,6 +301,7 @@ else
 	ShowNotify("Folder found, ESP Container Loaded!")
 end
 
+local PlanetX = workspace:WaitForChild("Planets"):WaitForChild("Planet X")
 local ShipMovements = SpaceHubESPFolder:WaitForChild("ShipMovements")
 local ShipHighLightValue = SpaceHubValuesFolder:WaitForChild("ShipHighLight")
 local ShipNoClip_Value2 = SpaceHubValuesFolder:WaitForChild("ShipNoClip")
@@ -698,7 +699,7 @@ local BACToggle = OtherTab:CreateToggle({
 
 local PlanetTeleportDropdown = OtherTab:CreateDropdown({
 	Name = "Teleport To Planets",
-	Options = {"Mercury", "Venus", "Earth", "Mars", "Saturn", "Titan", "Enceladus", "Mimas", "Jupiter", "Callisto", "Io", "Europa", "Ganymede", "Uranus", "Miranda", "Neptune", "Triton", "Pluto", "Charon", "Haumea", "Makemake", "Eris", "Sedna", "Planet X"},
+	Options = {"Mercury", "Venus", "Earth", "Mars", "Saturn", "Titan", "Enceladus", "Mimas", "Jupiter", "Callisto", "Io", "Europa", "Ganymede", "Uranus", "Miranda", "Neptune", "Triton", "Pluto", "Charon", "Haumea", "Makemake", "Eris", "Sedna", "PlanetX"},
 	CurrentOption = {"Mercury"},
 	MultipleOptions = false,
 	Flag = "PlanetTeleportDropdown",
@@ -867,12 +868,12 @@ local PlanetTeleportDropdown = OtherTab:CreateDropdown({
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Sedna:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
 			
-		elseif choice == "Plant X" then
+		elseif choice == "PlantX" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
-			local PlanetX = workspace:WaitForChild("Planets"):WaitForChild("Planet X")
+			
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(PlanetX:GetPivot().Position + (Vector3.new(math.random(-1000,1000),0,math.random(-1000,1000)))))			
 
 		end
