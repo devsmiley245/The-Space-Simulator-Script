@@ -1470,6 +1470,450 @@ workspace.ChildAdded:Connect(function(obj)
 	end
 end)
 
+---------------------------------------------------------------------------
+
+local ShipMovements = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+local Title = Instance.new("TextLabel")
+local SelectionFrame = Instance.new("Frame")
+local List = Instance.new("ScrollingFrame")
+local UIListLayout = Instance.new("UIListLayout")
+local maxSpeed = Instance.new("TextButton")
+local UIAspectRatioConstraint_2 = Instance.new("UIAspectRatioConstraint")
+local acceleration = Instance.new("TextButton")
+local UIAspectRatioConstraint_3 = Instance.new("UIAspectRatioConstraint")
+local deceleration = Instance.new("TextButton")
+local UIAspectRatioConstraint_4 = Instance.new("UIAspectRatioConstraint")
+local agility = Instance.new("TextButton")
+local UIAspectRatioConstraint_5 = Instance.new("UIAspectRatioConstraint")
+local Info = Instance.new("TextLabel")
+local Title1 = Instance.new("TextLabel")
+local NumValue = Instance.new("TextBox")
+local LoopNumValue = Instance.new("TextBox")
+local ApplyBtn = Instance.new("TextButton")
+local ToggleLoopBtn = Instance.new("TextButton")
+local UIAspectRatioConstraint_6 = Instance.new("UIAspectRatioConstraint")
+
+ShipMovements.Name = "ShipMovements"
+ShipMovements.Parent = SpaceHubESPFolder
+ShipMovements.ScreenInsets = Enum.ScreenInsets.None
+ShipMovements.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ShipMovements.Enabled = false
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ShipMovements
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BackgroundTransparency = 0.650
+MainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BorderSizePixel = 0
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.Size = UDim2.new(0.36500001, 0, 0.36500001, 0)
+MainFrame.ZIndex = 500
+local mainFrameStroke = Instance.new("UIStroke")
+mainFrameStroke.Parent = MainFrame
+mainFrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+mainFrameStroke.Color = Color3.fromRGB(255, 255, 255)
+mainFrameStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+mainFrameStroke.Thickness = 0.015
+local MainFrameDragger = Instance.new("UIDragDetector")
+MainFrameDragger.Parent = MainFrame
+
+UIAspectRatioConstraint.Parent = MainFrame
+UIAspectRatioConstraint.AspectRatio = 1.5
+
+Title.Name = "Title"
+Title.Parent = MainFrame
+Title.AnchorPoint = Vector2.new(0.5, 0)
+Title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Title.BackgroundTransparency = 0.800
+Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Title.BorderSizePixel = 0
+Title.Position = UDim2.new(0.49999997, 0, 0, 0)
+Title.Size = UDim2.new(0.99999994, 0, 0.169872597, 0)
+Title.Font = Enum.Font.Arial
+Title.Text = "Ship Function Modifier"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.TextSize = 14.000
+Title.TextWrapped = true
+local TitleStroke = Instance.new("UIStroke")
+TitleStroke.Parent = Title
+TitleStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+TitleStroke.Color = Color3.fromRGB(255, 255, 255)
+TitleStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+TitleStroke.Thickness = 0.08
+
+SelectionFrame.Name = "SelectionFrame"
+SelectionFrame.Parent = MainFrame
+SelectionFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+SelectionFrame.BackgroundTransparency = 0.600
+SelectionFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SelectionFrame.BorderSizePixel = 0
+SelectionFrame.Position = UDim2.new(1.06367576, 0, 0.430113614, 0)
+SelectionFrame.Size = UDim2.new(0.508703411, 0, 0.565581024, 0)
+local SelectionFrameStroke = Instance.new("UIStroke")
+SelectionFrameStroke.Parent = SelectionFrame
+SelectionFrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+SelectionFrameStroke.Color = Color3.fromRGB(255, 255, 255)
+SelectionFrameStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+SelectionFrameStroke.Thickness = 0.022
+local SelectionFrameDragger = Instance.new("UIDragDetector")
+SelectionFrameDragger.Parent = SelectionFrame
+SelectionFrame.ZIndex = 500
+
+List.Name = "List"
+List.Parent = SelectionFrame
+List.Active = true
+List.AnchorPoint = Vector2.new(0.5, 0.5)
+List.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+List.BackgroundTransparency = 1.000
+List.BorderColor3 = Color3.fromRGB(0, 0, 0)
+List.BorderSizePixel = 0
+List.Position = UDim2.new(0.5, 0, 0.5, 0)
+List.Size = UDim2.new(0.949999988, 0, 0.949999988, 0)
+List.ScrollBarThickness = 2
+List.ZIndex = 510
+
+UIListLayout.Parent = List
+UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 5)
+
+maxSpeed.Name = "maxSpeed"
+maxSpeed.Parent = List
+maxSpeed.BackgroundColor3 = Color3.fromRGB(132, 132, 132)
+maxSpeed.BorderColor3 = Color3.fromRGB(0, 0, 0)
+maxSpeed.BorderSizePixel = 0
+maxSpeed.Size = UDim2.new(1, 0, 1, 0)
+maxSpeed.Font = Enum.Font.Arial
+maxSpeed.Text = "Speed"
+maxSpeed.TextColor3 = Color3.fromRGB(255, 255, 255)
+maxSpeed.TextScaled = true
+maxSpeed.TextSize = 14.000
+maxSpeed.TextWrapped = true
+maxSpeed.ZIndex = 520
+
+UIAspectRatioConstraint_2.Parent = maxSpeed
+UIAspectRatioConstraint_2.AspectRatio = 3.500
+
+acceleration.Name = "acceleration"
+acceleration.Parent = List
+acceleration.BackgroundColor3 = Color3.fromRGB(132, 132, 132)
+acceleration.BorderColor3 = Color3.fromRGB(0, 0, 0)
+acceleration.BorderSizePixel = 0
+acceleration.Size = UDim2.new(1, 0, 1, 0)
+acceleration.Font = Enum.Font.Arial
+acceleration.Text = " Acceleration"
+acceleration.TextColor3 = Color3.fromRGB(255, 255, 255)
+acceleration.TextScaled = true
+acceleration.TextSize = 14.000
+acceleration.TextWrapped = true
+acceleration.ZIndex = 520
+
+UIAspectRatioConstraint_3.Parent = acceleration
+UIAspectRatioConstraint_3.AspectRatio = 3.500
+
+deceleration.Name = "deceleration"
+deceleration.Parent = List
+deceleration.BackgroundColor3 = Color3.fromRGB(132, 132, 132)
+deceleration.BorderColor3 = Color3.fromRGB(0, 0, 0)
+deceleration.BorderSizePixel = 0
+deceleration.Size = UDim2.new(1, 0, 1, 0)
+deceleration.Font = Enum.Font.Arial
+deceleration.Text = " Deceleration"
+deceleration.TextColor3 = Color3.fromRGB(255, 255, 255)
+deceleration.TextScaled = true
+deceleration.TextSize = 14.000
+deceleration.TextWrapped = true
+deceleration.ZIndex = 520
+
+UIAspectRatioConstraint_4.Parent = deceleration
+UIAspectRatioConstraint_4.AspectRatio = 3.500
+
+agility.Name = "agility"
+agility.Parent = List
+agility.BackgroundColor3 = Color3.fromRGB(132, 132, 132)
+agility.BorderColor3 = Color3.fromRGB(0, 0, 0)
+agility.BorderSizePixel = 0
+agility.Size = UDim2.new(1, 0, 1, 0)
+agility.Font = Enum.Font.Arial
+agility.Text = "Agility"
+agility.TextColor3 = Color3.fromRGB(255, 255, 255)
+agility.TextScaled = true
+agility.TextSize = 14.000
+agility.TextWrapped = true
+agility.ZIndex = 520
+
+UIAspectRatioConstraint_5.Parent = agility
+UIAspectRatioConstraint_5.AspectRatio = 3.500
+
+Info.Name = "Info"
+Info.Parent = SelectionFrame
+Info.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Info.BackgroundTransparency = 0.600
+Info.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Info.BorderSizePixel = 0
+Info.Position = UDim2.new(-5.59042974e-07, 0, -0.370072424, 0)
+Info.Size = UDim2.new(1, 0, 0.2826235, 0)
+Info.Font = Enum.Font.Arial
+Info.Text = "↓ Select  One ↓"
+Info.TextColor3 = Color3.fromRGB(255, 255, 255)
+Info.TextScaled = true
+Info.TextSize = 14.000
+Info.TextWrapped = true
+Info.ZIndex = 520
+local InfoStroke = Instance.new("UIStroke")
+InfoStroke.Parent = Info
+InfoStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+InfoStroke.Color = Color3.fromRGB(255, 255, 255)
+InfoStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+InfoStroke.Thickness = 0.05
+
+Title1.Name = "Title1"
+Title1.Parent = MainFrame
+Title1.AnchorPoint = Vector2.new(0.5, 0)
+Title1.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Title1.BackgroundTransparency = 0.800
+Title1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Title1.BorderSizePixel = 0
+Title1.Position = UDim2.new(0.49999997, 0, 0.538160384, 0)
+Title1.Size = UDim2.new(1, 0, 0.150000006, 0)
+Title1.Font = Enum.Font.Arial
+Title1.Text = "Kuiper Belt Bypass Loop Speed"
+Title1.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title1.TextScaled = true
+Title1.TextSize = 14.000
+Title1.TextWrapped = true
+local Title1Stroke = Instance.new("UIStroke")
+Title1Stroke.Parent = Title1
+Title1Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+Title1Stroke.Color = Color3.fromRGB(255, 255, 255)
+Title1Stroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+Title1Stroke.Thickness = 0.05
+
+NumValue.Name = "NumValue"
+NumValue.Parent = MainFrame
+NumValue.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+NumValue.BackgroundTransparency = 0.600
+NumValue.BorderColor3 = Color3.fromRGB(0, 0, 0)
+NumValue.BorderSizePixel = 0
+NumValue.Position = UDim2.new(0.027956387, 0, 0.220440716, 0)
+NumValue.Size = UDim2.new(0.75, 0, 0.25999999, 0)
+NumValue.Font = Enum.Font.Arial
+NumValue.PlaceholderText = "Number Amount"
+NumValue.Text = ""
+NumValue.TextColor3 = Color3.fromRGB(255, 255, 255)
+NumValue.TextScaled = true
+NumValue.TextSize = 14.000
+NumValue.TextWrapped = true
+local NumValueStroke = Instance.new("UIStroke")
+NumValueStroke.Parent = NumValue
+NumValueStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+NumValueStroke.Color = Color3.fromRGB(255, 255, 255)
+NumValueStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+NumValueStroke.Thickness = 0.025
+
+LoopNumValue.Name = "LoopNumValue"
+LoopNumValue.Parent = MainFrame
+LoopNumValue.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+LoopNumValue.BackgroundTransparency = 0.600
+LoopNumValue.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LoopNumValue.BorderSizePixel = 0
+LoopNumValue.Position = UDim2.new(0.027956387, 0, 0.736500025, 0)
+LoopNumValue.Size = UDim2.new(0.75, 0, 0.25999999, 0)
+LoopNumValue.Font = Enum.Font.Arial
+LoopNumValue.PlaceholderText = "Loop Speed Number"
+LoopNumValue.Text = ""
+LoopNumValue.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoopNumValue.TextScaled = true
+LoopNumValue.TextSize = 14.000
+LoopNumValue.TextWrapped = true
+local LoopNumValueStroke = Instance.new("UIStroke")
+LoopNumValueStroke.Parent = LoopNumValue
+LoopNumValueStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+LoopNumValueStroke.Color = Color3.fromRGB(255, 255, 255)
+LoopNumValueStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+LoopNumValueStroke.Thickness = 0.025
+
+ApplyBtn.Name = "ApplyBtn"
+ApplyBtn.Parent = MainFrame
+ApplyBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ApplyBtn.BackgroundTransparency = 0.600
+ApplyBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ApplyBtn.BorderSizePixel = 0
+ApplyBtn.Position = UDim2.new(0.810000002, 0, 0.224999994, 0)
+ApplyBtn.Size = UDim2.new(0.181999996, 0, 0.25, 0)
+ApplyBtn.Font = Enum.Font.Arial
+ApplyBtn.Text = "Apply"
+ApplyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ApplyBtn.TextScaled = true
+ApplyBtn.TextSize = 14.000
+ApplyBtn.TextWrapped = true
+local ApplyBtnStroke = Instance.new("UIStroke")
+ApplyBtnStroke.Parent = ApplyBtn
+ApplyBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+ApplyBtnStroke.Color = Color3.fromRGB(255, 255, 255)
+ApplyBtnStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+ApplyBtnStroke.Thickness = 0.035
+
+ToggleLoopBtn.Name = "ToggleLoopBtn"
+ToggleLoopBtn.Parent = MainFrame
+ToggleLoopBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+ToggleLoopBtn.BackgroundTransparency = 0.600
+ToggleLoopBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleLoopBtn.BorderSizePixel = 0
+ToggleLoopBtn.Position = UDim2.new(0.810000002, 0, 0.736500025, 0)
+ToggleLoopBtn.Size = UDim2.new(0.181999996, 0, 0.25, 0)
+ToggleLoopBtn.Font = Enum.Font.Arial
+ToggleLoopBtn.Text = "Off"
+ToggleLoopBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleLoopBtn.TextScaled = true
+ToggleLoopBtn.TextSize = 14.000
+ToggleLoopBtn.TextWrapped = true
+local ToggleLoopBtnStroke = Instance.new("UIStroke")
+ToggleLoopBtnStroke.Parent = ToggleLoopBtn
+ToggleLoopBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+ToggleLoopBtnStroke.Color = Color3.fromRGB(255, 255, 255)
+ToggleLoopBtnStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+ToggleLoopBtnStroke.Thickness = 0.035
+
+UIAspectRatioConstraint_6.Parent = ApplyBtn
+
+local gui = ShipMovements
+local selectionFrame = gui.MainFrame.SelectionFrame
+local numValueBox = gui.MainFrame.NumValue
+local loopNumValueBox = gui.MainFrame.LoopNumValue
+local applyBtn = gui.MainFrame.ApplyBtn
+local list = selectionFrame.List
+
+local buttonNameToAttr = {
+	maxSpeed = "maxSpeed",
+	acceleration = "acceleration",
+	deceleration = "deceleration",
+	agility = "agility"
+}
+
+local buttons = {}
+local selectedButton = nil
+
+for _, child in ipairs(list:GetChildren()) do
+	if child:IsA("TextButton") then
+		table.insert(buttons, child)
+
+		child.MouseButton1Click:Connect(function()
+			for _, b in ipairs(buttons) do
+				b.BackgroundColor3 = Color3.fromRGB(132,132,132)
+			end
+			child.BackgroundColor3 = Color3.fromRGB(85,170,85)
+			selectedButton = child
+		end)
+	end
+end
+
+local function getSeatMain()
+	local character = game.Players.LocalPlayer.Character
+	if character then
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if humanoid and humanoid.SeatPart then
+			local seat = humanoid.SeatPart
+			local main = seat.Parent:FindFirstChild("Main")
+			return main
+		end
+	end
+	return nil
+end
+
+applyBtn.MouseButton1Click:Connect(function()
+	if not selectedButton then return end
+	local mainPart = getSeatMain()
+	if not mainPart then return end
+
+	local value = tonumber(numValueBox.Text)
+	if not value then return end
+
+	local attrName = buttonNameToAttr[selectedButton.Name]
+	if not attrName then return end
+
+	mainPart:SetAttribute(attrName, value)
+end)
+
+
+local toggleLoopBtn = gui.MainFrame.ToggleLoopBtn
+local loopActive = false
+
+local function isValidLoopValue()
+	local val = tonumber(loopNumValueBox.Text)
+	return val and val > 0
+end
+
+local function updateToggleButton()
+	if loopActive then
+		toggleLoopBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+		toggleLoopBtn.Text = "On"
+	else
+		toggleLoopBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+		toggleLoopBtn.Text = "Off"
+	end
+end
+
+toggleLoopBtn.MouseButton1Click:Connect(function()
+	if loopActive then
+		loopActive = false
+
+		local mainPart = getSeatMain()
+		if mainPart then
+			local lv = mainPart:FindFirstChild("LinearVelocity")
+			if lv and lv:IsA("LinearVelocity") then
+				lv.VectorVelocity = Vector3.new(15,0,0)
+			end
+		end
+	else
+		if isValidLoopValue() then
+			loopActive = true
+
+			local mainPart = getSeatMain()
+			if mainPart then
+				local lv = mainPart:FindFirstChild("LinearVelocity")
+				if lv and lv:IsA("LinearVelocity") then
+					local val = tonumber(loopNumValueBox.Text)
+					if val and val > 0 then
+						lv.VectorVelocity = Vector3.new(val,0,0)
+					end
+				end
+			end
+		else
+			loopActive = false
+		end
+	end
+	updateToggleButton()
+end)
+
+
+spawn(function()
+	while true do
+		local mainPart = getSeatMain()
+		if mainPart then
+			local lv = mainPart:FindFirstChild("LinearVelocity")
+			if lv and lv:IsA("LinearVelocity") then
+				local val = tonumber(loopNumValueBox.Text)
+				local valid = val and val > 0
+
+				if loopActive then
+					if valid then
+						lv.VectorVelocity = Vector3.new(val,0,0)
+					else
+						loopActive = false
+						updateToggleButton()
+					end
+				end
+			end
+		end
+		task.wait(0.05)
+	end
+end)
+
 --------------------- Event ESP -------------------------------------------------------
 
 local GIFTS_LINE_THICKNESS = 1
