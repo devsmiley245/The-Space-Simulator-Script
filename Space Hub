@@ -1,1 +1,328 @@
+local SpaceHubKeySystem = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local Base = Instance.new("ImageLabel")
+local Title = Instance.new("TextLabel")
+local LoadingText = Instance.new("TextLabel")
+local LoadingIcon = Instance.new("ImageLabel")
+local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+local Version = Instance.new("TextLabel")
+local KeyFrme = Instance.new("Frame")
+local UIAspectRatioConstraint_2 = Instance.new("UIAspectRatioConstraint")
+local TopBar = Instance.new("Frame")
+local T = Instance.new("TextLabel")
+local KeyInput = Instance.new("TextBox")
+local VerifyBtn = Instance.new("TextButton")
+local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+local topbarstroke = Instance.new("UIStroke")
+local keyinputstroke = Instance.new("UIStroke")
+local VerifyBtnStroke = Instance.new("UIStroke")
+local KeyFrameUIStroke = Instance.new("UIStroke")
 
+local Key = "TPY-HG6-TSS-2R8" 
+local SpaceHubVersion = "v0.27.5"
+
+SpaceHubKeySystem.Name = "SpaceHubKeySystem"
+SpaceHubKeySystem.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+SpaceHubKeySystem.Enabled = true
+SpaceHubKeySystem.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+SpaceHubKeySystem.ResetOnSpawn = false
+SpaceHubKeySystem.ScreenInsets = Enum.ScreenInsets.None
+
+Main.Name = "Main"
+Main.Parent = SpaceHubKeySystem
+Main.AnchorPoint = Vector2.new(0.5, 0.5)
+Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0.5, 0, 0.5, 0)
+Main.Size = UDim2.new(1, 0, 1, 0)
+Main.ZIndex = 850
+
+Base.Name = "Base"
+Base.Parent = Main
+Base.AnchorPoint = Vector2.new(0.5, 0.5)
+Base.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Base.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Base.BorderSizePixel = 0
+Base.Position = UDim2.new(0.5, 0, 0.5, 0)
+Base.Size = UDim2.new(1, 0, 1, 0)
+Base.ZIndex = 900
+Base.Image = "rbxassetid://108968852615782"
+
+Title.Name = "Title"
+Title.Parent = Base
+Title.AnchorPoint = Vector2.new(0.5, 0.5)
+Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1.000
+Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Title.BorderSizePixel = 0
+Title.Position = UDim2.new(0.5, 0, 0.25, 0)
+Title.Size = UDim2.new(0.550000012, 0, 0.100000001, 0)
+Title.ZIndex = 910
+Title.Font = Enum.Font.Arial
+Title.Text = "The Space Simulator - Space Hub 🪐"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.TextSize = 14.000
+Title.TextWrapped = true
+Title.Visible = false
+
+LoadingText.Name = "LoadingText"
+LoadingText.Parent = Base
+LoadingText.AnchorPoint = Vector2.new(0.5, 0.5)
+LoadingText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LoadingText.BackgroundTransparency = 1.000
+LoadingText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LoadingText.BorderSizePixel = 0
+LoadingText.Position = UDim2.new(0.5, 0, 0.5, 0)
+LoadingText.Size = UDim2.new(0.349999994, 0, 0.0700000003, 0)
+LoadingText.ZIndex = 910
+LoadingText.Font = Enum.Font.Arial
+LoadingText.Text = "Loading Script Content..."
+LoadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoadingText.TextScaled = true
+LoadingText.TextSize = 14.000
+LoadingText.TextWrapped = true
+LoadingText.Visible = false
+
+LoadingIcon.Name = "LoadingIcon"
+LoadingIcon.Parent = Base
+LoadingIcon.AnchorPoint = Vector2.new(0.5, 0.800000012)
+LoadingIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LoadingIcon.BackgroundTransparency = 1.000
+LoadingIcon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LoadingIcon.BorderSizePixel = 0
+LoadingIcon.Position = UDim2.new(0.5, 0, 0.800000012, 0)
+LoadingIcon.Rotation = -180.000
+LoadingIcon.Size = UDim2.new(0.119999997, 0, 0.119999997, 0)
+LoadingIcon.ZIndex = 920
+LoadingIcon.Image = "rbxassetid://15802670993"
+LoadingIcon.Visible = false
+
+UIAspectRatioConstraint.Parent = LoadingIcon
+
+Version.Name = "Version"
+Version.Parent = Base
+Version.AnchorPoint = Vector2.new(0.5, 0.5)
+Version.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Version.BackgroundTransparency = 1.000
+Version.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Version.BorderSizePixel = 0
+Version.Position = UDim2.new(0.5, 0, 0.349999994, 0)
+Version.Size = UDim2.new(0.5, 0, 0.0599999987, 0)
+Version.ZIndex = 910
+Version.Font = Enum.Font.Arial
+Version.Text = SpaceHubVersion
+Version.TextColor3 = Color3.fromRGB(255, 255, 255)
+Version.TextScaled = true
+Version.TextSize = 14.000
+Version.TextWrapped = true
+Version.Visible = false
+
+KeyFrme.Name = "KeyFrme"
+KeyFrme.Parent = Base
+KeyFrme.AnchorPoint = Vector2.new(0.5, 0.5)
+KeyFrme.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+KeyFrme.BackgroundTransparency = 0.650
+KeyFrme.BorderColor3 = Color3.fromRGB(0, 0, 0)
+KeyFrme.BorderSizePixel = 0
+KeyFrme.Position = UDim2.new(0.5, 0, 0.5, 0)
+KeyFrme.Size = UDim2.new(0.400000006, 0, 0.400000006, 0)
+KeyFrme.ZIndex = 950
+KeyFrme.Visible = false
+KeyFrameUIStroke.Parent = KeyFrme
+KeyFrameUIStroke.Thickness = 2
+KeyFrameUIStroke.Color = Color3.fromRGB(255, 255, 255)
+KeyFrameUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+UIAspectRatioConstraint_2.Parent = KeyFrme
+UIAspectRatioConstraint_2.AspectRatio = 1.500
+
+TopBar.Name = "TopBar"
+TopBar.Parent = KeyFrme
+TopBar.AnchorPoint = Vector2.new(0.5, 0)
+TopBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TopBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TopBar.BorderSizePixel = 0
+TopBar.Position = UDim2.new(0.5, 0, 0, 0)
+TopBar.Size = UDim2.new(1, 0, 0.200000003, 0)
+topbarstroke.Parent = TopBar
+topbarstroke.Thickness = 2
+topbarstroke.Color = Color3.fromRGB(255, 255, 255)
+topbarstroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+T.Name = "T"
+T.Parent = TopBar
+T.AnchorPoint = Vector2.new(0.5, 0.5)
+T.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+T.BackgroundTransparency = 1.000
+T.BorderColor3 = Color3.fromRGB(0, 0, 0)
+T.BorderSizePixel = 0
+T.Position = UDim2.new(0.5, 0, 0.5, 0)
+T.Size = UDim2.new(0.949999988, 0, 0.699999988, 0)
+T.ZIndex = 960
+T.Font = Enum.Font.Arial
+T.Text = "🔑 Space Hub - Key System 🔑"
+T.TextColor3 = Color3.fromRGB(255, 255, 255)
+T.TextScaled = true
+T.TextSize = 14.000
+T.TextWrapped = true
+
+KeyInput.Name = "KeyInput"
+KeyInput.Parent = KeyFrme
+KeyInput.AnchorPoint = Vector2.new(0.5, 0.5)
+KeyInput.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+KeyInput.BackgroundTransparency = 0.500
+KeyInput.BorderColor3 = Color3.fromRGB(0, 0, 0)
+KeyInput.BorderSizePixel = 0
+KeyInput.Position = UDim2.new(0.5, 0, 0.430000007, 0)
+KeyInput.Size = UDim2.new(0.800000012, 0, 0.25999999, 0)
+KeyInput.Font = Enum.Font.Arial
+KeyInput.PlaceholderText = "Get The Key from discord"
+KeyInput.Text = ""
+KeyInput.TextColor3 = Color3.fromRGB(0, 0, 0)
+KeyInput.TextScaled = true
+KeyInput.TextSize = 14.000
+KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyInput.TextWrapped = true
+keyinputstroke.Parent = KeyInput
+keyinputstroke.Color = Color3.fromRGB(255, 255, 255)
+keyinputstroke.Thickness = 2
+
+keyinputstroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+VerifyBtn.Name = "VerifyBtn"
+VerifyBtn.Parent = KeyFrme
+VerifyBtn.AnchorPoint = Vector2.new(0.5, 0.5)
+VerifyBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+VerifyBtn.BackgroundTransparency = 0.500
+VerifyBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+VerifyBtn.BorderSizePixel = 0
+VerifyBtn.Position = UDim2.new(0.5, 0, 0.779999971, 0)
+VerifyBtn.Size = UDim2.new(0.800000012, 0, 0.270000011, 0)
+VerifyBtn.Font = Enum.Font.Arial
+VerifyBtn.Text = "Verify Key"
+VerifyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+VerifyBtn.TextScaled = true
+VerifyBtn.TextSize = 14.000
+VerifyBtn.TextWrapped = true
+VerifyBtnStroke.Parent = VerifyBtn
+VerifyBtnStroke.Color = Color3.fromRGB(255, 255, 255)
+VerifyBtnStroke.Thickness = 2
+VerifyBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+UITextSizeConstraint.Parent = VerifyBtn
+UITextSizeConstraint.MaxTextSize = 30
+
+
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+-- UI references (already created by you)
+local Title = Title
+local LoadingText = LoadingText
+local LoadingIcon = LoadingIcon
+local Version = Version
+local KeyFrme = KeyFrme
+local KeyInput = KeyInput
+local VerifyBtn = VerifyBtn
+
+local CorrectKey = Key
+
+local function tween(obj, time, props)
+	return TweenService:Create(
+		obj,
+		TweenInfo.new(time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+		props
+	)
+end
+
+Title.Visible = true
+Title.Size = UDim2.new(0,0,0,0)
+Title.Position = UDim2.new(0.5,0,0.5,0)
+
+tween(Title, 0.8, {
+	Size = UDim2.new(0.55,0,0.1,0)
+}):Play()
+
+task.wait(0.9)
+
+tween(Title, 0.6, {
+	Position = UDim2.new(0.5,0,0.25,0)
+}):Play()
+
+task.wait(0.7)
+
+LoadingText.Visible = true
+LoadingIcon.Visible = true
+Version.Visible = true
+
+task.spawn(function()
+	while LoadingIcon.Visible do
+		LoadingIcon.Rotation = 0
+		tween(LoadingIcon, 1.5, {Rotation = 360}):Play()
+		task.wait(1.5)
+	end
+end)
+
+local function animatedText(baseText, duration)
+	local start = tick()
+	local dots = {".", ". .", ". . ."}
+	local i = 1
+	while tick() - start < duration do
+		LoadingText.Text = baseText .. " " .. dots[i]
+		i = i % #dots + 1
+		task.wait(0.5)
+	end
+end
+
+animatedText("Loading Script Content", 5)
+animatedText("Preparing KeySystem", 3)
+
+Title.Visible = false
+LoadingText.Visible = false
+LoadingIcon.Visible = false
+Version.Visible = false
+
+KeyFrme.Visible = true
+KeyFrme.Size = UDim2.new(0,0,0,0)
+
+tween(KeyFrme, 1, {
+	Size = UDim2.new(0.48,0,0.48,0)
+}):Play()
+
+VerifyBtn.MouseButton1Click:Connect(function()
+	local input = KeyInput.Text
+
+	if input == CorrectKey then
+
+		KeyInput.Text = ""
+		KeyInput.PlaceholderColor3 = Color3.fromRGB(0,255,0)
+		KeyInput.PlaceholderText = "Verification Success"
+
+		task.wait(2)
+
+		KeyFrme.Visible = false
+		LoadingText.Visible = true
+		LoadingText.TextColor3 = Color3.fromRGB(255,255,255)
+		LoadingText.Size = UDim2.new(0.48,0,0.12,0)
+
+		animatedText(
+			"Verification Completed, Waiting for space hub response",
+			5
+		)
+
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/devsmiley245/The-Space-Simulator-Script/refs/heads/main/Space%20Hub%20Main"))()
+		SpaceHubKeySystem:Destroy()
+		
+	else
+		KeyInput.Text = ""
+		KeyInput.PlaceholderColor3 = Color3.fromRGB(255,0,0)
+		KeyInput.PlaceholderText = "Invalid Key, Join discord for key"
+
+		task.wait(3)
+
+		KeyInput.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
+		KeyInput.PlaceholderText = "Get The Key from discord"
+	end
+end)
