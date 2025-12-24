@@ -1,6 +1,8 @@
-local isRunning = true
+local isRunning = false
 
 if isRunning then return end
+
+isRunning = true
 
 local SpaceHubKeySystem = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
