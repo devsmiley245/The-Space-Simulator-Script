@@ -1307,6 +1307,169 @@ RunService.RenderStepped:Connect(function()
 	end
 end)
 
+---- Voyager + Planet-X ----
+
+local PLANETX_VOYAGER_LINE_THICKNESS = 1
+local PLANETX_VOYAGER_OFFSET_Y = 40
+
+for _, name in ipairs({ "PlanetXVoyagerLines", "PlanetXVoyagerBoxes", "PlanetXVoyagerNames" }) do
+	local old = CoreGui:FindFirstChild(name)
+	if old then old:Destroy() end
+end
+
+local PlanetXVoyagerLinesGui = Instance.new("ScreenGui")
+PlanetXVoyagerLinesGui.Name = "PlanetXVoyagerLines"
+PlanetXVoyagerLinesGui.IgnoreGuiInset = true
+PlanetXVoyagerLinesGui.DisplayOrder = 1200
+PlanetXVoyagerLinesGui.ResetOnSpawn = false
+PlanetXVoyagerLinesGui.Parent = SpaceHubESPFolder
+
+local PlanetXVoyagerBoxesGui = Instance.new("ScreenGui")
+PlanetXVoyagerBoxesGui.Name = "PlanetXVoyagerBoxes"
+PlanetXVoyagerBoxesGui.IgnoreGuiInset = true
+PlanetXVoyagerBoxesGui.DisplayOrder = 1201
+PlanetXVoyagerBoxesGui.ResetOnSpawn = false
+PlanetXVoyagerBoxesGui.Parent = SpaceHubESPFolder
+
+local PlanetXVoyagerNamesGui = Instance.new("ScreenGui")
+PlanetXVoyagerNamesGui.Name = "PlanetXVoyagerNames"
+PlanetXVoyagerNamesGui.IgnoreGuiInset = true
+PlanetXVoyagerNamesGui.DisplayOrder = 1202
+PlanetXVoyagerNamesGui.ResetOnSpawn = false
+PlanetXVoyagerNamesGui.Parent = SpaceHubESPFolder
+
+local function PlanetXVoyager_getColor(objName)
+	if objName == "Voyager" then
+		return Color3.fromRGB(0, 170, 127)
+	elseif objName == "Planet X" then
+		return Color3.fromRGB(123, 0, 184)
+	end
+	return Color3.fromRGB(255, 255, 255)
+end
+
+local function PlanetXVoyager_makeLine()
+	local PlanetX_Voyager_F = Instance.new("Frame")
+	PlanetX_Voyager_F.Size = UDim2.fromOffset(10, PLANETX_VOYAGER_LINE_THICKNESS)
+	PlanetX_Voyager_F.AnchorPoint = Vector2.new(0.5, 0.5)
+	PlanetX_Voyager_F.BorderSizePixel = 0
+	PlanetX_Voyager_F.Visible = false
+	PlanetX_Voyager_F.Parent = PlanetXVoyagerLinesGui
+	return PlanetX_Voyager_F
+end
+
+local function PlanetXVoyager_makeBox()
+	local PlanetX_Voyager_box = Instance.new("Frame")
+	PlanetX_Voyager_box.AnchorPoint = Vector2.new(0.5, 0.5)
+	PlanetX_Voyager_box.BackgroundTransparency = 1
+	PlanetX_Voyager_box.Visible = false
+	PlanetX_Voyager_box.Parent = PlanetXVoyagerBoxesGui
+
+	local PlanetX_Voyager_aspect = Instance.new("UIAspectRatioConstraint")
+	PlanetX_Voyager_aspect.AspectRatio = 1
+	PlanetX_Voyager_aspect.Parent = PlanetX_Voyager_box
+
+	local PlanetX_Voyager_stroke = Instance.new("UIStroke")
+	PlanetX_Voyager_stroke.Thickness = 1.5
+	PlanetX_Voyager_stroke.Parent = PlanetX_Voyager_box
+
+	return PlanetX_Voyager_box
+end
+
+local function PlanetXVoyager_makeName()
+	local PlanetX_Voyager_label = Instance.new("TextLabel")
+	PlanetX_Voyager_label.AnchorPoint = Vector2.new(0.5, 1)
+	PlanetX_Voyager_label.BackgroundTransparency = 1
+	PlanetX_Voyager_label.TextScaled = true
+	PlanetX_Voyager_label.Font = Enum.Font.Gotham
+	PlanetX_Voyager_label.Visible = false
+	PlanetX_Voyager_label.Parent = PlanetXVoyagerNamesGui
+
+	local PlanetX_Voyager_aspect = Instance.new("UIAspectRatioConstraint")
+	PlanetX_Voyager_aspect.AspectRatio = 5
+	PlanetX_Voyager_aspect.Parent = PlanetX_Voyager_label
+
+	return PlanetX_Voyager_label
+end
+
+local function PlanetXVoyager_addObject(obj)
+	if not obj:IsA("Model") then return end
+
+	if not obj.PrimaryPart then
+		warn(obj.Name .. " does not have a PrimaryPart set!")
+		return
+	end
+
+	local name = obj.Name
+	local validNames = { "Planet X", "Voyager" }
+	if not table.find(validNames, name) then return end
+
+	local line = PlanetXVoyager_makeLine()
+	local box = PlanetXVoyager_makeBox()
+	local nameLabel = PlanetXVoyager_makeName()
+
+	local function updateESP()
+		local pos, visible = Camera:WorldToViewportPoint(obj.PrimaryPart.Position)
+		if visible then
+			local dx = pos.X - Camera.ViewportSize.X / 2
+			local dy = pos.Y - PLANETX_VOYAGER_OFFSET_Y
+			local dist = math.sqrt(dx * dx + dy * dy)
+
+			local color = PlanetXVoyager_getColor(obj.Name)
+
+			line.BackgroundColor3 = color
+			line.Visible = true
+			line.Size = UDim2.fromOffset(dist, PLANETX_VOYAGER_LINE_THICKNESS)
+			line.Position = UDim2.fromOffset((pos.X + Camera.ViewportSize.X / 2) / 2, (pos.Y + PLANETX_VOYAGER_OFFSET_Y) / 2)
+			line.Rotation = math.deg(math.atan2(dy, dx))
+
+			box.Visible = true
+			box.Position = UDim2.fromOffset(pos.X, pos.Y)
+			local scale = math.clamp(pos.Z / 400, 0.01, 0.045)
+			box.Size = UDim2.fromScale(scale, scale)
+			box.UIStroke.Color = color
+
+			local distText = math.floor((Camera.CFrame.Position - obj.PrimaryPart.Position).Magnitude)
+			nameLabel.TextColor3 = color
+			nameLabel.Text = name == "Planet X" and "Planet-X | " .. distText .. " studs" or "Voyager | " .. distText .. " studs"
+			nameLabel.Position = UDim2.fromOffset(pos.X, pos.Y - 12.5)
+			nameLabel.Size = UDim2.fromScale(0.1, 0.1)
+			nameLabel.Visible = true
+		else
+			line.Visible = false
+			box.Visible = false
+			nameLabel.Visible = false
+		end
+	end
+
+	RunService.RenderStepped:Connect(updateESP)
+end
+
+local function PlanetXVoyager_bindFolders()
+	local PlanetsFolder = workspace:FindFirstChild("Planets")
+	if PlanetsFolder then
+		local PlanetX = PlanetsFolder:FindFirstChild("Planet X")
+		if PlanetX then
+			PlanetXVoyager_addObject(PlanetX)
+		end
+	end
+
+	local PlanetoidsFolder = workspace:FindFirstChild("Planetoids")
+	if PlanetoidsFolder then
+		local Voyager = PlanetoidsFolder:FindFirstChild("Voyager")
+		if Voyager then
+			PlanetXVoyager_addObject(Voyager)
+		end
+	end
+end
+
+PlanetXVoyager_bindFolders()
+
+workspace.ChildAdded:Connect(function(obj)
+	if obj.Name == "Planets" or obj.Name == "Planetoids" then
+		PlanetXVoyager_bindFolders()
+	end
+end)
+
 --------------------- Event ESP -------------------------------------------------------
 
 local GIFTS_LINE_THICKNESS = 1
