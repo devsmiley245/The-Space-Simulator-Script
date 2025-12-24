@@ -304,7 +304,7 @@ end
 local ShipMovements = SpaceHubESPFolder:WaitForChild("ShipMovements")
 local ShipHighLightValue = SpaceHubValuesFolder:WaitForChild("ShipHighLight")
 local ShipNoClip_Value2 = SpaceHubValuesFolder:WaitForChild("ShipNoClip")
-local BypassACValue = SpaceHubValuesFolder:WaitForChild("BypassAC")
+local BACValue = SpaceHubValuesFolder:WaitForChild("BypassAC")
 
 local Toggle = ShipTab:CreateToggle({
 	Name = "Ship Function Modifier Menu",
@@ -670,14 +670,14 @@ local OpenHubbleTelescopeButton = OtherTab:CreateButton({
 	end,
 })
 
-local BypassACToggle = ShipTab:CreateToggle({
+local BACToggle = OtherTab:CreateToggle({
 	Name = "Bypass Anti-Cheat",
 	CurrentValue = false,
-	Flag = "BypassACToggle",
+	Flag = "BACToggle",
 	Callback = function(Value)
 		local remote = game.ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerStatusEvent")
 		
-		BypassACValue.Value = Value
+		BACValue.Value = Value
 		_G.BlockPlayerStatusEvent = Value
 
 		local old
@@ -705,13 +705,13 @@ local PlanetTeleportDropdown = OtherTab:CreateDropdown({
 	Callback = function(Options)
 		local choice = Options[1]
 		
-		if BypassAntiCheatValue.Value == false then
+		if BACValue.Value == false then
 			ShowNotify("You need to enable Bypass Anti-Cheat before using this teleport!")
 		end
 
 		if choice == "Mercury" then
 			
-			if BypassAntiCheatValue.Value == false then
+			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Mercury:GetPivot().Position + (Vector3.new(math.random(-50,50),0,math.random(-50,50)))))
@@ -719,21 +719,21 @@ local PlanetTeleportDropdown = OtherTab:CreateDropdown({
 			
 		elseif choice == "Venus" then
 			
-			if BypassAntiCheatValue.Value == false then
+			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Venus:GetPivot().Position + (Vector3.new(math.random(-50,50),0,math.random(-50,50)))))
 			
 		elseif choice == "Earth" then
 			
-			if BypassAntiCheatValue.Value == false then
+			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Earth:GetPivot().Position + (Vector3.new(math.random(-50,50),0,math.random(-50,50)))))
 			
 		elseif choice == "Mars" then
 			
-			if BypassAntiCheatValue.Value == false then
+			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Mars:GetPivot().Position + (Vector3.new(math.random(-50,50),0,math.random(-50,50)))))
