@@ -1223,6 +1223,10 @@ local ResourceLineGui = SpaceHubESPFolder:WaitForChild("ResourceLines")
 local ResourceBoxGui = SpaceHubESPFolder:WaitForChild("ResourceBoxes")
 local ResourceNameGui = SpaceHubESPFolder:WaitForChild("ResourceNames")
 
+local PlanetXVoyagerLines = SpaceHubESPFolder:WaitForChild("PlanetXVoyagerLines")
+local PlanetXVoyagerBoxes = SpaceHubESPFolder:WaitForChild("PlanetXVoyagerBoxes")
+local PlanetXVoyagerNames = SpaceHubESPFolder:WaitForChild("PlanetXVoyagerNames")
+
 --------------------
 
 local ESPTab = Window:CreateTab("ESP", 4483362458) -- Title, Image
@@ -1399,6 +1403,34 @@ local Toggle18 = ESPTab:CreateToggle({
 	end
 })
 
+---------------------------------------------------------------------------------------------
+
+local VoyagerPlanetXESPLinesToggle = ESPTab:CreateToggle({
+	Name = "Voyager + Planet-X ESP Lines",
+	CurrentValue = false,
+	Flag = "VoyagerPlanetXESPLinesToggle",
+	Callback = function(Value)
+		PlanetXVoyagerLines.Enabled = Value
+	end
+})
+
+local VoyagerPlanetXESPBoxesToggle = ESPTab:CreateToggle({
+	Name = "Voyager + Planet-X ESP Boxes",
+	CurrentValue = false,
+	Flag = "VoyagerPlanetXESPBoxesToggle",
+	Callback = function(Value)
+		PlanetXVoyagerBoxes.Enabled = Value  -- ✔ Correct GUI
+	end
+})
+
+local VoyagerPlanetXESPInformationsToggle = ESPTab:CreateToggle({
+	Name = "Voyager + Planet-X ESP Informations",
+	CurrentValue = false,
+	Flag = "VoyagerPlanetXESPInformationsToggle",
+	Callback = function(Value)
+		PlanetXVoyagerNames.Enabled = Value
+	end
+})
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
