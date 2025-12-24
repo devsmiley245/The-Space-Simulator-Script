@@ -1,8 +1,13 @@
 local isRunning = false
+print("Starting Space Hub KeySystem...")
 
-if isRunning then return end
+if isRunning then
+	warn("KeySystem Failed, Reason: Old One Detected!")
+	return 
+end
 
 isRunning = true
+print("KeySystem Loaded!!")
 
 local SpaceHubKeySystem = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
