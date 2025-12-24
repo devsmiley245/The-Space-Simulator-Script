@@ -1,17 +1,21 @@
 local TweenService = game:GetService("TweenService")
 local Debris = game:GetService("Debris")
+local CoreGui = game:GetService("CoreGui")
 
 local function ShowNotify(message)
-	local SpaceHubKeySystemGui = game.CoreGui:FindFirstChild("SpaceHubKeySystemGui")
+	local SpaceHubKeySystemGui = CoreGui:FindFirstChild("SpaceHubNotifyKeySystem")
 	if not SpaceHubKeySystemGui then
-		local SpaceHubKeySystemGui = Instance.new("ScreenGui")
-		SpaceHubKeySystemGui.Parent = game.CoreGui
+		SpaceHubKeySystemGui = Instance.new("ScreenGui")
 		SpaceHubKeySystemGui.Name = "SpaceHubNotifyKeySystem"
+		SpaceHubKeySystemGui.Parent = CoreGui
 	end
 
-		local NotifyFolder = Instance.new("Folder")
+	local NotifyFolder = SpaceHubKeySystemGui:FindFirstChild("NotifyFolder")
+	if not NotifyFolder then
+		NotifyFolder = Instance.new("Folder")
 		NotifyFolder.Name = "NotifyFolder"
 		NotifyFolder.Parent = SpaceHubKeySystemGui
+	end
 
 	local Notify = Instance.new("Frame")
 	local NotiUICorner = Instance.new("UICorner")
@@ -20,15 +24,15 @@ local function ShowNotify(message)
 	local NotiSound = Instance.new("Sound")
 
 	Notify.Name = "NotifyClone"
-	Notify.AnchorPoint = Vector2.new(0.5,0.8)
+	Notify.AnchorPoint = Vector2.new(0.5, 0.8)
 	Notify.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Notify.BackgroundTransparency = 0.65
 	Notify.BorderSizePixel = 0
-	Notify.Position = UDim2.new(0.5,0,1.2,0)
-	Notify.Size = UDim2.new(0.8,0,0.15,0)
+	Notify.Position = UDim2.new(0.5, 0, 1.2, 0)
+	Notify.Size = UDim2.new(0.8, 0, 0.15, 0)
 	Notify.Parent = NotifyFolder
 
-	NotiUICorner.CornerRadius = UDim.new(0,10)
+	NotiUICorner.CornerRadius = UDim.new(0, 10)
 	NotiUICorner.Parent = Notify
 
 	NotiStroke.Color = Color3.fromRGB(198, 0, 0)
@@ -37,10 +41,10 @@ local function ShowNotify(message)
 	NotiStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 	NotiStroke.Parent = Notify
 
-	NotiText.AnchorPoint = Vector2.new(0.5,0.5)
+	NotiText.AnchorPoint = Vector2.new(0.5, 0.5)
 	NotiText.BackgroundTransparency = 1
-	NotiText.Position = UDim2.new(0.5,0,0.5,0)
-	NotiText.Size = UDim2.new(0.95,0,0.8,0)
+	NotiText.Position = UDim2.new(0.5, 0, 0.5, 0)
+	NotiText.Size = UDim2.new(0.95, 0, 0.8, 0)
 	NotiText.Font = Enum.Font.Fantasy
 	NotiText.Text = message
 	NotiText.TextColor3 = Color3.fromRGB(229, 0, 0)
@@ -53,13 +57,16 @@ local function ShowNotify(message)
 	NotiSound.Parent = Notify
 	NotiSound:Play()
 
-	local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
-	local goal = {Position = UDim2.new(0.5,0,0.8,0)}
-	local tween = TweenService:Create(Notify, tweenInfo, goal)
+	local tween = TweenService:Create(
+		Notify,
+		TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+		{ Position = UDim2.new(0.5, 0, 0.8, 0) }
+	)
 	tween:Play()
 
 	Debris:AddItem(Notify, 4)
 end
+
 
 local allowedPlaceIds = {
 	15027718878,
