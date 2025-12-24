@@ -90,12 +90,12 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-ShowNotify("Thanks For Using My Script, v0.27.5")
+ShowNotify("Thanks For Using My Script, v0.28")
 
 local Window = Rayfield:CreateWindow({
 	Name = "🚀[Winter] The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.27.5 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.28 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -304,6 +304,7 @@ end
 local ShipMovements = SpaceHubESPFolder:WaitForChild("ShipMovements")
 local ShipHighLightValue = SpaceHubValuesFolder:WaitForChild("ShipHighLight")
 local ShipNoClip_Value2 = SpaceHubValuesFolder:WaitForChild("ShipNoClip")
+local BypassAntiCheatValue = SpaceHubValuesFolder:WaitForChild("Bypass Anti-Cheat")
 
 local Toggle = ShipTab:CreateToggle({
 	Name = "Ship Function Modifier Menu",
@@ -436,27 +437,6 @@ local ColorPicker = ShipTab:CreateColorPicker({
 			hl.OutlineColor = Value
 		end
 	end
-})
-
-local Dropdown = ShipTab:CreateDropdown({
-	Name = "Ship Trails ( Coming Soon...)",
-	Options = {"A", "B", "C", "D"},
-	CurrentOption = {"A"},
-	MultipleOptions = false,
-	Flag = "Dropdown1",
-	Callback = function(Options)
-		local choice = Options[1] -- since MultipleOptions is false, take the first
-
-		if choice == "A" then
-			ShowNotify("A")
-		elseif choice == "B" then
-			ShowNotify("B")
-		elseif choice == "C" then
-			ShowNotify("C")
-		elseif choice == "D" then
-			ShowNotify("D")
-		end
-	end,
 })
 
 local Label = ShipTab:CreateLabel("Energy Balls", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
@@ -667,20 +647,6 @@ local REButton = CSettingsTab:CreateButton({
 	end,
 })
 
-local ANTIPButton = CSettingsTab:CreateButton({
-	Name = "ISS Station Status On",
-	Callback = function()
-		game.Players.LocalPlayer:SetAttribute("station", true)-- The function that takes place when the button is pressed
-	end,
-})
-
-local ANTIPLButton = CSettingsTab:CreateButton({
-	Name = "ISS Station Status Off",
-	Callback = function()
-		game.Players.LocalPlayer:SetAttribute("station", false)-- The function that takes place when the button is pressed
-	end,
-})
-
 --Other Functions
 
 local OtherTab = Window:CreateTab("Others", 4483362458) -- Title, Image
@@ -694,7 +660,7 @@ local function firePrompt(prompt)
 	end
 end
 
-local Button = OtherTab:CreateButton({
+local OpenHubbleTelescopeButton = OtherTab:CreateButton({
 	Name = "Open Hubble Telescope",
 	Callback = function()
 		local prompt = workspace:WaitForChild("Planetoids"):WaitForChild("Hubble"):WaitForChild("ControlPanel"):FindFirstChildOfClass("ProximityPrompt")
@@ -704,57 +670,75 @@ local Button = OtherTab:CreateButton({
 	end,
 })
 
-local AntiCheatHideFrameButton
+local BypassAntiCheatToggle = ShipTab:CreateToggle({
+	Name = "Bypass Anti-Cheat",
+	CurrentValue = false,
+	Flag = "BypassAntiCheatToggle",
+	Callback = function(Value)
+		local remote = game.ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerStatusEvent")
+		
+		BypassAntiCheatValue.Value = Value
+		_G.BlockPlayerStatusEvent = Value
 
-local dialogGui = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("DialogGui")
-local cleanerOn = false
-local cleanerConnection = nil
+		local old
+		old = hookmetamethod(game, "__namecall", function(self, ...)
+			local method = getnamecallmethod()
 
-toggleButton = OtherTab:CreateButton({
-	Name = "Anti-Cheat Warning Frame: Show",
-	Callback = function()
-		cleanerOn = not cleanerOn
-
-		if cleanerOn then
-			toggleButton:Set("Anti-Cheat Warning Frame: Hide") -- show "Hide" when enabled
-
-			-- Start cleaning loop
-			cleanerConnection = RunService.RenderStepped:Connect(function()
-				if not dialogGui then return end
-
-				local dialogsFrame = dialogGui:FindFirstChild("DialogsFrames")
-				if dialogsFrame then
-					for _, child in ipairs(dialogsFrame:GetChildren()) do
-						if child:IsA("Frame") then
-							child:Destroy()
-						end
-					end
-				end
-			end)
-
-		else
-			toggleButton:Set("Anti-Cheat Warning Frame: Show") -- show "Show" when disabled
-
-			-- Stop cleaning loop
-			if cleanerConnection then
-				cleanerConnection:Disconnect()
-				cleanerConnection = nil
+			if _G.BlockPlayerStatusEvent
+				and self == remote
+				and method == "FireServer" then
+				return nil
 			end
-		end
+
+			return old(self, ...)
+		end)
+		
 	end
 })
 
-local Button
-
-Button = OtherTab:CreateButton({
-	Name = "Destroy Client (Stop The Main Functions)",
-	Callback = function()
-		local skin = workspace:WaitForChild("Planets"):WaitForChild("Eris"):WaitForChild("Skin")
-		if skin then
-			skin:Destroy()
+local PlanetTeleportDropdown = OtherTab:CreateDropdown({
+	Name = "Teleport To Planets",
+	Options = {"Mercury", "Venus", "Earth", "Mars"},
+	CurrentOption = {"Earth"},
+	MultipleOptions = false,
+	Flag = "PlanetTeleportDropdown",
+	Callback = function(Options)
+		local choice = Options[1]
+		
+		if BypassAntiCheatValue.Value == false then
+			ShowNotify("You need to enable Bypass Anti-Cheat before using this teleport!")
 		end
 
-		Button:Set("Game Client Destroyed. Please Rejoin")
+		if choice == "Mercury" then
+			
+			if BypassAntiCheatValue.Value == false then
+				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
+			end
+			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Mercury:GetPivot().Position + (Vector3.new(math.random(-50,50),0,math.random(-50,50)))))
+
+			
+		elseif choice == "Venus" then
+			
+			if BypassAntiCheatValue.Value == false then
+				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
+			end
+			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Venus:GetPivot().Position + (Vector3.new(math.random(-50,50),0,math.random(-50,50)))))
+			
+		elseif choice == "Earth" then
+			
+			if BypassAntiCheatValue.Value == false then
+				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
+			end
+			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Earth:GetPivot().Position + (Vector3.new(math.random(-50,50),0,math.random(-50,50)))))
+			
+		elseif choice == "Mars" then
+			
+			if BypassAntiCheatValue.Value == false then
+				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
+			end
+			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Mars:GetPivot().Position + (Vector3.new(math.random(-50,50),0,math.random(-50,50)))))
+			
+		end
 	end,
 })
 
