@@ -1,3 +1,7 @@
+local isRunning = true
+
+if isRunning then return end
+
 local SpaceHubKeySystem = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
 local Base = Instance.new("ImageLabel")
@@ -225,8 +229,8 @@ DiscordLink.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 DiscordLink.BackgroundTransparency = 1.000
 DiscordLink.BorderColor3 = Color3.fromRGB(0, 0, 0)
 DiscordLink.BorderSizePixel = 0
-DiscordLink.Position = UDim2.new(0.949999988, 0, 0.949999988, 0)
-DiscordLink.Size = UDim2.new(0.257829815, 0, 0.0731588677, 0)
+DiscordLink.Position = UDim2.new(0.952, 0, 0.951, 0)
+DiscordLink.Size = UDim2.new(0.22, 0, 0.05, 0)
 DiscordLink.ZIndex = 940
 DiscordLink.Font = Enum.Font.Arial
 DiscordLink.Text = "https://discord.gg/KDF5gVKEzZ"
@@ -242,8 +246,8 @@ CopyLinkBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 CopyLinkBtn.BackgroundTransparency = 1.000
 CopyLinkBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
 CopyLinkBtn.BorderSizePixel = 0
-CopyLinkBtn.Position = UDim2.new(0.694884002, 0, 0.949999988, 0)
-CopyLinkBtn.Size = UDim2.new(0.0649999976, 0, 0.0649999976, 0)
+CopyLinkBtn.Position = UDim2.new(0.741, 0, 0.958, 0)
+CopyLinkBtn.Size = UDim2.new(0.03, 0, 0.067, 0)
 CopyLinkBtn.ZIndex = 960
 CopyLinkBtn.Image = "rbxassetid://96265482350413"
 
@@ -259,7 +263,6 @@ end)
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 
--- UI references (already created by you)
 local Title = Title
 local LoadingText = LoadingText
 local LoadingIcon = LoadingIcon
