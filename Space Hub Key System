@@ -2,12 +2,15 @@ local SpaceHubKeySystem = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
 local Base = Instance.new("ImageLabel")
 local Title = Instance.new("TextLabel")
+local DiscordLink = Instance.new("TextLabel")
 local LoadingText = Instance.new("TextLabel")
 local LoadingIcon = Instance.new("ImageLabel")
+local CopyLinkBtn = Instance.new("ImageButton")
 local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
 local Version = Instance.new("TextLabel")
 local KeyFrme = Instance.new("Frame")
 local UIAspectRatioConstraint_2 = Instance.new("UIAspectRatioConstraint")
+local CopyBtnUIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
 local TopBar = Instance.new("Frame")
 local T = Instance.new("TextLabel")
 local KeyInput = Instance.new("TextBox")
@@ -18,6 +21,7 @@ local keyinputstroke = Instance.new("UIStroke")
 local VerifyBtnStroke = Instance.new("UIStroke")
 local KeyFrameUIStroke = Instance.new("UIStroke")
 
+local link = "https://discord.gg/KDF5gVKEzZ"
 local Key = "TPY-HG6-TSS-2R8" 
 local SpaceHubVersion = "v0.27.5"
 
@@ -45,7 +49,7 @@ Base.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Base.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Base.BorderSizePixel = 0
 Base.Position = UDim2.new(0.5, 0, 0.5, 0)
-Base.Size = UDim2.new(1, 0, 1, 0)
+Base.Size = UDim2.new(0.85, 0, 1, 0)
 Base.ZIndex = 900
 Base.Image = "rbxassetid://108968852615782"
 
@@ -214,6 +218,43 @@ VerifyBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UITextSizeConstraint.Parent = VerifyBtn
 UITextSizeConstraint.MaxTextSize = 30
 
+DiscordLink.Name = "DiscordLink"
+DiscordLink.Parent = Main
+DiscordLink.AnchorPoint = Vector2.new(0.949999988, 0.949999988)
+DiscordLink.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+DiscordLink.BackgroundTransparency = 1.000
+DiscordLink.BorderColor3 = Color3.fromRGB(0, 0, 0)
+DiscordLink.BorderSizePixel = 0
+DiscordLink.Position = UDim2.new(0.949999988, 0, 0.949999988, 0)
+DiscordLink.Size = UDim2.new(0.257829815, 0, 0.0731588677, 0)
+DiscordLink.ZIndex = 940
+DiscordLink.Font = Enum.Font.Arial
+DiscordLink.Text = "https://discord.gg/KDF5gVKEzZ"
+DiscordLink.TextColor3 = Color3.fromRGB(255, 255, 255)
+DiscordLink.TextScaled = true
+DiscordLink.TextSize = 14.000
+DiscordLink.TextWrapped = true
+
+CopyLinkBtn.Name = "CopyLinkButton"
+CopyLinkBtn.Parent = Main
+CopyLinkBtn.AnchorPoint = Vector2.new(0.949999988, 0.949999988)
+CopyLinkBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+CopyLinkBtn.BackgroundTransparency = 1.000
+CopyLinkBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+CopyLinkBtn.BorderSizePixel = 0
+CopyLinkBtn.Position = UDim2.new(0.694884002, 0, 0.949999988, 0)
+CopyLinkBtn.Size = UDim2.new(0.0649999976, 0, 0.0649999976, 0)
+CopyLinkBtn.ZIndex = 960
+CopyLinkBtn.Image = "rbxassetid://96265482350413"
+
+CopyBtnUIAspectRatioConstraint.Parent = CopyLinkBtn
+CopyBtnUIAspectRatioConstraint.AspectRatio = 1
+
+CopyLinkBtn.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard(link)
+	end
+end)
 
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
