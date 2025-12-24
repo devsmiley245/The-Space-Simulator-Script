@@ -1323,6 +1323,7 @@ PlanetXVoyagerLinesGui.IgnoreGuiInset = true
 PlanetXVoyagerLinesGui.DisplayOrder = 1200
 PlanetXVoyagerLinesGui.ResetOnSpawn = false
 PlanetXVoyagerLinesGui.Parent = SpaceHubESPFolder
+PlanetXVoyagerLinesGui.Enabled = false
 
 local PlanetXVoyagerBoxesGui = Instance.new("ScreenGui")
 PlanetXVoyagerBoxesGui.Name = "PlanetXVoyagerBoxes"
@@ -1330,6 +1331,7 @@ PlanetXVoyagerBoxesGui.IgnoreGuiInset = true
 PlanetXVoyagerBoxesGui.DisplayOrder = 1201
 PlanetXVoyagerBoxesGui.ResetOnSpawn = false
 PlanetXVoyagerBoxesGui.Parent = SpaceHubESPFolder
+PlanetXVoyagerBoxesGui.Enabled = false
 
 local PlanetXVoyagerNamesGui = Instance.new("ScreenGui")
 PlanetXVoyagerNamesGui.Name = "PlanetXVoyagerNames"
@@ -1337,6 +1339,7 @@ PlanetXVoyagerNamesGui.IgnoreGuiInset = true
 PlanetXVoyagerNamesGui.DisplayOrder = 1202
 PlanetXVoyagerNamesGui.ResetOnSpawn = false
 PlanetXVoyagerNamesGui.Parent = SpaceHubESPFolder
+PlanetXVoyagerNamesGui.Enabled = false
 
 local function PlanetXVoyager_getColor(objName)
 	if objName == "Voyager" then
