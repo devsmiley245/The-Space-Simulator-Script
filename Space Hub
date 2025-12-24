@@ -9,12 +9,9 @@ local function ShowNotify(message)
 		SpaceHubKeySystemGui.Name = "SpaceHubNotifyKeySystem"
 	end
 
-	local NotifyFolder = SpaceHubKeySystemGui:FindFirstChild("NotifyFolder")
-	if not NotifyFolder then
 		local NotifyFolder = Instance.new("Folder")
 		NotifyFolder.Name = "NotifyFolder"
 		NotifyFolder.Parent = SpaceHubKeySystemGui
-	end
 
 	local Notify = Instance.new("Frame")
 	local NotiUICorner = Instance.new("UICorner")
