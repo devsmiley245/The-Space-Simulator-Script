@@ -705,10 +705,6 @@ local PlanetTeleportDropdown = OtherTab:CreateDropdown({
 	Callback = function(Options)
 		local choice = Options[1]
 
-		if BACValue.Value == false then
-			ShowNotify("You need to enable Bypass Anti-Cheat before using this teleport!")
-		end
-
 		if choice == "Mercury" then
 
 			if BACValue.Value == false then
