@@ -311,9 +311,9 @@ VerifyBtn.MouseButton1Click:Connect(function()
 			"Verification Completed, Waiting for space hub response",
 			5
 		)
-
+		
+        SpaceHubKeySystem:Destroy()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/devsmiley245/The-Space-Simulator-Script/refs/heads/main/Space%20Hub%20Main"))()
-		SpaceHubKeySystem:Destroy()
 		
 	else
 		KeyInput.Text = ""
