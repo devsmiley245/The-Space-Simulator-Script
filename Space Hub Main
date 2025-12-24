@@ -874,7 +874,7 @@ local PlanetTeleportDropdown = OtherTab:CreateDropdown({
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			
-			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(PlanetX:GetPivot().Position + (Vector3.new(math.random(-1000,1000),0,math.random(-1000,1000)))))			
+			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(PlanetX:GetPivot().Position + (Vector3.new(math.random(-800,800),0,math.random(-800,800)))))			
 
 		end
 	end,
