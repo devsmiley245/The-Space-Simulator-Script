@@ -33,11 +33,11 @@ local VerifyBtnStroke = Instance.new("UIStroke")
 local KeyFrameUIStroke = Instance.new("UIStroke")
 
 local link = "https://discord.gg/KDF5gVKEzZ"
-local Key = "TPY-HG6-TSS-2R8" 
-local SpaceHubVersion = "v0.27.5"
+local Key = "SpaceHubTest" 
+local SpaceHubVersion = "v0.28"
 
 SpaceHubKeySystem.Name = "SpaceHubKeySystem"
-SpaceHubKeySystem.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+SpaceHubKeySystem.Parent = game.CoreGui
 SpaceHubKeySystem.Enabled = true
 SpaceHubKeySystem.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 SpaceHubKeySystem.ResetOnSpawn = false
