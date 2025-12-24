@@ -1,3 +1,83 @@
+local TweenService = game:GetService("TweenService")
+local Debris = game:GetService("Debris")
+
+local function ShowNotify(message)
+	local SpaceHubKeySystemGui = game.CoreGui:FindFirstChild("SpaceHubKeySystemGui")
+	if not SpaceHubKeySystemGui then
+		local SpaceHubKeySystemGui = Instance.new("ScreenGui")
+		SpaceHubKeySystemGui.Parent = game.CoreGui
+		SpaceHubKeySystemGui.Name = "SpaceHubNotifyKeySystem"
+	end
+
+	local NotifyFolder = SpaceHubKeySystemGui:FindFirstChild("NotifyFolder")
+	if not NotifyFolder then
+		local NotifyFolder = Instance.new("Folder")
+		NotifyFolder.Name = "NotifyFolder"
+		NotifyFolder.Parent = SpaceHubKeySystemGui
+	end
+
+	local Notify = Instance.new("Frame")
+	local NotiUICorner = Instance.new("UICorner")
+	local NotiText = Instance.new("TextLabel")
+	local NotiStroke = Instance.new("UIStroke")
+	local NotiSound = Instance.new("Sound")
+
+	Notify.Name = "NotifyClone"
+	Notify.AnchorPoint = Vector2.new(0.5,0.8)
+	Notify.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Notify.BackgroundTransparency = 0.65
+	Notify.BorderSizePixel = 0
+	Notify.Position = UDim2.new(0.5,0,1.2,0)
+	Notify.Size = UDim2.new(0.8,0,0.15,0)
+	Notify.Parent = NotifyFolder
+
+	NotiUICorner.CornerRadius = UDim.new(0,10)
+	NotiUICorner.Parent = Notify
+
+	NotiStroke.Color = Color3.fromRGB(198, 0, 0)
+	NotiStroke.Thickness = 0.03
+	NotiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	NotiStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+	NotiStroke.Parent = Notify
+
+	NotiText.AnchorPoint = Vector2.new(0.5,0.5)
+	NotiText.BackgroundTransparency = 1
+	NotiText.Position = UDim2.new(0.5,0,0.5,0)
+	NotiText.Size = UDim2.new(0.95,0,0.8,0)
+	NotiText.Font = Enum.Font.Fantasy
+	NotiText.Text = message
+	NotiText.TextColor3 = Color3.fromRGB(229, 0, 0)
+	NotiText.TextScaled = true
+	NotiText.TextWrapped = true
+	NotiText.Parent = Notify
+
+	NotiSound.SoundId = "rbxassetid://122521410562449"
+	NotiSound.Volume = 1
+	NotiSound.Parent = Notify
+	NotiSound:Play()
+
+	local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+	local goal = {Position = UDim2.new(0.5,0,0.8,0)}
+	local tween = TweenService:Create(Notify, tweenInfo, goal)
+	tween:Play()
+
+	Debris:AddItem(Notify, 4)
+end
+
+local allowedPlaceIds = {
+	15027718878,
+}
+if not table.find(allowedPlaceIds, game.PlaceId) then
+	warn("This script is not allowed in this place.")
+	ShowNotify("This script is not allowed in this place!")
+	return
+end
+
+if game.CoreGui:FindFirstChild("SpaceHubKeySystem") then
+	ShowNotify("The Script is already executed!")
+	return
+end
+
 local isRunning = false
 print("Starting Space Hub KeySystem...")
 
@@ -10,6 +90,7 @@ isRunning = true
 print("KeySystem Loaded!!")
 
 local SpaceHubKeySystem = Instance.new("ScreenGui")
+SpaceHubKeySystem.Name = "SpaceHubKeySystem"
 local Main = Instance.new("Frame")
 local Base = Instance.new("ImageLabel")
 local Title = Instance.new("TextLabel")
@@ -36,7 +117,7 @@ local link = "https://discord.gg/KDF5gVKEzZ"
 local Key = "SpaceHubTest" 
 local SpaceHubVersion = "v0.28"
 
-SpaceHubKeySystem.Name = "SpaceHubKeySystem"
+
 SpaceHubKeySystem.Parent = game.CoreGui
 SpaceHubKeySystem.Enabled = true
 SpaceHubKeySystem.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -264,6 +345,7 @@ CopyBtnUIAspectRatioConstraint.AspectRatio = 1
 CopyLinkBtn.MouseButton1Click:Connect(function()
 	if setclipboard then
 		setclipboard(link)
+		ShowNotify("Copied discord link to clipboard!")
 	end
 end)
 
@@ -350,6 +432,7 @@ VerifyBtn.MouseButton1Click:Connect(function()
 		KeyInput.Text = ""
 		KeyInput.PlaceholderColor3 = Color3.fromRGB(0,255,0)
 		KeyInput.PlaceholderText = "Verification Success"
+		ShowNotify("Key Verification Success")
 
 		task.wait(2)
 
@@ -362,14 +445,16 @@ VerifyBtn.MouseButton1Click:Connect(function()
 			"Verification Completed, Waiting for space hub response",
 			5
 		)
-		
-        SpaceHubKeySystem:Destroy()
+
+		SpaceHubKeySystem:Destroy()
+		ShowNotify("Loading Space Hub Please Wait...")
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/devsmiley245/The-Space-Simulator-Script/refs/heads/main/Space%20Hub%20Pass%20Gate"))()
-		
+
 	else
 		KeyInput.Text = ""
 		KeyInput.PlaceholderColor3 = Color3.fromRGB(255,0,0)
-		KeyInput.PlaceholderText = "Invalid Key, Join discord for key"
+		KeyInput.PlaceholderText = "Invalid Key"
+		ShowNotify("Invalid Key, Join discord for key")
 
 		task.wait(3)
 
