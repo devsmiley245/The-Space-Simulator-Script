@@ -304,7 +304,7 @@ end
 local ShipMovements = SpaceHubESPFolder:WaitForChild("ShipMovements")
 local ShipHighLightValue = SpaceHubValuesFolder:WaitForChild("ShipHighLight")
 local ShipNoClip_Value2 = SpaceHubValuesFolder:WaitForChild("ShipNoClip")
-local BypassAntiCheatValue = SpaceHubValuesFolder:WaitForChild("Bypass Anti-Cheat")
+local BypassACValue = SpaceHubValuesFolder:WaitForChild("BypassAC")
 
 local Toggle = ShipTab:CreateToggle({
 	Name = "Ship Function Modifier Menu",
@@ -670,14 +670,14 @@ local OpenHubbleTelescopeButton = OtherTab:CreateButton({
 	end,
 })
 
-local BypassAntiCheatToggle = ShipTab:CreateToggle({
+local BypassACToggle = ShipTab:CreateToggle({
 	Name = "Bypass Anti-Cheat",
 	CurrentValue = false,
-	Flag = "BypassAntiCheatToggle",
+	Flag = "BypassACToggle",
 	Callback = function(Value)
 		local remote = game.ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerStatusEvent")
 		
-		BypassAntiCheatValue.Value = Value
+		BypassACValue.Value = Value
 		_G.BlockPlayerStatusEvent = Value
 
 		local old
