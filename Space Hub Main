@@ -676,6 +676,13 @@ local BACToggle = OtherTab:CreateToggle({
 	CurrentValue = false,
 	Flag = "BACToggle",
 	Callback = function(Value)
+		
+		if not hookmetamethod or not getnamecallmethod then
+			ShowNotify("Your executor can't use this feature")
+			BACToggle:Set(false)   
+			return
+		end
+		
 		local remote = game.ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerStatusEvent")
 
 		BACValue.Value = Value
