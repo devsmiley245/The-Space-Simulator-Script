@@ -4,66 +4,178 @@ local TweenService = game:GetService("TweenService")
 local Debris = game:GetService("Debris")
 
 local function ShowNotify(message)
-	local SpaceHubGui = CoreGui:FindFirstChild("SpaceHubGui")
-	if not SpaceHubGui then
-		local SpaceHubGui = Instance.new("ScreenGui")
-		SpaceHubGui.Parent = CoreGui
-		SpaceHubGui.Name = "SpaceHubGui"
+	local player = game.Players.LocalPlayer
+	local PlayerGui = player:WaitForChild("PlayerGui")
+
+	local SpaceHubNotificatonGui = PlayerGui:FindFirstChild("SpaceHubNotificatonGui")
+	if not SpaceHubNotificatonGui then
+		SpaceHubNotificatonGui = Instance.new("ScreenGui")
+		SpaceHubNotificatonGui.Name = "SpaceHubNotificatonGui"
+		SpaceHubNotificatonGui.Parent = PlayerGui
 	end
 
-	local NotifyFolder = SpaceHubGui:FindFirstChild("NotifyFolder")
+	local NotifyFolder = SpaceHubNotificatonGui:FindFirstChild("NotifyFolder")
 	if not NotifyFolder then
-		local NotifyFolder = Instance.new("Folder")
+		NotifyFolder = Instance.new("Folder")
 		NotifyFolder.Name = "NotifyFolder"
-		NotifyFolder.Parent = SpaceHubGui
+		NotifyFolder.Parent = SpaceHubNotificatonGui
 	end
 
-	local Notify = Instance.new("Frame")
-	local NotiUICorner = Instance.new("UICorner")
-	local NotiText = Instance.new("TextLabel")
-	local NotiStroke = Instance.new("UIStroke")
+	for _, child in ipairs(NotifyFolder:GetChildren()) do
+		child:Destroy()
+	end
+
+	local Main = Instance.new("Frame")
+	local TopBar = Instance.new("Frame")
+	local NotificationDurationFrameBg = Instance.new("Frame")
+	local NotificationDurationFrame = Instance.new("Frame")
+	local Title = Instance.new("TextLabel")
+	local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+	local Body = Instance.new("Frame")
+	local Info = Instance.new("TextBox")
+	local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
+	local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+	local MainUIStroke = Instance.new("UIStroke")
+	local TopBarUIStroke = Instance.new("UIStroke")
+	local NotificationDurationFrameBgStroke = Instance.new("UIStroke")
+	local duration = 4
+
+	Main.Name = "Main"
+	Main.Parent = NotifyFolder
+	Main.AnchorPoint = Vector2.new(0.899999976, 0.200000003)
+	Main.BackgroundColor3 = Color3.fromRGB(239, 192, 206)
+	Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Main.BorderSizePixel = 0
+	Main.Position = UDim2.new(0.927999973, 0, 0.180000007, 0)
+	Main.Size = UDim2.new(0.25999999, 0, 0.25999999, 0)
+	MainUIStroke.Parent = Main
+	MainUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	MainUIStroke.Thickness = 2
+	MainUIStroke.Color = Color3.fromRGB(255, 255, 255)
+
+	TopBar.Name = "TopBar"
+	TopBar.Parent = Main
+	TopBar.AnchorPoint = Vector2.new(0.5, 0)
+	TopBar.BackgroundColor3 = Color3.fromRGB(238, 129, 172)
+	TopBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	TopBar.BorderSizePixel = 0
+	TopBar.Position = UDim2.new(0.5, 0, 0, 0)
+	TopBar.Size = UDim2.new(1, 0, 0.273, 0)
+	TopBarUIStroke.Parent = TopBar
+	TopBarUIStroke.Thickness = 2
+	TopBarUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	TopBarUIStroke.Color = Color3.fromRGB(255, 255, 255)
+
+	Title.Name = "Title"
+	Title.Parent = TopBar
+	Title.AnchorPoint = Vector2.new(0.5, 0.5)
+	Title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Title.BackgroundTransparency = 1.000
+	Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Title.BorderSizePixel = 0
+	Title.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Title.Size = UDim2.new(0.949999988, 0, 0.850000024, 0)
+	Title.Font = Enum.Font.Arial
+	Title.Text = "🪐 Space Hub Notification 🪐"
+	Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Title.TextScaled = true
+	Title.TextSize = 14.000
+	Title.TextWrapped = true
+
+	UITextSizeConstraint.Parent = Title
+	UITextSizeConstraint.MaxTextSize = 25
+
+	Body.Name = "Body"
+	Body.Parent = Main
+	Body.AnchorPoint = Vector2.new(0.5, 0.5)
+	Body.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Body.BackgroundTransparency = 1.000
+	Body.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Body.BorderSizePixel = 0
+	Body.Position = UDim2.new(0.5, 0, 0.636, 0)
+	Body.Size = UDim2.new(1, 0, 0.727, 0)
+
+	NotificationDurationFrameBg.Parent = Body
+	NotificationDurationFrameBg.AnchorPoint = Vector2.new(0, 1)
+	NotificationDurationFrameBg.Position = UDim2.new(0, 0, 1, 0)
+	NotificationDurationFrameBg.Size = UDim2.new(1, 0, 0.03, 0)
+	NotificationDurationFrameBg.BackgroundColor3 = Color3.fromRGB(85, 255, 0)
+	NotificationDurationFrameBg.BackgroundTransparency = 1
+
+	NotificationDurationFrame.Parent = NotificationDurationFrameBg
+	NotificationDurationFrame.AnchorPoint = Vector2.new(0, 1)
+	NotificationDurationFrame.Position = UDim2.new(0, 0, 1, 0)
+	NotificationDurationFrame.Size = UDim2.new(1, 0, 1, 0)
+	NotificationDurationFrame.BackgroundColor3 = Color3.fromRGB(85, 255, 0)
+	NotificationDurationFrame.BorderSizePixel = 0
+
+	NotificationDurationFrameBgStroke.Parent = NotificationDurationFrameBg
+	NotificationDurationFrameBgStroke.Thickness = 1.5
+	NotificationDurationFrameBgStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	NotificationDurationFrameBgStroke.Color = Color3.fromRGB(255, 255, 255)
+
+	Info.Name = "Info"
+	Info.Parent = Body
+	Info.Active = false
+	Info.AnchorPoint = Vector2.new(0.5, 0.5)
+	Info.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Info.BackgroundTransparency = 1.000
+	Info.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Info.BorderSizePixel = 0
+	Info.ClipsDescendants = true
+	Info.Position = UDim2.new(0.5, 0, 0.48, 0)
+	Info.Size = UDim2.new(0.95, 0, 0.727, 0)
+	Info.ClearTextOnFocus = false
+	Info.Font = Enum.Font.Arial
+	Info.MultiLine = true
+	Info.PlaceholderColor3 = Color3.fromRGB(255, 255, 255)
+	Info.ShowNativeInput = false
+	Info.Text = message
+	Info.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Info.TextScaled = true
+	Info.TextSize = 14.000
+	Info.TextWrapped = true
+	Info.TextXAlignment = Enum.TextXAlignment.Left
+	Info.TextYAlignment = Enum.TextYAlignment.Center
+
+	UITextSizeConstraint_2.Parent = Info
+	UITextSizeConstraint_2.MinTextSize = 5
+
+	UIAspectRatioConstraint.Parent = Main
+	UIAspectRatioConstraint.AspectRatio = 1.650
+
 	local NotiSound = Instance.new("Sound")
-
-	Notify.Name = "NotifyClone"
-	Notify.AnchorPoint = Vector2.new(0.5,0.8)
-	Notify.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	Notify.BackgroundTransparency = 0.65
-	Notify.BorderSizePixel = 0
-	Notify.Position = UDim2.new(0.5,0,1.2,0)
-	Notify.Size = UDim2.new(0.8,0,0.15,0)
-	Notify.Parent = NotifyFolder
-
-	NotiUICorner.CornerRadius = UDim.new(0,10)
-	NotiUICorner.Parent = Notify
-
-	NotiStroke.Color = Color3.fromRGB(198, 0, 0)
-	NotiStroke.Thickness = 0.03
-	NotiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-	NotiStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
-	NotiStroke.Parent = Notify
-
-	NotiText.AnchorPoint = Vector2.new(0.5,0.5)
-	NotiText.BackgroundTransparency = 1
-	NotiText.Position = UDim2.new(0.5,0,0.5,0)
-	NotiText.Size = UDim2.new(0.95,0,0.8,0)
-	NotiText.Font = Enum.Font.Fantasy
-	NotiText.Text = message
-	NotiText.TextColor3 = Color3.fromRGB(229, 0, 0)
-	NotiText.TextScaled = true
-	NotiText.TextWrapped = true
-	NotiText.Parent = Notify
-
-	NotiSound.SoundId = "rbxassetid://122521410562449"
+	NotiSound.SoundId = "rbxassetid://72538684949111"
 	NotiSound.Volume = 1
-	NotiSound.Parent = Notify
+	NotiSound.Parent = Main
 	NotiSound:Play()
 
-	local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
-	local goal = {Position = UDim2.new(0.5,0,0.8,0)}
-	local tween = TweenService:Create(Notify, tweenInfo, goal)
-	tween:Play()
+	Main.Position = UDim2.new(1.3, 0, 0.18, 0)
 
-	Debris:AddItem(Notify, 4)
+	local TweenService = game:GetService("TweenService")
+	local tweenInfo = TweenInfo.new(
+		0.5,
+		Enum.EasingStyle.Back,
+		Enum.EasingDirection.Out
+	)
+
+	local goal = {
+		Position = UDim2.new(0.928, 0, 0.18, 0)
+	}
+
+	TweenService:Create(Main, tweenInfo, goal):Play()
+
+	local barTween = TweenService:Create(
+		NotificationDurationFrame,
+		TweenInfo.new(duration, Enum.EasingStyle.Linear),
+		{
+			Size = UDim2.new(0, 0, 1, 0)
+		}
+	)
+
+	barTween:Play()
+
+	game:GetService("Debris"):AddItem(Main, 4)
 end
 
 local allowedPlaceIds = {
@@ -676,13 +788,6 @@ local BACToggle = OtherTab:CreateToggle({
 	CurrentValue = false,
 	Flag = "BACToggle",
 	Callback = function(Value)
-		
-		if not hookmetamethod or not getnamecallmethod then
-			ShowNotify("Your executor can't use this feature")
-			BACToggle:Set(false)   
-			return
-		end
-		
 		local remote = game.ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerStatusEvent")
 
 		BACValue.Value = Value
