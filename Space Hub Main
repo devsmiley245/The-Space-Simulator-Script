@@ -4,14 +4,12 @@ local TweenService = game:GetService("TweenService")
 local Debris = game:GetService("Debris")
 
 local function ShowNotify(message)
-	local player = game.Players.LocalPlayer
-	local PlayerGui = player:WaitForChild("PlayerGui")
-
-	local SpaceHubNotificatonGui = PlayerGui:FindFirstChild("SpaceHubNotificatonGui")
+	
+	local SpaceHubNotificatonGui = CoreGui:FindFirstChild("SpaceHubNotificatonGui")
 	if not SpaceHubNotificatonGui then
 		SpaceHubNotificatonGui = Instance.new("ScreenGui")
 		SpaceHubNotificatonGui.Name = "SpaceHubNotificatonGui"
-		SpaceHubNotificatonGui.Parent = PlayerGui
+		SpaceHubNotificatonGui.Parent = CoreGui
 	end
 
 	local NotifyFolder = SpaceHubNotificatonGui:FindFirstChild("NotifyFolder")
