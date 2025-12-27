@@ -337,7 +337,7 @@ local Toggle = MSettingsTab:CreateToggle({
 })
 
 local DrillModifierToggle = MSettingsTab:CreateToggle({
-	Name = "Show Drill Modifier Menu When Drilling",
+	Name = "Show Drill Modifier Menu While Drilling",
 	CurrentValue = false,
 	Flag = "DrillModifierToggle",
 	Callback = function(Value)
