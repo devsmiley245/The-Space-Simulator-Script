@@ -1917,6 +1917,231 @@ spawn(function()
 	end
 end)
 
+------------------------- Drll Modifier ------------------------------
+
+local DrillGui = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("DrillGui")
+local DrillGuiMainF = DrillGui:WaitForChild("MainF")
+local DrillGuiBottomF = DrillGuiMainF:WaitForChild("BottomF")
+
+local DrillModifier = Instance.new("Frame")
+local ForwardInput = Instance.new("TextBox")
+local RetractInput = Instance.new("TextBox")
+local ForwardApplyBtn = Instance.new("ImageButton")
+local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+local RetractApplyBtn = Instance.new("ImageButton")
+local UIAspectRatioConstraint_2 = Instance.new("UIAspectRatioConstraint")
+local ExtractBtn = Instance.new("TextButton")
+local UIAspectRatioConstraint_3 = Instance.new("UIAspectRatioConstraint")
+local Title = Instance.new("TextLabel")
+local DrillModifierUIStroke = Instance.new("UIStroke")
+local ForwardInputUIstroke = Instance.new("UIStroke")
+local RetractInputUIstroke = Instance.new("UIStroke")
+local ForwardApplyBtnUIStroke = Instance.new("UIStroke")
+local RetractApplyBtnUIStroke = Instance.new("UIStroke")
+local ExtractBtnUIStroke = Instance.new("UIStroke")
+
+DrillModifier.Name = "DrillModifier"
+DrillModifier.Parent = DrillGuiBottomF
+DrillModifier.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+DrillModifier.BackgroundTransparency = 0.500
+DrillModifier.BorderColor3 = Color3.fromRGB(0, 0, 0)
+DrillModifier.BorderSizePixel = 0
+DrillModifier.Position = UDim2.new(0, 0, -4.5, 0)
+DrillModifier.Size = UDim2.new(0.610000014, 0, 5, 0)
+DrillModifier.Visible = false
+DrillModifierUIStroke.Parent = DrillModifier
+DrillModifierUIStroke.Color = Color3.fromRGB(255, 255, 127)
+DrillModifierUIStroke.Thickness = 1
+DrillModifierUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+ForwardInput.Name = "ForwardInput"
+ForwardInput.Parent = DrillModifier
+ForwardInput.AnchorPoint = Vector2.new(0.0500000007, 0.100000001)
+ForwardInput.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ForwardInput.BackgroundTransparency = 0.500
+ForwardInput.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ForwardInput.BorderSizePixel = 0
+ForwardInput.Position = UDim2.new(0.0500000007, 0, 0.100000001, 0)
+ForwardInput.Size = UDim2.new(0.449999988, 0, 0.400000006, 0)
+ForwardInput.Font = Enum.Font.Arial
+ForwardInput.MultiLine = true
+ForwardInput.PlaceholderText = "Drill Forward Speed"
+ForwardInput.Text = ""
+ForwardInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+ForwardInput.TextScaled = true
+ForwardInput.TextSize = 14.000
+ForwardInput.TextWrapped = true
+ForwardInput.TextXAlignment = Enum.TextXAlignment.Left
+ForwardInputUIstroke.Parent = ForwardInput
+ForwardInputUIstroke.Color = Color3.fromRGB(255, 255, 127)
+ForwardInputUIstroke.Thickness = 1
+ForwardInputUIstroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+RetractInput.Name = "RetractInput"
+RetractInput.Parent = DrillModifier
+RetractInput.AnchorPoint = Vector2.new(0.0500000007, 0.899999976)
+RetractInput.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+RetractInput.BackgroundTransparency = 0.500
+RetractInput.BorderColor3 = Color3.fromRGB(0, 0, 0)
+RetractInput.BorderSizePixel = 0
+RetractInput.Position = UDim2.new(0.0500000007, 0, 0.899999976, 0)
+RetractInput.Size = UDim2.new(0.449999988, 0, 0.400000006, 0)
+RetractInput.Font = Enum.Font.Arial
+RetractInput.MultiLine = true
+RetractInput.PlaceholderText = "Drill Retract Speed"
+RetractInput.Text = ""
+RetractInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+RetractInput.TextScaled = true
+RetractInput.TextSize = 14.000
+RetractInput.TextWrapped = true
+RetractInput.TextXAlignment = Enum.TextXAlignment.Left
+RetractInputUIstroke.Parent = RetractInput
+RetractInputUIstroke.Color = Color3.fromRGB(255, 255, 127)
+RetractInputUIstroke.Thickness = 1
+RetractInputUIstroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+ForwardApplyBtn.Name = "ForwardApplyBtn"
+ForwardApplyBtn.Parent = DrillModifier
+ForwardApplyBtn.AnchorPoint = Vector2.new(0.560000002, 0.100000001)
+ForwardApplyBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ForwardApplyBtn.BackgroundTransparency = 0.500
+ForwardApplyBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ForwardApplyBtn.BorderSizePixel = 0
+ForwardApplyBtn.Position = UDim2.new(0.560000002, 0, 0.100000001, 0)
+ForwardApplyBtn.Size = UDim2.new(0.400000006, 0, 0.400000006, 0)
+ForwardApplyBtn.Image = "rbxassetid://138861967300749"
+ForwardApplyBtnUIStroke.Parent = ForwardApplyBtn
+ForwardApplyBtnUIStroke.Color = Color3.fromRGB(255, 255, 127)
+ForwardApplyBtnUIStroke.Thickness = 1
+ForwardApplyBtnUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+UIAspectRatioConstraint.Parent = ForwardApplyBtn
+
+RetractApplyBtn.Name = "RetractApplyBtn"
+RetractApplyBtn.Parent = DrillModifier
+RetractApplyBtn.AnchorPoint = Vector2.new(0.560000002, 0.899999976)
+RetractApplyBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+RetractApplyBtn.BackgroundTransparency = 0.500
+RetractApplyBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+RetractApplyBtn.BorderSizePixel = 0
+RetractApplyBtn.Position = UDim2.new(0.560000002, 0, 0.899999976, 0)
+RetractApplyBtn.Size = UDim2.new(0.400000006, 0, 0.400000006, 0)
+RetractApplyBtn.Image = "rbxassetid://138861967300749"
+RetractApplyBtnUIStroke.Parent = RetractApplyBtn
+RetractApplyBtnUIStroke.Color = Color3.fromRGB(255, 255, 127)
+RetractApplyBtnUIStroke.Thickness = 1
+RetractApplyBtnUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+UIAspectRatioConstraint_2.Parent = RetractApplyBtn
+
+ExtractBtn.Name = "ExtractBtn"
+ExtractBtn.Parent = DrillModifier
+ExtractBtn.AnchorPoint = Vector2.new(0.800000012, 0.5)
+ExtractBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ExtractBtn.BackgroundTransparency = 0.500
+ExtractBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ExtractBtn.BorderSizePixel = 0
+ExtractBtn.Position = UDim2.new(0.894140542, 0, 0.5, 0)
+ExtractBtn.Size = UDim2.new(0.800000012, 0, 0.800000012, 0)
+ExtractBtn.Font = Enum.Font.Arial
+ExtractBtn.Text = "End Artifact Extraction"
+ExtractBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ExtractBtn.TextScaled = true
+ExtractBtn.TextSize = 14.000
+ExtractBtn.TextWrapped = true
+ExtractBtn.TextXAlignment = Enum.TextXAlignment.Left
+ExtractBtnUIStroke.Parent = ExtractBtn
+ExtractBtnUIStroke.Color = Color3.fromRGB(255, 255, 127)
+ExtractBtnUIStroke.Thickness = 1
+ExtractBtnUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+UIAspectRatioConstraint_3.Parent = ExtractBtn
+UIAspectRatioConstraint_3.AspectRatio = 1.600
+
+Title.Name = "Title"
+Title.Parent = DrillModifier
+Title.AnchorPoint = Vector2.new(0.5, 0)
+Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1.000
+Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Title.BorderSizePixel = 0
+Title.Position = UDim2.new(0.398999989, 0, -0.219999999, 0)
+Title.Size = UDim2.new(0.800000012, 0, 0.197189555, 0)
+Title.Font = Enum.Font.Arial
+Title.Text = "Space Hub 🪐 - Drill Modifier"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.TextSize = 14.000
+Title.TextWrapped = true
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local CommonModule = require(ReplicatedStorage:WaitForChild("CommonModule"))
+
+local function applySpeed(textBox, speedType)
+	local value = tonumber(textBox.Text)
+	if not value then
+		warn("Invalid number")
+		return
+	end
+
+	for _, drill in pairs(CommonModule.Drills) do
+		drill[speedType] = value
+	end
+end
+
+ForwardApplyBtn.MouseButton1Click:Connect(function()
+	applySpeed(ForwardInput, "forwardSpeed")
+end)
+
+RetractApplyBtn.MouseButton1Click:Connect(function()
+	applySpeed(RetractInput, "retractSpeed")
+end)
+
+local isExtracted = false
+
+local function extractArtifact()
+	isExtracted = true
+	if not DrillGui.Enabled then return end
+
+	local CanvasF = DrillGui.MainF.CanvasF
+	local MineProgressF = DrillGui.MainF.MineProgressF
+
+	if CanvasF:FindFirstChild("Circles") then
+		for _, circleData in pairs(CanvasF.Circles:GetChildren()) do
+			if circleData:IsA("Frame") then
+				circleData.BackgroundColor3 = Color3.fromRGB(0,255,0)
+			end
+		end
+	end
+
+	local artifact = LocalPlayer:GetAttribute("drillArtifactName")
+	if artifact then
+		ReplicatedStorage:WaitForChild("Events").ArtifactEvent:FireServer("endDrilling", {status = true})
+	end
+
+	if MineProgressF and MineProgressF.MineBorder and MineProgressF.MineBorder.MineBar then
+		MineProgressF.MineBorder.MineBar.Size = MineProgressF.MineBorder.Size
+	end
+
+	DrillGui.Enabled = false
+	game.Players.LocalPlayer.PlayerGui.ScreenGui.BottomF.ProgressFrame.Visible = true
+	game.Players.LocalPlayer.PlayerGui.ScreenGui.BottomF.ToolbarsF.Visible = true
+	local tool = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Tool")
+	if tool and tool:GetAttribute("drill") and tool:FindFirstChild("BeamSource") then
+		tool.BeamSource.Beam.Enabled = false
+	end
+end
+
+ExtractBtn.MouseButton1Click:Connect(function()
+	if isExtracted then
+		warn("Failed to auto extract")
+	else
+		extractArtifact()
+		isExtracted = false
+	end
+end)
+
 --------------------- Event ESP -------------------------------------------------------
 
 local GIFTS_LINE_THICKNESS = 1
