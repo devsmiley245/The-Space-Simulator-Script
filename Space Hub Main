@@ -10,6 +10,7 @@ local function ShowNotify(message)
 		SpaceHubNotificatonGui = Instance.new("ScreenGui")
 		SpaceHubNotificatonGui.Name = "SpaceHubNotificatonGui"
 		SpaceHubNotificatonGui.Parent = CoreGui
+		SpaceHubNotificatonGui.ScreenInsets = Enum.ScreenInsets.None
 	end
 
 	local NotifyFolder = SpaceHubNotificatonGui:FindFirstChild("NotifyFolder")
@@ -200,12 +201,12 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-ShowNotify("Thanks For Using My Script, v0.28")
+ShowNotify("Thanks For Using My Script, v0.29")
 
 local Window = Rayfield:CreateWindow({
 	Name = "🚀[Winter] The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.28 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.29 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -324,7 +325,7 @@ local OldInventoryValue = SpaceHubValuesFolder:WaitForChild("OldInventory")
 
 ---------------------------------------------------------------------------------------
 
-local Label = MSettingsTab:CreateLabel("Updated in v0.24", 4483362458, Color3.fromRGB(255, 205, 220), false)
+local Label = MSettingsTab:CreateLabel("Updated in v0.29", 4483362458, Color3.fromRGB(255, 205, 220), false)
 
 local Toggle = MSettingsTab:CreateToggle({
 	Name = "1 Hit Mine All Resources And Orbs",
@@ -332,6 +333,15 @@ local Toggle = MSettingsTab:CreateToggle({
 	Flag = "Toggle1",
 	Callback = function(Value)
 		OneHitMineValue.Value = Value
+	end
+})
+
+local DrillModifierToggle = MSettingsTab:CreateToggle({
+	Name = "Show Drill Modifier Menu When Drilling",
+	CurrentValue = false,
+	Flag = "DrillModifierToggle",
+	Callback = function(Value)
+		game.Players.LocalPlayer.PlayerGui.DrillGui.MainF.BottomF.DrillModifier.Visible = Value
 	end
 })
 
