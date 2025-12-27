@@ -2007,7 +2007,7 @@ ForwardApplyBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ForwardApplyBtn.BackgroundTransparency = 0.500
 ForwardApplyBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
 ForwardApplyBtn.BorderSizePixel = 0
-ForwardApplyBtn.Position = UDim2.new(0.560000002, 0, 0.100000001, 0)
+ForwardApplyBtn.Position = UDim2.new(0.57, 0, 0.100000001, 0)
 ForwardApplyBtn.Size = UDim2.new(0.400000006, 0, 0.400000006, 0)
 ForwardApplyBtn.Image = "rbxassetid://138861967300749"
 ForwardApplyBtnUIStroke.Parent = ForwardApplyBtn
@@ -2019,7 +2019,7 @@ UIAspectRatioConstraint.Parent = ForwardApplyBtn
 
 RetractApplyBtn.Name = "RetractApplyBtn"
 RetractApplyBtn.Parent = DrillModifier
-RetractApplyBtn.AnchorPoint = Vector2.new(0.560000002, 0.899999976)
+RetractApplyBtn.AnchorPoint = Vector2.new(0.57, 0.899999976)
 RetractApplyBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 RetractApplyBtn.BackgroundTransparency = 0.500
 RetractApplyBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2041,7 +2041,7 @@ ExtractBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ExtractBtn.BackgroundTransparency = 0.500
 ExtractBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
 ExtractBtn.BorderSizePixel = 0
-ExtractBtn.Position = UDim2.new(0.894140542, 0, 0.5, 0)
+ExtractBtn.Position = UDim2.new(0.9, 0, 0.5, 0)
 ExtractBtn.Size = UDim2.new(0.800000012, 0, 0.800000012, 0)
 ExtractBtn.Font = Enum.Font.Arial
 ExtractBtn.Text = "End Artifact Extraction"
@@ -2056,7 +2056,7 @@ ExtractBtnUIStroke.Thickness = 1
 ExtractBtnUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 UIAspectRatioConstraint_3.Parent = ExtractBtn
-UIAspectRatioConstraint_3.AspectRatio = 1.600
+UIAspectRatioConstraint_3.AspectRatio = 1.2
 
 Title.Name = "Title"
 Title.Parent = DrillModifier
