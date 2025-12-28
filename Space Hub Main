@@ -431,7 +431,7 @@ local ShipNoClip_Value2 = SpaceHubValuesFolder:WaitForChild("ShipNoClip")
 local BACValue = SpaceHubValuesFolder:WaitForChild("BypassAC")
 
 local Toggle = ShipTab:CreateToggle({
-	Name = "Ship Modifier Menu",
+	Name = "Show Ship Modifier Button While Driving Ship",
 	CurrentValue = false,
 	Flag = "Toggle1",
 	Callback = function(Value)
