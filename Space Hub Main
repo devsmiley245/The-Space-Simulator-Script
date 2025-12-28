@@ -315,6 +315,7 @@ local Button = PlayerTab:CreateButton({
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local SpaceHubValuesContainer = loadstring(game:HttpGet("https://raw.githubusercontent.com/devsmiley245/The-Space-Simulator-Script/refs/heads/main/SpaceHub%20Values%20Container"))();
+local SpaceHubScriptContainerA = loadstring(game:HttpGet("https://raw.githubusercontent.com/devsmiley245/The-Space-Simulator-Script/refs/heads/main/Space%20Hub%20Script%20Container%20A"))();
 
 local SpaceHubValuesFolder = game.CoreGui:WaitForChild("SpaceHub Values Container")
 
