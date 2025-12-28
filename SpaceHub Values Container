@@ -63,6 +63,32 @@ if not BypassACValue then
 	BypassACValue.Parent = SpaceHubValuesFolder
 end
 
+local CollectAllLocalPlanetGemValue = SpaceHubValuesFolder:FindFirstChild("CollectAllLocalPlanetGemValue")
+if not CollectAllLocalPlanetGemValue then
+	CollectAllLocalPlanetGemValue = Instance.new("BoolValue")
+	CollectAllLocalPlanetGemValue.Name = "CollectAllLocalPlanetGemValue"
+	CollectAllLocalPlanetGemValue.Value = false
+	CollectAllLocalPlanetGemValue.Parent = SpaceHubValuesFolder
+end
+
+local ArtifactCollectorCollectValue =
+	SpaceHubValuesFolder:FindFirstChild("CollectAllLocalPlanetArtifactValue")
+if not ArtifactCollectorCollectValue then
+	ArtifactCollectorCollectValue = Instance.new("BoolValue")
+	ArtifactCollectorCollectValue.Name = "CollectAllLocalPlanetArtifactValue"
+	ArtifactCollectorCollectValue.Value = false
+	ArtifactCollectorCollectValue.Parent = SpaceHubValuesFolder
+end
+
+--------- Space Sim Gui ---------------------------------
+
+local MainSystemGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
+local FrameTopRight = MainSystemGui:WaitForChild("FrameTopRight")
+local ExtraMenuF = FrameTopRight:WaitForChild("ExtraMenuF")
+local BottomF = MainSystemGui:WaitForChild("BottomF")
+local ToolbarsF = BottomF:WaitForChild("ToolbarsF")
+local ShipButtonsF = ToolbarsF:WaitForChild("ShipButtonsF")
+
 -- OneHitAllResources --------------------------------------------------------------------
 
 local Players = game:GetService("Players")
@@ -456,6 +482,334 @@ ShipNoClip_Value2.Changed:Connect(function(isEnabled)
 	end
 end)
 
+-------------------- Collect All Local Planet Gems -------------------------------------
+
+_G.GemCollectorActive = false
+task.wait()
+
+local GemCollectorPlanetsFolder = game.Workspace:WaitForChild("Planets")
+
+local GemCollectorTELEPORT_OFFSET = Vector3.new(0, 3, 0)
+local GemCollectorCHECK_INTERVAL = 0.2
+
+local GemCollectorIsRunning = false
+local GemCollectorCurrentPlanet = nil
+
+_G.GemCollectorActive = true
+
+local GemCollectorOldBtn = ExtraMenuF:FindFirstChild("GemCollectorBtn")
+if GemCollectorOldBtn then
+	GemCollectorOldBtn:Destroy()
+end
+
+local GemCollectorBtn = Instance.new("TextButton")
+GemCollectorBtn.Name = "GemCollectorBtn"
+GemCollectorBtn.Size = UDim2.new(0, 30, 0, 30)
+GemCollectorBtn.Position = UDim2.fromScale(0, 0)
+GemCollectorBtn.AnchorPoint = Vector2.new(0, 0)
+GemCollectorBtn.Text = "Collect All Gems"
+GemCollectorBtn.TextScaled = true
+GemCollectorBtn.BackgroundColor3 = Color3.fromRGB(170, 255, 255)
+GemCollectorBtn.Visible = false
+GemCollectorBtn.Font = Enum.Font.Arimo
+GemCollectorBtn.Parent = ExtraMenuF
+local GemCollectorBtnStroke = Instance.new("UIStroke")
+GemCollectorBtnStroke.Parent = GemCollectorBtn
+GemCollectorBtnStroke.Thickness = 1
+GemCollectorBtnStroke.Color = Color3.fromRGB(170, 255, 255)
+GemCollectorBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+local function GemCollectorGetHRP()
+	local GemCollectorChar = player.Character or player.CharacterAdded:Wait()
+	return GemCollectorChar:WaitForChild("HumanoidRootPart")
+end
+
+local function GemCollectorPlanetHasVisibleGems(GemCollectorPlanet)
+	local GemCollectorGemsFolder = GemCollectorPlanet:FindFirstChild("Gems")
+	if not GemCollectorGemsFolder then return false end
+
+	for _, GemCollectorGem in ipairs(GemCollectorGemsFolder:GetChildren()) do
+		if GemCollectorGem:IsA("BasePart") and GemCollectorGem.Transparency < 1 then
+			return true
+		end
+	end
+	return false
+end
+
+local function GemCollectorGetPlanetFromSkin()
+	local GemCollectorHRP = GemCollectorGetHRP()
+
+	for _, GemCollectorPlanet in ipairs(GemCollectorPlanetsFolder:GetChildren()) do
+		if GemCollectorPlanet.Name ~= "Earth" then
+			local GemCollectorSkin = GemCollectorPlanet:FindFirstChild("Skin")
+			if GemCollectorSkin and GemCollectorSkin:IsA("BasePart") then
+				local GemCollectorRel = GemCollectorSkin.CFrame:PointToObjectSpace(GemCollectorHRP.Position)
+				local GemCollectorHalf = GemCollectorSkin.Size * 0.5
+
+				if math.abs(GemCollectorRel.X) <= GemCollectorHalf.X
+					and math.abs(GemCollectorRel.Y) <= GemCollectorHalf.Y
+					and math.abs(GemCollectorRel.Z) <= GemCollectorHalf.Z then
+					if GemCollectorPlanetHasVisibleGems(GemCollectorPlanet) then
+						return GemCollectorPlanet
+					end
+					return nil
+				end
+			end
+		end
+	end
+	return nil
+end
+
+local function GemCollectorFireGemPrompt(GemCollectorGem)
+	local GemCollectorPrompt = GemCollectorGem:FindFirstChildWhichIsA("ProximityPrompt", true)
+	if not GemCollectorPrompt or not GemCollectorPrompt.Enabled then return end
+
+	pcall(function()
+		fireproximityprompt(GemCollectorPrompt)
+	end)
+end
+
+local function GemCollectorCollectGems()
+	if not CollectAllLocalPlanetGemValue.Value then return end
+	if GemCollectorIsRunning or not GemCollectorCurrentPlanet or not _G.GemCollectorActive then return end
+
+	GemCollectorIsRunning = true
+
+	local GemCollectorHRP = GemCollectorGetHRP()
+	local GemCollectorOriginalCFrame = GemCollectorHRP.CFrame
+
+	local GemCollectorGemsFolder = GemCollectorCurrentPlanet:FindFirstChild("Gems")
+	if not GemCollectorGemsFolder then
+		GemCollectorIsRunning = false
+		return
+	end
+
+	local GemCollectorGems = {}
+
+	for _, GemCollectorGem in ipairs(GemCollectorGemsFolder:GetChildren()) do
+		if GemCollectorGem:IsA("BasePart") and GemCollectorGem.Transparency < 1 then
+			table.insert(GemCollectorGems, GemCollectorGem)
+		end
+	end
+
+	table.sort(GemCollectorGems, function(a, b)
+		local na = tonumber(a.Name:match("(%d+)$")) or 0
+		local nb = tonumber(b.Name:match("(%d+)$")) or 0
+		return na < nb
+	end)
+
+	for _, GemCollectorGem in ipairs(GemCollectorGems) do
+		if not _G.GemCollectorActive or not CollectAllLocalPlanetGemValue.Value then break end
+
+		GemCollectorHRP.CFrame = GemCollectorGem.CFrame + GemCollectorTELEPORT_OFFSET
+		task.wait(0.25)
+		GemCollectorFireGemPrompt(GemCollectorGem)
+		task.wait(0.25)
+	end
+
+	if _G.GemCollectorActive then
+		GemCollectorHRP.CFrame = GemCollectorOriginalCFrame
+	end
+
+	GemCollectorIsRunning = false
+end
+
+task.spawn(function()
+	while _G.GemCollectorActive do
+		if CollectAllLocalPlanetGemValue.Value then
+			GemCollectorCurrentPlanet = GemCollectorGetPlanetFromSkin()
+			GemCollectorBtn.Visible = GemCollectorCurrentPlanet ~= nil
+		else
+			GemCollectorBtn.Visible = false
+		end
+		task.wait(GemCollectorCHECK_INTERVAL)
+	end
+end)
+
+GemCollectorBtn.MouseButton1Click:Connect(function()
+	if not CollectAllLocalPlanetGemValue.Value then return end
+	if GemCollectorIsRunning or not _G.GemCollectorActive then return end
+	GemCollectorCollectGems()
+end)
+
+-------------- Extract All Artfacts From Local Planet -------------------------------------
+
+_G.ArtifactCollectorActive = false
+task.wait()
+
+local ArtifactCollectorPlayers = game:GetService("Players")
+local ArtifactCollectorWorkspace = game:GetService("Workspace")
+local ArtifactCollectorReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local ArtifactCollectorPlayer = ArtifactCollectorPlayers.LocalPlayer
+local ArtifactCollectorPlanetsFolder = ArtifactCollectorWorkspace:WaitForChild("Planets")
+local ArtifactCollectorEvent =
+	ArtifactCollectorReplicatedStorage:WaitForChild("Events"):WaitForChild("ArtifactEvent")
+
+local ArtifactCollectorTELEPORT_OFFSET = Vector3.new(0, 3, 0)
+local ArtifactCollectorCHECK_INTERVAL = 0.2
+
+local ArtifactCollectorIsRunning = false
+local ArtifactCollectorCurrentPlanet = nil
+
+_G.ArtifactCollectorActive = true
+
+local ArtifactCollectorBtn =
+	ExtraMenuF:FindFirstChild("ArtifactCollectorBtn")
+
+if ArtifactCollectorBtn then
+	ArtifactCollectorBtn:Destroy()
+end
+
+local ArtifactCollectorBtn = Instance.new("TextButton")
+ArtifactCollectorBtn.Name = "ArtifactCollectorBtn"
+ArtifactCollectorBtn.Size = UDim2.new(0, 30, 0, 30)
+ArtifactCollectorBtn.Position = UDim2.fromScale(0.5, 0.82)
+ArtifactCollectorBtn.AnchorPoint = Vector2.new(0.5, 0.5)
+ArtifactCollectorBtn.Text = "Extract All Artifacts"
+ArtifactCollectorBtn.BackgroundColor3 = Color3.fromRGB(170, 255, 255)
+ArtifactCollectorBtn.TextScaled = true
+ArtifactCollectorBtn.Visible = false
+ArtifactCollectorBtn.Font = Enum.Font.Arimo
+ArtifactCollectorBtn.Parent = ExtraMenuF
+local ArtifactCollectorBtnStroke = Instance.new("UIStroke")
+ArtifactCollectorBtnStroke.Parent = ArtifactCollectorBtn
+ArtifactCollectorBtnStroke.Thickness = 1
+ArtifactCollectorBtnStroke.Color = Color3.fromRGB(170, 255, 255)
+ArtifactCollectorBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+local function ArtifactCollectorGetHRP()
+	local ArtifactCollectorChar =
+		ArtifactCollectorPlayer.Character or ArtifactCollectorPlayer.CharacterAdded:Wait()
+	return ArtifactCollectorChar:WaitForChild("HumanoidRootPart")
+end
+
+local function ArtifactCollectorPlanetHasArtifacts(ArtifactCollectorPlanet)
+	local ArtifactCollectorFolder = ArtifactCollectorPlanet:FindFirstChild("Artifacts")
+	if not ArtifactCollectorFolder then return false end
+
+	for _, ArtifactCollectorArtifact in ipairs(ArtifactCollectorFolder:GetChildren()) do
+		if ArtifactCollectorArtifact:IsA("BasePart") then
+			return true
+		end
+	end
+	return false
+end
+
+local function ArtifactCollectorGetPlanetFromSkin()
+	local ArtifactCollectorHRP = ArtifactCollectorGetHRP()
+
+	for _, ArtifactCollectorPlanet in ipairs(ArtifactCollectorPlanetsFolder:GetChildren()) do
+		if ArtifactCollectorPlanet.Name ~= "Earth" then
+			local ArtifactCollectorSkin = ArtifactCollectorPlanet:FindFirstChild("Skin")
+			if ArtifactCollectorSkin and ArtifactCollectorSkin:IsA("BasePart") then
+				local ArtifactCollectorRel =
+					ArtifactCollectorSkin.CFrame:PointToObjectSpace(ArtifactCollectorHRP.Position)
+				local ArtifactCollectorHalf = ArtifactCollectorSkin.Size * 0.5
+
+				if math.abs(ArtifactCollectorRel.X) <= ArtifactCollectorHalf.X
+					and math.abs(ArtifactCollectorRel.Y) <= ArtifactCollectorHalf.Y
+					and math.abs(ArtifactCollectorRel.Z) <= ArtifactCollectorHalf.Z then
+					if ArtifactCollectorPlanetHasArtifacts(ArtifactCollectorPlanet) then
+						return ArtifactCollectorPlanet
+					end
+					return nil
+				end
+			end
+		end
+	end
+	return nil
+end
+
+local function ArtifactCollectorDrillArtifact(ArtifactCollectorArtifact)
+	local ArtifactCollectorArgsStart = {
+		"startDrilling",
+		{ artifactName = ArtifactCollectorArtifact.Name }
+	}
+	ArtifactCollectorEvent:FireServer(unpack(ArtifactCollectorArgsStart))
+
+	task.wait(0.15)
+
+	local ArtifactCollectorArgsEnd = {
+		"endDrilling",
+		{ status = true }
+	}
+	ArtifactCollectorEvent:FireServer(unpack(ArtifactCollectorArgsEnd))
+end
+
+local function ArtifactCollectorExtractArtifacts()
+	if not ArtifactCollectorCollectValue.Value then return end
+	if ArtifactCollectorIsRunning
+		or not ArtifactCollectorCurrentPlanet
+		or not _G.ArtifactCollectorActive then
+		return
+	end
+
+	ArtifactCollectorIsRunning = true
+
+	local ArtifactCollectorHRP = ArtifactCollectorGetHRP()
+	local ArtifactCollectorOriginalCFrame = ArtifactCollectorHRP.CFrame
+
+	local ArtifactCollectorFolder =
+		ArtifactCollectorCurrentPlanet:FindFirstChild("Artifacts")
+
+	if not ArtifactCollectorFolder then
+		ArtifactCollectorIsRunning = false
+		return
+	end
+
+	local ArtifactCollectorArtifacts = {}
+
+	for _, ArtifactCollectorArtifact in ipairs(ArtifactCollectorFolder:GetChildren()) do
+		if ArtifactCollectorArtifact:IsA("BasePart") then
+			table.insert(ArtifactCollectorArtifacts, ArtifactCollectorArtifact)
+		end
+	end
+
+	table.sort(ArtifactCollectorArtifacts, function(a, b)
+		local na = tonumber(a.Name:match("(%d+)$")) or 0
+		local nb = tonumber(b.Name:match("(%d+)$")) or 0
+		return na < nb
+	end)
+
+	for _, ArtifactCollectorArtifact in ipairs(ArtifactCollectorArtifacts) do
+		if not _G.ArtifactCollectorActive
+			or not ArtifactCollectorCollectValue.Value then
+			break
+		end
+
+		ArtifactCollectorHRP.CFrame =
+			ArtifactCollectorArtifact.CFrame + ArtifactCollectorTELEPORT_OFFSET
+		task.wait(0.25)
+		ArtifactCollectorDrillArtifact(ArtifactCollectorArtifact)
+		task.wait(0.25)
+	end
+
+	if _G.ArtifactCollectorActive then
+		ArtifactCollectorHRP.CFrame = ArtifactCollectorOriginalCFrame
+	end
+
+	ArtifactCollectorIsRunning = false
+end
+
+task.spawn(function()
+	while _G.ArtifactCollectorActive do
+		if ArtifactCollectorCollectValue.Value then
+			ArtifactCollectorCurrentPlanet = ArtifactCollectorGetPlanetFromSkin()
+			ArtifactCollectorBtn.Visible = ArtifactCollectorCurrentPlanet ~= nil
+		else
+			ArtifactCollectorBtn.Visible = false
+		end
+		task.wait(ArtifactCollectorCHECK_INTERVAL)
+	end
+end)
+
+ArtifactCollectorBtn.MouseButton1Click:Connect(function()
+	if not ArtifactCollectorCollectValue.Value then return end
+	if ArtifactCollectorIsRunning or not _G.ArtifactCollectorActive then return end
+	ArtifactCollectorExtractArtifacts()
+end)
+
 -------------------- Event ---------------------------------------- 
 
 local LocalMinerals = game.Workspace:WaitForChild("Other"):WaitForChild("LocalMinerals")
@@ -484,6 +838,7 @@ local function ApplyOneHit()
 end
 
 OneHitGifts.Changed:Connect(ApplyOneHit)
+
 
 print("SpaceHub Values Container Loaded!")
 
