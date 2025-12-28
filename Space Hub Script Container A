@@ -206,7 +206,7 @@ local function extractArtifact()
 
 	DrillGui.Enabled = false
 	game.Players.LocalPlayer.PlayerGui.ScreenGui.BottomF.ProgressFrame.Visible = true
-	game.Players.LocalPlayer.PlayerGui.ScreenGui.BottomF.ToolbarsF.Visible = true
+	game.Players.LocalPlayer.PlayerGui.ScreenGui.BottomF.ToolbarsF.InventoryF.Visible = true
 	local tool = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Tool")
 	if tool and tool:GetAttribute("drill") and tool:FindFirstChild("BeamSource") then
 		tool.BeamSource.Beam.Enabled = false
