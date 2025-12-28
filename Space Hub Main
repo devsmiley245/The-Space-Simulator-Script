@@ -201,17 +201,17 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-ShowNotify("Thanks For Using My Script, v0.29.1")
+ShowNotify("Thanks For Using My Script, v0.30")
 
 local Window = Rayfield:CreateWindow({
 	Name = "🚀[Winter] The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.29.1 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.30 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
 
-	ToggleUIKeybind = "K",
+	ToggleUIKeybind = "T",
 
 	DisableRayfieldPrompts = false,
 	DisableBuildWarnings = false,
