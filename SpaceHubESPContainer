@@ -1531,8 +1531,6 @@ mainFrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 mainFrameStroke.Color = Color3.fromRGB(255, 255, 127)
 mainFrameStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 mainFrameStroke.Thickness = 0.015
-local MainFrameDragger = Instance.new("UIDragDetector")
-MainFrameDragger.Parent = MainFrame
 
 UIAspectRatioConstraint.Parent = MainFrame
 UIAspectRatioConstraint.AspectRatio = 1.5
@@ -1573,8 +1571,6 @@ SelectionFrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 SelectionFrameStroke.Color = Color3.fromRGB(255, 255, 127)
 SelectionFrameStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 SelectionFrameStroke.Thickness = 0.022
-local SelectionFrameDragger = Instance.new("UIDragDetector")
-SelectionFrameDragger.Parent = SelectionFrame
 SelectionFrame.ZIndex = 500
 
 List.Name = "List"
@@ -1929,6 +1925,27 @@ end)
 
 ShipModifierBtn.MouseButton1Click:Connect(function()
 	MainFrame.Visible = not MainFrame.Visible
+end)
+
+local function getSeat()
+	local character = game.Players.LocalPlayer.Character
+	if not character then return nil end
+
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	if not humanoid then return nil end
+
+	return humanoid.SeatPart
+end
+
+RunService.Heartbeat:Connect(function()
+	local seat = getSeat()
+
+	if not seat
+		or not seat:GetAttribute("rocket")
+		or seat:GetAttribute("rocket") ~= true then
+
+		MainFrame.Visible = false
+	end
 end)
 
 --------------------- Event ESP -------------------------------------------------------
