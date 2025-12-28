@@ -196,7 +196,7 @@ local function extractArtifact()
 		end
 	end
 
-	local artifact = LocalPlayer:GetAttribute("drillArtifactName")
+	local artifact = game.Players.LocalPlayer:GetAttribute("drillArtifactName")
 	if artifact then
 		ReplicatedStorage:WaitForChild("Events").ArtifactEvent:FireServer("endDrilling", {status = true})
 	end
@@ -223,4 +223,4 @@ ExtractBtn.MouseButton1Click:Connect(function()
 	end
 end)
 
-print("Space Hub - Script Containere Loaded!!")
+print("Space Hub - Script Container A Loaded!!")
