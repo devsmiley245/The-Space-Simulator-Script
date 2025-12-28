@@ -1476,6 +1476,7 @@ end)
 ---------------------------------------------------------------------------
 
 local ShipModifierBtn = Instance.new("ImageButton")
+local DestoryShipBtn = Instance.new("ImageButton")
 local MainFrame = Instance.new("Frame")
 local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
 local Title = Instance.new("TextLabel")
@@ -1513,6 +1514,22 @@ ShipModifierBtnStroke.Color = Color3.fromRGB(170, 255, 255)
 ShipModifierBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 local ShipModifierBtnCorner = Instance.new("UICorner")
 ShipModifierBtnCorner.Parent = ShipModifierBtn
+
+DestoryShipBtn.Parent = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("BottomF"):WaitForChild("ToolbarsF"):WaitForChild("ShipButtonsF")
+DestoryShipBtn.Size = UDim2.new(0, 45, 0, 45)
+DestoryShipBtn.Name = "DestoryShipBtn"
+DestoryShipBtn.Position = UDim2.new(0, 0, 0, 0)
+DestoryShipBtn.AnchorPoint = Vector2.new(0, 0)
+DestoryShipBtn.Visible = false
+DestoryShipBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+DestoryShipBtn.Image = "rbxassetid://15893089905"
+local DestoryShipBtnStroke = Instance.new("UIStroke")
+DestoryShipBtnStroke.Parent = ShipModifierBtn
+DestoryShipBtnStroke.Thickness = 2
+DestoryShipBtnStroke.Color = Color3.fromRGB(170, 255, 255)
+DestoryShipBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+local DestoryShipBtnCorner = Instance.new("UICorner")
+DestoryShipBtnCorner.Parent = DestoryShipBtn
 
 MainFrame.Name = "ShipModifier"
 MainFrame.Parent = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("BottomF"):WaitForChild("ToolbarsF")
