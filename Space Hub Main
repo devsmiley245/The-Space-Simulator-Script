@@ -412,9 +412,9 @@ autorotateButton = PlayerTab:CreateButton({
 
 local Label = ShipTab:CreateLabel("For Change Speed You Must Sitting In Ship", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
 
-local SpaceHubESPContainer = loadstring(game:HttpGet("https://raw.githubusercontent.com/devsmiley245/The-Space-Simulator-Script/refs/heads/main/SpaceHubESPContainer"))();
-
 ShowNotify("Getting ESP Scripts, Please Wait...")
+
+local SpaceHubESPContainer = loadstring(game:HttpGet("https://raw.githubusercontent.com/devsmiley245/The-Space-Simulator-Script/refs/heads/main/SpaceHubESPContainer"))();
 
 local SpaceHubESPFolder = CoreGui:WaitForChild("SpaceHubESPFolder", 5)
 
