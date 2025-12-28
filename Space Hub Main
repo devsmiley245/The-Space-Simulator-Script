@@ -328,7 +328,7 @@ local ArtifactCollectorCollectValue = SpaceHubValuesFolder:WaitForChild("Collect
 
 ---------------------------------------------------------------------------------------
 
-local Label = MSettingsTab:CreateLabel("Updated in v0.29", 4483362458, Color3.fromRGB(255, 205, 220), false)
+local Label = MSettingsTab:CreateLabel("Updated in v0.30", 4483362458, Color3.fromRGB(255, 205, 220), false)
 
 local Toggle = MSettingsTab:CreateToggle({
 	Name = "1 Hit Mine All Resources And Orbs",
