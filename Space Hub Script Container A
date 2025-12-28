@@ -222,3 +222,5 @@ ExtractBtn.MouseButton1Click:Connect(function()
 		isExtracted = false
 	end
 end)
+
+print("Space Hub - Script Containere Loaded!!")
