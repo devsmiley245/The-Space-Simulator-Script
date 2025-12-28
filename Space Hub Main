@@ -446,6 +446,7 @@ end
 
 local PlanetX = workspace:WaitForChild("Planets"):WaitForChild("Planet X")
 local ShipModifierBtn = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("BottomF"):WaitForChild("ToolbarsF"):WaitForChild("ShipButtonsF"):WaitForChild("ShipModifierBtn")
+local DestoryShipBtn = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("BottomF"):WaitForChild("ToolbarsF"):WaitForChild("ShipButtonsF"):WaitForChild("DestoryShipBtn")
 local ShipHighLightValue = SpaceHubValuesFolder:WaitForChild("ShipHighLight")
 local ShipNoClip_Value2 = SpaceHubValuesFolder:WaitForChild("ShipNoClip")
 local BACValue = SpaceHubValuesFolder:WaitForChild("BypassAC")
@@ -456,6 +457,15 @@ local Toggle = ShipTab:CreateToggle({
 	Flag = "Toggle1",
 	Callback = function(Value)
 		ShipModifierBtn.Visible = Value
+	end
+})
+
+local DestoryShipBtnToggle = ShipTab:CreateToggle({
+	Name = "Show Destory Ship Button While Driving Ship",
+	CurrentValue = false,
+	Flag = "DestoryShipBtnToggle",
+	Callback = function(Value)
+		DestoryShipBtn.Visible = Value
 	end
 })
 
