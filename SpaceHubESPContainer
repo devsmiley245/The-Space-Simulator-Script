@@ -1506,7 +1506,7 @@ ShipModifierBtn.Position = UDim2.new(0, 0, 0, 0)
 ShipModifierBtn.AnchorPoint = Vector2.new(0, 0)
 ShipModifierBtn.Visible = false
 ShipModifierBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-ShipModifierBtn.Image = "rbxassetid://102249587315453"
+ShipModifierBtn.Image = "rbxassetid://16716932034"
 local ShipModifierBtnStroke = Instance.new("UIStroke")
 ShipModifierBtnStroke.Parent = ShipModifierBtn
 ShipModifierBtnStroke.Thickness = 2
@@ -1522,9 +1522,9 @@ DestoryShipBtn.Position = UDim2.new(0, 0, 0, 0)
 DestoryShipBtn.AnchorPoint = Vector2.new(0, 0)
 DestoryShipBtn.Visible = false
 DestoryShipBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-DestoryShipBtn.Image = "rbxassetid://15893089905"
+DestoryShipBtn.Image = "rbxassetid://1556536429"
 local DestoryShipBtnStroke = Instance.new("UIStroke")
-DestoryShipBtnStroke.Parent = ShipModifierBtn
+DestoryShipBtnStroke.Parent = DestoryShipBtn
 DestoryShipBtnStroke.Thickness = 2
 DestoryShipBtnStroke.Color = Color3.fromRGB(170, 255, 255)
 DestoryShipBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -1562,7 +1562,7 @@ Title.BorderSizePixel = 0
 Title.Position = UDim2.new(0.49999997, 0, 0, 0)
 Title.Size = UDim2.new(0.99999994, 0, 0.169872597, 0)
 Title.Font = Enum.Font.Arial
-Title.Text = "Ship Function Modifier"
+Title.Text = "Ship Modifier Menu"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextScaled = true
 Title.TextSize = 14.000
@@ -1963,6 +1963,19 @@ RunService.Heartbeat:Connect(function()
 
 		MainFrame.Visible = false
 	end
+end)
+
+DestoryShipBtn.MouseButton1Click:Connect(function()
+	local RocketEvent = game:GetService("ReplicatedStorage")
+		:WaitForChild("Events")
+		:WaitForChild("RocketEvent")
+
+	RocketEvent:FireServer(
+		"crash",
+		{
+			touchSpeed = 1000
+		}
+	)
 end)
 
 --------------------- Event ESP -------------------------------------------------------
