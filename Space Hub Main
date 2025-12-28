@@ -425,17 +425,17 @@ else
 end
 
 local PlanetX = workspace:WaitForChild("Planets"):WaitForChild("Planet X")
-local ShipMovements = SpaceHubESPFolder:WaitForChild("ShipMovements")
+local ShipModifierBtn = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("BottomF"):WaitForChild("ToolbarsF"):WaitForChild("ShipButtonsF"):WaitForChild("ShipModifierBtn")
 local ShipHighLightValue = SpaceHubValuesFolder:WaitForChild("ShipHighLight")
 local ShipNoClip_Value2 = SpaceHubValuesFolder:WaitForChild("ShipNoClip")
 local BACValue = SpaceHubValuesFolder:WaitForChild("BypassAC")
 
 local Toggle = ShipTab:CreateToggle({
-	Name = "Ship Function Modifier Menu",
+	Name = "Ship Modifier Menu",
 	CurrentValue = false,
 	Flag = "Toggle1",
 	Callback = function(Value)
-		ShipMovements.Enabled = Value
+		ShipModifierBtn.Visible = Value
 	end
 })
 
