@@ -323,6 +323,8 @@ local OneHitMineValue = SpaceHubValuesFolder:WaitForChild("OneHitResources")
 local AlwaysEquipPickaxeValue = SpaceHubValuesFolder:WaitForChild("AlwaysEquipPickaxe")
 local AlwaysEquipParachuteValue = SpaceHubValuesFolder:WaitForChild("AlwaysEquipParachute")
 local OldInventoryValue = SpaceHubValuesFolder:WaitForChild("OldInventory")
+local CollectAllLocalPlanetGemValue = SpaceHubValuesFolder:WaitForChild("CollectAllLocalPlanetGemValue")
+local ArtifactCollectorCollectValue = SpaceHubValuesFolder:WaitForChild("CollectAllLocalPlanetArtifactValue")
 
 ---------------------------------------------------------------------------------------
 
@@ -343,6 +345,24 @@ local DrillModifierToggle = MSettingsTab:CreateToggle({
 	Flag = "DrillModifierToggle",
 	Callback = function(Value)
 		game.Players.LocalPlayer.PlayerGui.DrillGui.MainF.BottomF.DrillModifier.Visible = Value
+	end
+})
+
+local CollectAllLocalPlanetGemToggle = MSettingsTab:CreateToggle({
+	Name = "Show Collect All Gems Button In More Tab",
+	CurrentValue = false,
+	Flag = "CollectAllLocalPlanetGemToggle",
+	Callback = function(Value)
+		CollectAllLocalPlanetGemValue.Value = Value
+	end
+})
+
+local ArtifactCollectorCollectToggle = MSettingsTab:CreateToggle({
+	Name = "Show Extract All Artifacts Button In More Tab",
+	CurrentValue = false,
+	Flag = "ArtifactCollectorCollectToggle",
+	Callback = function(Value)
+		ArtifactCollectorCollectValue.Value = Value
 	end
 })
 
