@@ -1475,7 +1475,7 @@ end)
 
 ---------------------------------------------------------------------------
 
-local ShipMovements = Instance.new("ScreenGui")
+local ShipModifierBtn = Instance.new("ImageButton")
 local MainFrame = Instance.new("Frame")
 local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
 local Title = Instance.new("TextLabel")
@@ -1498,26 +1498,37 @@ local ApplyBtn = Instance.new("TextButton")
 local ToggleLoopBtn = Instance.new("TextButton")
 local UIAspectRatioConstraint_6 = Instance.new("UIAspectRatioConstraint")
 
-ShipMovements.Name = "ShipMovements"
-ShipMovements.Parent = SpaceHubESPFolder
-ShipMovements.ScreenInsets = Enum.ScreenInsets.None
-ShipMovements.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ShipMovements.Enabled = false
+ShipModifierBtn.Parent = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("BottomF"):WaitForChild("ToolbarsF"):WaitForChild("ShipButtonsF")
+ShipModifierBtn.Size = UDim2.new(0, 45, 0, 45)
+ShipModifierBtn.Name = "ShipModifierBtn"
+ShipModifierBtn.Position = UDim2.new(0, 0, 0, 0)
+ShipModifierBtn.AnchorPoint = Vector2.new(0, 0)
+ShipModifierBtn.Visible = false
+ShipModifierBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ShipModifierBtn.Image = "rbxassetid://102249587315453"
+local ShipModifierBtnStroke = Instance.new("UIStroke")
+ShipModifierBtnStroke.Parent = ShipModifierBtn
+ShipModifierBtnStroke.Thickness = 2
+ShipModifierBtnStroke.Color = Color3.fromRGB(170, 255, 255)
+ShipModifierBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+local ShipModifierBtnCorner = Instance.new("UICorner")
+ShipModifierBtnCorner.Parent = ShipModifierBtn
 
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = ShipMovements
-MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.Name = "ShipModifier"
+MainFrame.Parent = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("BottomF"):WaitForChild("ToolbarsF")
+MainFrame.AnchorPoint = Vector2.new(0.5, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-MainFrame.BackgroundTransparency = 0.650
+MainFrame.BackgroundTransparency = 0.5
 MainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 MainFrame.BorderSizePixel = 0
-MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-MainFrame.Size = UDim2.new(0.36500001, 0, 0.36500001, 0)
+MainFrame.Position = UDim2.new(0.28, 0, -3.6, 0)
+MainFrame.Size = UDim2.new(2.8, 0, 2.8, 0)
+MainFrame.Visible = false
 MainFrame.ZIndex = 500
 local mainFrameStroke = Instance.new("UIStroke")
 mainFrameStroke.Parent = MainFrame
 mainFrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-mainFrameStroke.Color = Color3.fromRGB(255, 255, 255)
+mainFrameStroke.Color = Color3.fromRGB(255, 255, 127)
 mainFrameStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 mainFrameStroke.Thickness = 0.015
 local MainFrameDragger = Instance.new("UIDragDetector")
@@ -1544,7 +1555,7 @@ Title.TextWrapped = true
 local TitleStroke = Instance.new("UIStroke")
 TitleStroke.Parent = Title
 TitleStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-TitleStroke.Color = Color3.fromRGB(255, 255, 255)
+TitleStroke.Color = Color3.fromRGB(255, 255, 127)
 TitleStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 TitleStroke.Thickness = 0.08
 
@@ -1559,7 +1570,7 @@ SelectionFrame.Size = UDim2.new(0.508703411, 0, 0.565581024, 0)
 local SelectionFrameStroke = Instance.new("UIStroke")
 SelectionFrameStroke.Parent = SelectionFrame
 SelectionFrameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-SelectionFrameStroke.Color = Color3.fromRGB(255, 255, 255)
+SelectionFrameStroke.Color = Color3.fromRGB(255, 255, 127)
 SelectionFrameStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 SelectionFrameStroke.Thickness = 0.022
 local SelectionFrameDragger = Instance.new("UIDragDetector")
@@ -1670,7 +1681,7 @@ Info.ZIndex = 520
 local InfoStroke = Instance.new("UIStroke")
 InfoStroke.Parent = Info
 InfoStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-InfoStroke.Color = Color3.fromRGB(255, 255, 255)
+InfoStroke.Color = Color3.fromRGB(255, 255, 127)
 InfoStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 InfoStroke.Thickness = 0.05
 
@@ -1692,7 +1703,7 @@ Title1.TextWrapped = true
 local Title1Stroke = Instance.new("UIStroke")
 Title1Stroke.Parent = Title1
 Title1Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-Title1Stroke.Color = Color3.fromRGB(255, 255, 255)
+Title1Stroke.Color = Color3.fromRGB(255, 255, 127)
 Title1Stroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 Title1Stroke.Thickness = 0.05
 
@@ -1714,7 +1725,7 @@ NumValue.TextWrapped = true
 local NumValueStroke = Instance.new("UIStroke")
 NumValueStroke.Parent = NumValue
 NumValueStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-NumValueStroke.Color = Color3.fromRGB(255, 255, 255)
+NumValueStroke.Color = Color3.fromRGB(255, 255, 127)
 NumValueStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 NumValueStroke.Thickness = 0.025
 
@@ -1736,7 +1747,7 @@ LoopNumValue.TextWrapped = true
 local LoopNumValueStroke = Instance.new("UIStroke")
 LoopNumValueStroke.Parent = LoopNumValue
 LoopNumValueStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-LoopNumValueStroke.Color = Color3.fromRGB(255, 255, 255)
+LoopNumValueStroke.Color = Color3.fromRGB(255, 255, 127)
 LoopNumValueStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 LoopNumValueStroke.Thickness = 0.025
 
@@ -1757,7 +1768,7 @@ ApplyBtn.TextWrapped = true
 local ApplyBtnStroke = Instance.new("UIStroke")
 ApplyBtnStroke.Parent = ApplyBtn
 ApplyBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-ApplyBtnStroke.Color = Color3.fromRGB(255, 255, 255)
+ApplyBtnStroke.Color = Color3.fromRGB(255, 255, 127)
 ApplyBtnStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 ApplyBtnStroke.Thickness = 0.035
 
@@ -1778,17 +1789,16 @@ ToggleLoopBtn.TextWrapped = true
 local ToggleLoopBtnStroke = Instance.new("UIStroke")
 ToggleLoopBtnStroke.Parent = ToggleLoopBtn
 ToggleLoopBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-ToggleLoopBtnStroke.Color = Color3.fromRGB(255, 255, 255)
+ToggleLoopBtnStroke.Color = Color3.fromRGB(255, 255, 127)
 ToggleLoopBtnStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 ToggleLoopBtnStroke.Thickness = 0.035
 
 UIAspectRatioConstraint_6.Parent = ApplyBtn
 
-local gui = ShipMovements
-local selectionFrame = gui.MainFrame.SelectionFrame
-local numValueBox = gui.MainFrame.NumValue
-local loopNumValueBox = gui.MainFrame.LoopNumValue
-local applyBtn = gui.MainFrame.ApplyBtn
+local selectionFrame = MainFrame.SelectionFrame
+local numValueBox = MainFrame.NumValue
+local loopNumValueBox = MainFrame.LoopNumValue
+local applyBtn = MainFrame.ApplyBtn
 local list = selectionFrame.List
 
 local buttonNameToAttr = {
@@ -1843,7 +1853,7 @@ applyBtn.MouseButton1Click:Connect(function()
 end)
 
 
-local toggleLoopBtn = gui.MainFrame.ToggleLoopBtn
+local toggleLoopBtn = MainFrame.ToggleLoopBtn
 local loopActive = false
 
 local function isValidLoopValue()
@@ -1915,6 +1925,10 @@ spawn(function()
 		end
 		task.wait(0.05)
 	end
+end)
+
+ShipModifierBtn.MouseButton1Click:Connect(function()
+	MainFrame.Visible = not MainFrame.Visible
 end)
 
 --------------------- Event ESP -------------------------------------------------------
