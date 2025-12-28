@@ -182,9 +182,8 @@ end)
 local isExtracted = false
 
 local function extractArtifact()
-	isExtracted = true
 	if not DrillGui.Enabled then return end
-
+	isExtracted = true
 	local CanvasF = DrillGui.MainF.CanvasF
 	local MineProgressF = DrillGui.MainF.MineProgressF
 
