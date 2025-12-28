@@ -516,7 +516,7 @@ GemCollectorBtn.Parent = ExtraMenuF
 local GemCollectorBtnStroke = Instance.new("UIStroke")
 GemCollectorBtnStroke.Parent = GemCollectorBtn
 GemCollectorBtnStroke.Thickness = 1
-GemCollectorBtnStroke.Color = Color3.fromRGB(170, 255, 255)
+GemCollectorBtnStroke.Color = Color3.fromRGB(255, 255, 255)
 GemCollectorBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 local function GemCollectorGetHRP()
@@ -675,7 +675,7 @@ ArtifactCollectorBtn.Parent = ExtraMenuF
 local ArtifactCollectorBtnStroke = Instance.new("UIStroke")
 ArtifactCollectorBtnStroke.Parent = ArtifactCollectorBtn
 ArtifactCollectorBtnStroke.Thickness = 1
-ArtifactCollectorBtnStroke.Color = Color3.fromRGB(170, 255, 255)
+ArtifactCollectorBtnStroke.Color = Color3.fromRGB(255, 255, 255)
 ArtifactCollectorBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 local function ArtifactCollectorGetHRP()
