@@ -4,7 +4,7 @@ local TweenService = game:GetService("TweenService")
 local Debris = game:GetService("Debris")
 
 local function ShowNotify(message)
-	
+
 	local SpaceHubNotificatonGui = CoreGui:FindFirstChild("SpaceHubNotificatonGui")
 	if not SpaceHubNotificatonGui then
 		SpaceHubNotificatonGui = Instance.new("ScreenGui")
@@ -201,12 +201,12 @@ NotifyFolder.Parent = SpaceHubGui
 
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-ShowNotify("Thanks For Using My Script, v0.30")
+ShowNotify("Thanks For Using My Script, v0.31")
 
 local Window = Rayfield:CreateWindow({
-	Name = "🚀[Winter] The Space Simulator - Space Hub 🪐",
+	Name = "🚀[Umbriel] The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.30 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.31 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -887,146 +887,146 @@ local PlanetTeleportDropdown = OtherTab:CreateDropdown({
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Mars:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Saturn" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Saturn:GetPivot().Position + (Vector3.new(math.random(-1000,1000),0,math.random(-1000,1000)))))
-					
+
 		elseif choice == "Titan" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Titan:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Enceladus" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Enceladus:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Mimas" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Mimas:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Jupiter" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Jupiter:GetPivot().Position + (Vector3.new(math.random(-1000,1000),0,math.random(-1000,1000)))))			
-			
+
 		elseif choice == "Callisto" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Callisto:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Io" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Io:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Europa" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Europa:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Ganymede" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Ganymede:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Uranus" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Uranus:GetPivot().Position + (Vector3.new(math.random(-1000,1000),0,math.random(-1000,1000)))))
-			
+
 		elseif choice == "Miranda" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Miranda:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Neptune" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Neptune:GetPivot().Position + (Vector3.new(math.random(-1000,1000),0,math.random(-1000,1000)))))
-			
+
 		elseif choice == "Triton" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Triton:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Pluto" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Pluto:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Charon" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Charon:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Haumea" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Haumea:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Makemake" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Makemake:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Eris" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Eris:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "Sedna" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(workspace.Planets.Sedna:GetPivot().Position + (Vector3.new(math.random(-250,250),0,math.random(-250,250)))))
-			
+
 		elseif choice == "PlanetX" then
 
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
-			
+
 			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(PlanetX:GetPivot().Position + (Vector3.new(math.random(-800,800),0,math.random(-800,800)))))			
 
 		end
@@ -1552,55 +1552,6 @@ local Button = PlanetTpTab:CreateButton({
 })
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-if game.PlaceVersion < 2343 then
-	return
-end
-
-local GiftsLineGui = SpaceHubESPFolder:WaitForChild("GiftsLines")
-local GiftsBoxGui = SpaceHubESPFolder:WaitForChild("GiftsBoxes")
-local GiftsNameGui = SpaceHubESPFolder:WaitForChild("GiftsNames")
-local OneHitGifts = SpaceHubValuesFolder:WaitForChild("OneHitGifts")
-
-local EventTab = Window:CreateTab("Winter Event", 4483362458) -- Title, Image
-
-local Label = EventTab:CreateLabel("🚀[Winter] The Space Simulator", 4483362458, Color3.fromRGB(255, 205, 220), false) -- Title, Icon, Color, IgnoreTheme
-
-local ToggleLGifts = EventTab:CreateToggle({
-	Name = "Gifts ESP Lines",
-	CurrentValue = false,
-	Flag = "ToggleLGift",
-	Callback = function(Value)
-		GiftsLineGui.Enabled = Value
-	end
-})
-
-local ToggleBGifts = EventTab:CreateToggle({
-	Name = "Gifts ESP Boxes",
-	CurrentValue = false,
-	Flag = "ToggleBGift",
-	Callback = function(Value)
-		GiftsBoxGui.Enabled = Value
-	end
-})
-
-local ToggleIGifts = EventTab:CreateToggle({
-	Name = "Gifts ESP Informations",
-	CurrentValue = false,
-	Flag = "ToggleIGift",
-	Callback = function(Value)
-		GiftsNameGui.Enabled = Value
-	end
-})
-
-local OneHitToggleGifts = EventTab:CreateToggle({
-	Name = "One Hit Mine All Gifts",
-	CurrentValue = false,
-	Flag = "OneHitToggleGifts",
-	Callback = function(Value)
-		OneHitGifts.Value = Value
-	end
-})
 
 Rayfield:Notify({
 	Title = "Space Hub",
