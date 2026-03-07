@@ -157,7 +157,7 @@ Title.TextWrapped = true
 Title.TextXAlignment = Enum.TextXAlignment.Left
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local CommonModule = require(ReplicatedStorage:WaitForChild("CommonModule"))
+local CommonModule = require(ReplicatedStorage.RModules:WaitForChild("CommonModule"))
 
 local function applySpeed(textBox, speedType)
 	local value = tonumber(textBox.Text)
