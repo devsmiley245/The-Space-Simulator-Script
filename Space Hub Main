@@ -206,7 +206,7 @@ ShowNotify("Thanks For Using My Script, v0.31")
 local Window = Rayfield:CreateWindow({
 	Name = "🚀[Umbriel] The Space Simulator - Space Hub 🪐",
 	Icon = 17104625041,
-	LoadingTitle = "Space Hub v0.31 or v" .. game.PlaceVersion,
+	LoadingTitle = "Space Hub v0.31.1 or v" .. game.PlaceVersion,
 	LoadingSubtitle = "by Dev_Smiley",
 	ShowText = "Space Hub 🪐",
 	Theme = "Bloom",
@@ -444,12 +444,14 @@ else
 	ShowNotify("Folder found, ESP Container Loaded!")
 end
 
-local PlanetX = workspace:WaitForChild("Planets"):WaitForChild("Planet X")
+local PlanetsFolder = workspace:WaitForChild("Planets")
 local ShipModifierBtn = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("BottomF"):WaitForChild("ToolbarsF"):WaitForChild("ShipButtonsF"):WaitForChild("ShipModifierBtn")
 local DestoryShipBtn = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("ScreenGui"):WaitForChild("BottomF"):WaitForChild("ToolbarsF"):WaitForChild("ShipButtonsF"):WaitForChild("DestoryShipBtn")
 local ShipHighLightValue = SpaceHubValuesFolder:WaitForChild("ShipHighLight")
 local ShipNoClip_Value2 = SpaceHubValuesFolder:WaitForChild("ShipNoClip")
 local BACValue = SpaceHubValuesFolder:WaitForChild("BypassAC")
+
+local PlanetX = PlanetsFolder:FindFirstChild("Planet X")
 
 local Toggle = ShipTab:CreateToggle({
 	Name = "Show Ship Modifier Button While Driving Ship",
@@ -1026,8 +1028,10 @@ local PlanetTeleportDropdown = OtherTab:CreateDropdown({
 			if BACValue.Value == false then
 				ShowNotify("You need to enable Bypass Anti-Cheat before teleport!") return
 			end
-
-			game.Players.LocalPlayer.Character:PivotTo(CFrame.new(PlanetX:GetPivot().Position + (Vector3.new(math.random(-800,800),0,math.random(-800,800)))))			
+			
+			if PlanetX then
+				game.Players.LocalPlayer.Character:PivotTo(CFrame.new(PlanetX:GetPivot().Position + (Vector3.new(math.random(-800,800),0,math.random(-800,800)))))			
+			end
 
 		end
 	end,
